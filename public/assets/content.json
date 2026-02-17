@@ -1,0 +1,130 @@
+{
+  "app": {
+    "name": "Radar Emocional",
+    "version": "1.0.0",
+    "offlineOnly": true
+  },
+  "quiz": {
+    "minQuestions": 4,
+    "questions": [
+      {
+        "id": "q1",
+        "text": "Ele evita falar sobre o futuro de vocês?",
+        "weight": 1
+      },
+      {
+        "id": "q2",
+        "text": "Ele demora para responder mesmo estando online?",
+        "weight": 1
+      },
+      {
+        "id": "q3",
+        "text": "Ele não sugere encontros ou planos concretos?",
+        "weight": 1
+      },
+      {
+        "id": "q4",
+        "text": "Você sente que precisa puxar a energia da relação sozinha?",
+        "weight": 1
+      }
+    ],
+    "answerScores": {
+      "yes": 100,
+      "sometimes": 50,
+      "no": 0
+    }
+  },
+  "resultRanges": {
+    "low": {
+      "min": 0,
+      "max": 33,
+      "title": "Equilíbrio detectado",
+      "label": "Baixo",
+      "description": "A dinâmica parece saudável. Continue mantendo presença leve e confiante."
+    },
+    "medium": {
+      "min": 34,
+      "max": 66,
+      "title": "Desequilíbrio moderado",
+      "label": "Médio",
+      "description": "Existem sinais sutis de desinteresse ou acomodação. Pequenos ajustes podem mudar tudo."
+    },
+    "high": {
+      "min": 67,
+      "max": 100,
+      "title": "Desequilíbrio elevado",
+      "label": "Alto",
+      "description": "Seu investimento emocional está maior que o dele. É hora de reposicionamento."
+    }
+  },
+  "plans": {
+    "low": [
+      {
+        "id": "l1",
+        "title": "Manter leveza",
+        "action": "Continue respondendo naturalmente, sem antecipar energia."
+      },
+      {
+        "id": "l2",
+        "title": "Espaço estratégico",
+        "action": "Evite estar sempre disponível imediatamente."
+      },
+      {
+        "id": "l3",
+        "title": "Autonomia emocional",
+        "action": "Mantenha sua rotina e prioridades ativas."
+      }
+    ],
+    "medium": [
+      {
+        "id": "m1",
+        "title": "Teste de reciprocidade",
+        "action": "Espere ele iniciar a próxima conversa."
+      },
+      {
+        "id": "m2",
+        "title": "Reativar curiosidade",
+        "action": "Envie uma mensagem neutra e intrigante."
+      },
+      {
+        "id": "m3",
+        "title": "Redefinir ritmo",
+        "action": "Reduza ligeiramente sua disponibilidade."
+      }
+    ],
+    "high": [
+      {
+        "id": "h1",
+        "title": "Pausa consciente",
+        "action": "Evite responder imediatamente nas próximas interações."
+      },
+      {
+        "id": "h2",
+        "title": "Reativar mistério",
+        "action": "Envie uma mensagem curta que gere curiosidade."
+      },
+      {
+        "id": "h3",
+        "title": "Reposicionamento interno",
+        "action": "Volte sua energia para você por 48 horas."
+      }
+    ]
+  },
+  "messageTemplates": {
+    "Curiosidade": [
+      "Hoje aconteceu algo curioso comigo… depois te conto.",
+      "Acabei de lembrar de uma coisa engraçada sobre você.",
+      "Você não vai acreditar no que aconteceu hoje."
+    ],
+    "Neutro": [
+      "Oi, passando rápido por aqui.",
+      "Depois falo com você com calma.",
+      "Tô resolvendo umas coisas hoje."
+    ],
+    "Limites": [
+      "Vou ficar offline por algumas horas.",
+      "Hoje vou focar em mim um pouco.",
+      "Resolvi dar uma pausa nas redes."
+    ]
+  }
+}
