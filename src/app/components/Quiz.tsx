@@ -1,10 +1,11 @@
+
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useLocalData } from '@/lib/store';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
-import { Radar, ChevronLeft } from 'lucide-react';
+import { Radar } from 'lucide-react';
 import contentData from '../../../public/assets/content.json';
 
 type QuizState = 'INTRO' | 'QUESTIONS' | 'ANALYZING' | 'RESULT';
@@ -34,9 +35,10 @@ export default function Quiz({ onComplete }: { onComplete: () => void }) {
       const sum = finalResponses.reduce((acc, curr) => acc + curr.value, 0);
       const score = Math.round(sum / questions.length);
 
+      // New mapping: 0-33 low, 34-66 medium, 67-100 high
       let label: 'low' | 'medium' | 'high' = 'low';
-      if (score >= contentData.resultRanges.high.min) label = 'high';
-      else if (score >= contentData.resultRanges.medium.min) label = 'medium';
+      if (score >= 67) label = 'high';
+      else if (score >= 34) label = 'medium';
 
       const session = {
         id: Math.random().toString(36).substr(2, 9),
@@ -48,7 +50,7 @@ export default function Quiz({ onComplete }: { onComplete: () => void }) {
 
       updateData({
         sessions: [...data.sessions, session],
-        completedPlanSteps: [] // Reset plan for new analysis
+        completedPlanSteps: []
       });
 
       setState('RESULT');
@@ -123,7 +125,7 @@ export default function Quiz({ onComplete }: { onComplete: () => void }) {
 
   if (state === 'RESULT') {
     const lastSession = data.sessions[data.sessions.length - 1];
-    const rangeData = contentData.resultRanges[lastSession.label as 'low' | 'medium' | 'high'];
+    const rangeData = contentData.expandedResults[lastSession.label as 'low' | 'medium' | 'high'];
 
     return (
       <div className="p-6 h-full flex flex-col animate-slide-up text-center justify-center">
@@ -136,7 +138,7 @@ export default function Quiz({ onComplete }: { onComplete: () => void }) {
 
         <div className="bg-card p-6 rounded-2xl border border-white/5 mb-10 text-left">
           <h3 className="font-bold mb-2">Análise:</h3>
-          <p className="text-muted-foreground leading-relaxed">{rangeData.description}</p>
+          <p className="text-muted-foreground leading-relaxed text-sm">{rangeData.text}</p>
         </div>
 
         <Button onClick={onComplete} className="w-full h-16 text-lg font-bold glow-primary">

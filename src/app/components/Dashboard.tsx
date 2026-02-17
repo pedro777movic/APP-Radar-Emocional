@@ -1,11 +1,12 @@
+
 "use client";
 
 import { useLocalData } from '@/lib/store';
 import { Button } from '@/components/ui/button';
-import { Progress } from '@/components/ui/progress';
-import { Radar, ArrowRight, CheckCircle2 } from 'lucide-react';
+import { Radar, ArrowRight, CheckCircle2, Info, BookOpen } from 'lucide-react';
 import contentData from '../../../public/assets/content.json';
 import { useState } from 'react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger } from '@/components/ui/dialog';
 
 export default function Dashboard({ onStartQuiz }: { onStartQuiz: () => void }) {
   const { data, updateData } = useLocalData();
@@ -31,9 +32,9 @@ export default function Dashboard({ onStartQuiz }: { onStartQuiz: () => void }) 
   };
 
   if (lastSession && showPlan) {
-    const plan = contentData.plans[lastSession.label as 'low' | 'medium' | 'high'];
+    const plan = contentData.expandedResults[lastSession.label as 'low' | 'medium' | 'high'].plan;
     return (
-      <div className="p-6 animate-slide-up">
+      <div className="p-6 animate-slide-up pb-24">
         <div className="flex items-center justify-between mb-8">
           <h2 className="text-2xl font-headline font-bold">Seu Plano</h2>
           <button onClick={() => setShowPlan(false)} className="text-sm text-muted-foreground">Voltar</button>
@@ -45,18 +46,27 @@ export default function Dashboard({ onStartQuiz }: { onStartQuiz: () => void }) 
             return (
               <div
                 key={step.id}
-                onClick={() => toggleStep(step.id)}
-                className={`p-5 rounded-2xl border transition-all duration-300 cursor-pointer ${
-                  isDone ? 'bg-primary/5 border-primary/20' : 'bg-card border-white/5 hover:border-primary/20'
+                className={`p-5 rounded-2xl border transition-all duration-300 ${
+                  isDone ? 'bg-primary/5 border-primary/20' : 'bg-card border-white/5'
                 }`}
               >
                 <div className="flex items-start justify-between mb-3">
-                  <h3 className={`font-headline font-bold ${isDone ? 'text-primary' : 'text-foreground'}`}>
-                    {step.title}
-                  </h3>
-                  {isDone && <CheckCircle2 className="w-5 h-5 text-primary" />}
+                  <div>
+                    <h3 className={`font-headline font-bold ${isDone ? 'text-primary' : 'text-foreground'}`}>
+                      {step.title}
+                    </h3>
+                    <p className="text-xs text-primary font-medium mt-1">{step.action}</p>
+                  </div>
+                  <button 
+                    onClick={() => toggleStep(step.id)}
+                    className={`p-1 rounded-full ${isDone ? 'text-primary' : 'text-muted-foreground/30'}`}
+                  >
+                    <CheckCircle2 className="w-6 h-6" />
+                  </button>
                 </div>
-                <p className="text-sm text-muted-foreground leading-relaxed">{step.action}</p>
+                <p className="text-xs text-muted-foreground leading-relaxed bg-black/20 p-3 rounded-xl">
+                  {step.description}
+                </p>
               </div>
             );
           })}
@@ -70,7 +80,7 @@ export default function Dashboard({ onStartQuiz }: { onStartQuiz: () => void }) 
   }
 
   return (
-    <div className="p-6 animate-fade-in radar-gradient h-full flex flex-col">
+    <div className="p-6 animate-fade-in radar-gradient h-full flex flex-col pb-24">
       <div className="flex items-center justify-between mb-10">
         <div>
           <h2 className="text-2xl font-headline font-bold">Meu Radar</h2>
@@ -81,7 +91,7 @@ export default function Dashboard({ onStartQuiz }: { onStartQuiz: () => void }) 
         </div>
       </div>
 
-      <div className="flex-1 flex flex-col items-center justify-center py-10">
+      <div className="flex-1 flex flex-col items-center justify-center py-6">
         <div className="relative w-64 h-64 mb-10">
           <div className="absolute inset-0 bg-primary/5 rounded-full animate-pulse-glow"></div>
           <svg className="w-full h-full transform -rotate-90">
@@ -117,11 +127,46 @@ export default function Dashboard({ onStartQuiz }: { onStartQuiz: () => void }) 
 
         <div className="w-full max-w-xs text-center mb-10">
           <h3 className="font-headline font-semibold mb-2">
-            {lastSession ? 'Desequilíbrio detectado' : 'Pronta para sua análise?'}
+            {lastSession ? contentData.expandedResults[lastSession.label as 'low' | 'medium' | 'high'].title : 'Pronta para sua análise?'}
           </h3>
           <p className="text-sm text-muted-foreground px-4">
-            {lastSession ? 'Seu padrão atual exige atenção estratégica.' : 'Entenda o que está acontecendo nos bastidores da sua relação.'}
+            {lastSession ? 'Sua dinâmica atual exige atenção estratégica.' : 'Entenda o que está acontecendo nos bastidores da sua relação.'}
           </p>
+          
+          {lastSession && (
+            <Dialog>
+              <DialogTrigger asChild>
+                <button className="mt-4 flex items-center gap-2 text-xs text-primary font-bold mx-auto hover:opacity-80 transition-opacity">
+                  <Info className="w-3 h-3" />
+                  SAIBA MAIS
+                </button>
+              </DialogTrigger>
+              <DialogContent className="bg-card border-white/10 max-w-[90vw] rounded-3xl overflow-y-auto max-h-[80vh]">
+                <DialogHeader>
+                  <DialogTitle className="font-headline text-xl text-primary">{contentData.expandedResults[lastSession.label as 'low' | 'medium' | 'high'].title}</DialogTitle>
+                  <div className="text-muted-foreground text-sm leading-relaxed pt-4">
+                    {contentData.expandedResults[lastSession.label as 'low' | 'medium' | 'high'].text}
+                    
+                    <div className="mt-8 pt-6 border-t border-white/5">
+                      <h4 className="font-bold text-foreground flex items-center gap-2 mb-3">
+                        <BookOpen className="w-4 h-4 text-accent" />
+                        Base Científica
+                      </h4>
+                      <p className="text-xs italic mb-4">{contentData.theory.explanation}</p>
+                      <div className="space-y-3">
+                        {contentData.theory.references.map((ref, idx) => (
+                          <div key={idx} className="bg-black/20 p-3 rounded-xl border border-white/5">
+                            <p className="text-[10px] font-bold text-foreground">{ref.author}</p>
+                            <p className="text-[10px] text-muted-foreground">{ref.note}</p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </DialogHeader>
+              </DialogContent>
+            </Dialog>
+          )}
         </div>
 
         <div className="w-full space-y-3">

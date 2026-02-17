@@ -1,130 +1,97 @@
+
 {
-  "app": {
-    "name": "Radar Emocional",
-    "version": "1.0.0",
-    "offlineOnly": true
-  },
   "quiz": {
-    "minQuestions": 4,
     "questions": [
-      {
-        "id": "q1",
-        "text": "Ele evita falar sobre o futuro de vocês?",
-        "weight": 1
-      },
-      {
-        "id": "q2",
-        "text": "Ele demora para responder mesmo estando online?",
-        "weight": 1
-      },
-      {
-        "id": "q3",
-        "text": "Ele não sugere encontros ou planos concretos?",
-        "weight": 1
-      },
-      {
-        "id": "q4",
-        "text": "Você sente que precisa puxar a energia da relação sozinha?",
-        "weight": 1
-      }
+      { "id": "q1", "text": "Ele inclui você nos planos de médio/longo prazo?" },
+      { "id": "q2", "text": "As respostas dele às suas mensagens são rápidas e consistentes?" },
+      { "id": "q3", "text": "Ele demonstra iniciativa para marcar encontros?" },
+      { "id": "q4", "text": "Você sente que precisa 'puxar' a energia da relação?" }
     ],
     "answerScores": {
-      "yes": 100,
+      "yes": 0,
       "sometimes": 50,
-      "no": 0
+      "no": 100
     }
   },
-  "resultRanges": {
+  "theory": {
+    "summary": "O Radar Emocional baseia-se em pilares da psicologia comportamental e teorias de relacionamento.",
+    "explanation": "Nosso modelo combina pesquisas clássicas sobre apego (Bowlby; Hazan & Shaver), investimento em relacionamentos (Rusbult) e princípios de sinalização social. Pequenas mudanças no padrão de sinais podem alterar a percepção de valor e reciprocidade.",
+    "references": [
+      { "author": "John Bowlby", "note": "Teoria do Apego" },
+      { "author": "Hazan & Shaver", "note": "Apego adulto e amor (1987)" },
+      { "author": "Caryl Rusbult", "note": "Modelo de Investimento" },
+      { "author": "Thibaut & Kelley", "note": "Teoria da Troca Social" }
+    ]
+  },
+  "expandedResults": {
     "low": {
-      "min": 0,
-      "max": 33,
       "title": "Equilíbrio detectado",
-      "label": "Baixo",
-      "description": "A dinâmica parece saudável. Continue mantendo presença leve e confiante."
+      "text": "A dinâmica entre vocês parece equilibrada. Isso indica que as trocas de atenção e iniciativa estão acontecendo de forma relativamente justa. Continue mantendo sua rotina, presença leve e sinais de interesse moderado. Pequenas ações de conexão (uma mensagem espontânea, um convite) mantêm a tensão saudável.",
+      "plan": [
+        { "id": "l1", "title": "Manter leveza", "action": "Continue respondendo naturalmente, sem pressa exagerada.", "description": "O segredo aqui é não 'estragar' o que está bom por excesso de análise. Mantenha sua vida interessante fora da relação." },
+        { "id": "l2", "title": "Espaço estratégico", "action": "Mantenha suas atividades sociais e rotina ativa.", "description": "A disponibilidade constante mata a curiosidade. Garanta que ele saiba que você tem um mundo próprio vibrante." },
+        { "id": "l3", "title": "Autonomia emocional", "action": "Não baseie seu humor exclusivamente nas respostas dele.", "description": "Pratique a auto-validação. Se ele demorar a responder, use esse tempo para algo que VOCÊ ama fazer." }
+      ]
     },
     "medium": {
-      "min": 34,
-      "max": 66,
       "title": "Desequilíbrio moderado",
-      "label": "Médio",
-      "description": "Existem sinais sutis de desinteresse ou acomodação. Pequenos ajustes podem mudar tudo."
+      "text": "Há sinais sutis de acomodação ou incerteza. Nem tudo é perda — pequenas mudanças podem reequilibrar a relação. Comece com um teste simples: espere que ele inicie a próxima interação. Se ele não o fizer, ative uma mensagem neutra e observe a reação.",
+      "plan": [
+        { "id": "m1", "title": "Teste de reciprocidade", "action": "Escolha 1 interação: não puxe assunto por 24h.", "description": "Isso serve para medir o termômetro de iniciativa dele sem que você precise perguntar. Observe sem julgar." },
+        { "id": "m2", "title": "Reativar curiosidade", "action": "Use uma mensagem neutra que não exija resposta imediata.", "description": "Template: 'Passando rápido por aqui — depois te falo.' Isso tira a pressão e gera um leve 'vácuo' positivo." },
+        { "id": "m3", "title": "Redefinir ritmo", "action": "Diminua ligeiramente sua disponibilidade nos próximos dias.", "description": "Seja um pouco mais breve nas respostas. Veja se a qualidade das interações dele melhora quando ele sente que precisa se esforçar." }
+      ]
     },
     "high": {
-      "min": 67,
-      "max": 100,
       "title": "Desequilíbrio elevado",
-      "label": "Alto",
-      "description": "Seu investimento emocional está maior que o dele. É hora de reposicionamento."
+      "text": "Seu investimento emocional está significativamente maior que o dele. Isso costuma gerar ansiedade e desgaste. Recomendamos um reposicionamento claro, começando por uma pausa consciente e uma mensagem curta que desperte curiosidade.",
+      "plan": [
+        { "id": "h1", "title": "Pausa consciente (48h)", "action": "Reduza drasticamente a reatividade. Não inicie contato.", "description": "Objetivo: recuperar seu centro. Use esse tempo para observar o padrão dele sem a sua interferência constante." },
+        { "id": "h2", "title": "Reativar mistério", "action": "Envie uma mensagem de curiosidade após a pausa.", "description": "Template: 'Hoje aconteceu algo que me lembrou você — depois te conto :)'. Isso quebra o padrão de cobrança." },
+        { "id": "h3", "title": "Redefinir limites", "action": "Foque 100% em atividades de prazer próprio agora.", "description": "Não inicie contato proposital. Se ele vier, responda com cordialidade mas sem estender o assunto. Mostre que seu tempo é valioso." }
+      ]
     }
   },
-  "plans": {
-    "low": [
-      {
-        "id": "l1",
-        "title": "Manter leveza",
-        "action": "Continue respondendo naturalmente, sem antecipar energia."
-      },
-      {
-        "id": "l2",
-        "title": "Espaço estratégico",
-        "action": "Evite estar sempre disponível imediatamente."
-      },
-      {
-        "id": "l3",
-        "title": "Autonomia emocional",
-        "action": "Mantenha sua rotina e prioridades ativas."
-      }
-    ],
-    "medium": [
-      {
-        "id": "m1",
-        "title": "Teste de reciprocidade",
-        "action": "Espere ele iniciar a próxima conversa."
-      },
-      {
-        "id": "m2",
-        "title": "Reativar curiosidade",
-        "action": "Envie uma mensagem neutra e intrigante."
-      },
-      {
-        "id": "m3",
-        "title": "Redefinir ritmo",
-        "action": "Reduza ligeiramente sua disponibilidade."
-      }
-    ],
-    "high": [
-      {
-        "id": "h1",
-        "title": "Pausa consciente",
-        "action": "Evite responder imediatamente nas próximas interações."
-      },
-      {
-        "id": "h2",
-        "title": "Reativar mistério",
-        "action": "Envie uma mensagem curta que gere curiosidade."
-      },
-      {
-        "id": "h3",
-        "title": "Reposicionamento interno",
-        "action": "Volte sua energia para você por 48 horas."
-      }
-    ]
-  },
-  "messageTemplates": {
+  "templates": {
     "Curiosidade": [
-      "Hoje aconteceu algo curioso comigo… depois te conto.",
-      "Acabei de lembrar de uma coisa engraçada sobre você.",
-      "Você não vai acreditar no que aconteceu hoje."
+      "Aconteceu uma coisa tão engraçada hoje… depois te conto :)",
+      "Teve um momento hoje que me lembrou você. Quando estiver tranquila, te conto.",
+      "Você não vai acreditar no que vi hoje. Me lembrou aquele nosso papo."
     ],
-    "Neutro": [
+    "Neutra": [
       "Oi, passando rápido por aqui.",
-      "Depois falo com você com calma.",
-      "Tô resolvendo umas coisas hoje."
+      "Tô resolvendo umas coisas hoje, depois falo com calma.",
+      "Dia corrido por aqui! Espero que o seu esteja sendo ótimo."
     ],
     "Limites": [
-      "Vou ficar offline por algumas horas.",
-      "Hoje vou focar em mim um pouco.",
-      "Resolvi dar uma pausa nas redes."
+      "Vou ficar offline por algumas horas — depois falo.",
+      "Hoje vou focar em mim. Te vejo depois.",
+      "Preciso de um tempinho para organizar umas coisas aqui, volto logo."
+    ],
+    "Convite": [
+      "Sábado rola um café às 16h no [lugar]? Seria legal te ver.",
+      "Vou naquele evento [X] na quinta. Se estiver por lá, me avisa!",
+      "Tô pensando em testar aquele restaurante novo. Topa?"
     ]
-  }
+  },
+  "audioScripts": [
+    {
+      "id": "a1",
+      "title": "Pausa consciente",
+      "script": "Respire. Pausar é uma estratégia de poder. Nas próximas 48 horas, não reaja imediatamente. Observe. Quanto menos justificativa você dá, mais claro fica o mapa de intenções dele.",
+      "premium": true
+    },
+    {
+      "id": "a2",
+      "title": "Reativar curiosidade",
+      "script": "Use mensagens que gerem leve curiosidade. Não conte tudo. Seja breve. Um toque de mistério retorna atenção e mantém você em posição de escolha.",
+      "premium": true
+    },
+    {
+      "id": "a3",
+      "title": "Redefinir limites",
+      "script": "Limites são cuidado consigo. Dizer que você vai se ocupar não é rejeição — é autocuidado. Isso muda como o outro percebe seu valor.",
+      "premium": true
+    }
+  ]
 }
