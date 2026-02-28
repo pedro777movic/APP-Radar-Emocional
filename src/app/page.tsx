@@ -1,6 +1,7 @@
+
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useLocalData } from '@/lib/store';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -19,6 +20,7 @@ export default function Home() {
   const [pinInput, setPinInput] = useState('');
   const [error, setError] = useState('');
 
+  // Gerenciador de navegação inicial e transições de segurança
   useEffect(() => {
     if (!loading) {
       const splashTimeout = setTimeout(() => {
@@ -32,18 +34,9 @@ export default function Home() {
       }, 1500);
       return () => clearTimeout(splashTimeout);
     }
-  }, [loading, hasPin, data.onboarded]);
+  }, [loading, hasPin, data.onboarded, step]);
 
-  const handleCreatePin = () => {
-    if (pinInput.length === 4) {
-      setPin(pinInput);
-      setStep('ONBOARDING');
-    } else {
-      setError('O PIN deve ter 4 dígitos');
-    }
-  };
-
-  const handleLogin = () => {
+  const handleLogin = useCallback(() => {
     setError('');
     
     if (pinInput.length === 0) {
@@ -59,15 +52,25 @@ export default function Home() {
     if (verifyPin(pinInput)) {
       if (!data.onboarded) setStep('ONBOARDING');
       else setStep('DASHBOARD');
+      // Limpa o input após sucesso para evitar resíduos em caso de logout/reset futuro
+      setPinInput('');
     } else {
       setError('PIN incorreto');
       setPinInput('');
     }
-  };
+  }, [pinInput, verifyPin, data.onboarded]);
 
   const enterAsGuest = () => {
     updateData({ onboarded: true });
     setStep('DASHBOARD');
+  };
+
+  // Função de reset blindada para garantir retorno à tela de PIN funcional
+  const handleFullReset = () => {
+    clearData(); // Limpa LocalStorage
+    setPinInput(''); // Limpa campo de texto
+    setError(''); // Limpa erros
+    setStep('SPLASH'); // Reinicia fluxo
   };
 
   if (loading || step === 'SPLASH') {
@@ -130,7 +133,7 @@ export default function Home() {
                 className="text-center text-2xl tracking-[1em] h-14 bg-muted/50 border-none focus:ring-1 focus:ring-primary"
                 placeholder="****"
               />
-              {error && <p className="text-destructive text-xs text-center mt-2 font-bold animate-pulse">{error}</p>}
+              {error && <p className="text-destructive text-[10px] text-center mt-2 font-black uppercase tracking-widest animate-pulse">{error}</p>}
             </div>
 
             <Button
@@ -163,7 +166,12 @@ export default function Home() {
         {step === 'DASHBOARD' && <Dashboard onStartQuiz={() => setStep('QUIZ')} />}
         {step === 'QUIZ' && <Quiz onComplete={() => setStep('DASHBOARD')} />}
         {step === 'TOOLKIT' && <Toolkit />}
-        {step === 'SETTINGS' && <SettingsPage onBack={() => setStep('DASHBOARD')} onDataClear={() => { clearData(); setStep('SPLASH'); }} />}
+        {step === 'SETTINGS' && (
+          <SettingsPage 
+            onBack={() => setStep('DASHBOARD')} 
+            onDataClear={handleFullReset} 
+          />
+        )}
       </div>
 
       {step !== 'ONBOARDING' && step !== 'QUIZ' && (
