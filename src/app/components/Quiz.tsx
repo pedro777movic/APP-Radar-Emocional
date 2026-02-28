@@ -1,6 +1,7 @@
+
 "use client";
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import { useLocalData } from '@/lib/store';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
@@ -14,17 +15,28 @@ export default function Quiz({ onComplete }: { onComplete: () => void }) {
   const [state, setState] = useState<QuizState>('QUESTIONS');
   const [currentIdx, setCurrentIdx] = useState(0);
   const [responses, setResponses] = useState<any[]>([]);
-  const questions = contentData.quiz.questions;
+
+  // Seleciona 4 perguntas aleatórias do banco de 12 no início da sessão
+  const activeQuestions = useMemo(() => {
+    const pool = [...contentData.quiz.questions];
+    // Fisher-Yates shuffle
+    for (let i = pool.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [pool[i], pool[j]] = [pool[j], pool[i]];
+    }
+    // Retorna apenas as 4 primeiras
+    return pool.slice(0, 4);
+  }, []);
 
   const calculateResult = useCallback((finalResponses: any[]) => {
     setState('ANALYZING');
 
     setTimeout(() => {
-      if (questions.length === 0) return;
+      if (activeQuestions.length === 0) return;
 
       const sum = finalResponses.reduce((acc, curr) => acc + curr.value, 0);
-      // Garante que o score fique entre 0 e 100
-      let score = Math.round(sum / questions.length);
+      // O cálculo continua proporcional ao número de perguntas selecionadas (sempre 4)
+      let score = Math.round(sum / activeQuestions.length);
       score = Math.max(0, Math.min(100, score));
 
       let label: 'low' | 'medium' | 'high' = 'low';
@@ -46,13 +58,13 @@ export default function Quiz({ onComplete }: { onComplete: () => void }) {
 
       setState('RESULT');
     }, 2500);
-  }, [data.sessions, updateData, questions.length]);
+  }, [data.sessions, updateData, activeQuestions.length]);
 
   const handleAnswer = (val: number) => {
-    const newResponses = [...responses, { questionId: questions[currentIdx].id, value: val }];
+    const newResponses = [...responses, { questionId: activeQuestions[currentIdx].id, value: val }];
     setResponses(newResponses);
 
-    if (currentIdx < questions.length - 1) {
+    if (currentIdx < activeQuestions.length - 1) {
       setCurrentIdx(currentIdx + 1);
     } else {
       calculateResult(newResponses);
@@ -60,14 +72,14 @@ export default function Quiz({ onComplete }: { onComplete: () => void }) {
   };
 
   if (state === 'QUESTIONS') {
-    const q = questions[currentIdx];
-    const progress = ((currentIdx + 1) / questions.length) * 100;
+    const q = activeQuestions[currentIdx];
+    const progress = ((currentIdx + 1) / activeQuestions.length) * 100;
 
     return (
       <div className="p-6 h-full flex flex-col animate-fade-in">
         <div className="flex items-center gap-4 mb-8">
           <Progress value={progress} className="h-1.5 flex-1" />
-          <span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">{currentIdx + 1}/{questions.length}</span>
+          <span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">{currentIdx + 1}/{activeQuestions.length}</span>
         </div>
 
         <div className="flex-1 flex flex-col justify-center">
