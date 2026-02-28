@@ -54,7 +54,8 @@ export default function Home() {
   };
 
   const enterAsGuest = () => {
-    setStep('ONBOARDING');
+    updateData({ onboarded: true });
+    setStep('DASHBOARD');
   };
 
   if (loading || step === 'SPLASH') {
@@ -64,8 +65,8 @@ export default function Home() {
           <div className="absolute inset-0 bg-primary/20 blur-3xl rounded-full scale-150 animate-pulse"></div>
           <Radar className="w-16 h-16 text-primary relative z-10 animate-spin-slow" style={{ animationDuration: '4s' }} />
         </div>
-        <h1 className="text-2xl font-headline font-bold text-foreground mb-2">RADAR EMOCIONAL</h1>
-        <p className="text-muted-foreground font-body">Analisando padrões invisíveis...</p>
+        <h1 className="text-2xl font-headline font-bold text-foreground mb-2 text-primary">RADAR EMOCIONAL</h1>
+        <p className="text-muted-foreground font-body text-sm">Analisando padrões invisíveis...</p>
         <div className="w-32 h-1 bg-muted mt-8 rounded-full overflow-hidden">
           <div className="h-full bg-primary animate-progress-ind"></div>
         </div>
@@ -105,12 +106,14 @@ export default function Home() {
                 value={pinInput}
                 onChange={(e) => {
                   setError('');
-                  setPinInput(e.target.value.replace(/\D/g, ''));
+                  const val = e.target.value.replace(/\D/g, '');
+                  setPinInput(val);
                 }}
+                onKeyDown={(e) => e.key === 'Enter' && pinInput.length === 4 && handleLogin()}
                 className="text-center text-2xl tracking-[1em] h-14 bg-muted/50 border-none focus:ring-1 focus:ring-primary"
                 placeholder="****"
               />
-              {error && <p className="text-destructive text-xs text-center mt-2 font-bold">{error}</p>}
+              {error && <p className="text-destructive text-xs text-center mt-2 font-bold animate-pulse">{error}</p>}
             </div>
 
             <Button
@@ -150,21 +153,21 @@ export default function Home() {
         <div className="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-card/80 backdrop-blur-lg border-t border-white/5 h-20 px-6 flex items-center justify-between z-50">
           <button
             onClick={() => setStep('DASHBOARD')}
-            className={`flex flex-col items-center gap-1 ${step === 'DASHBOARD' ? 'text-primary' : 'text-muted-foreground'}`}
+            className={`flex flex-col items-center gap-1 transition-colors ${step === 'DASHBOARD' ? 'text-primary' : 'text-muted-foreground hover:text-foreground'}`}
           >
             <Radar className="w-6 h-6" />
             <span className="text-[10px] font-medium">Radar</span>
           </button>
           <button
             onClick={() => setStep('TOOLKIT')}
-            className={`flex flex-col items-center gap-1 ${step === 'TOOLKIT' ? 'text-primary' : 'text-muted-foreground'}`}
+            className={`flex flex-col items-center gap-1 transition-colors ${step === 'TOOLKIT' ? 'text-primary' : 'text-muted-foreground hover:text-foreground'}`}
           >
             <ChevronRight className="w-6 h-6 rotate-90" />
             <span className="text-[10px] font-medium">Toolkit</span>
           </button>
           <button
             onClick={() => setStep('SETTINGS')}
-            className={`flex flex-col items-center gap-1 ${step === 'SETTINGS' ? 'text-primary' : 'text-muted-foreground'}`}
+            className={`flex flex-col items-center gap-1 transition-colors ${step === 'SETTINGS' ? 'text-primary' : 'text-muted-foreground hover:text-foreground'}`}
           >
             <Settings className="w-6 h-6" />
             <span className="text-[10px] font-medium">Ajustes</span>

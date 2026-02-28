@@ -1,14 +1,13 @@
-
 "use client";
 
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { useLocalData } from '@/lib/store';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Radar } from 'lucide-react';
 import contentData from '../../../public/assets/content.json';
 
-type QuizState = 'INTRO' | 'QUESTIONS' | 'ANALYZING' | 'RESULT';
+type QuizState = 'QUESTIONS' | 'ANALYZING' | 'RESULT';
 
 export default function Quiz({ onComplete }: { onComplete: () => void }) {
   const { data, updateData } = useLocalData();
@@ -16,6 +15,38 @@ export default function Quiz({ onComplete }: { onComplete: () => void }) {
   const [currentIdx, setCurrentIdx] = useState(0);
   const [responses, setResponses] = useState<any[]>([]);
   const questions = contentData.quiz.questions;
+
+  const calculateResult = useCallback((finalResponses: any[]) => {
+    setState('ANALYZING');
+
+    setTimeout(() => {
+      if (questions.length === 0) return;
+
+      const sum = finalResponses.reduce((acc, curr) => acc + curr.value, 0);
+      // Garante que o score fique entre 0 e 100
+      let score = Math.round(sum / questions.length);
+      score = Math.max(0, Math.min(100, score));
+
+      let label: 'low' | 'medium' | 'high' = 'low';
+      if (score >= 67) label = 'high';
+      else if (score >= 34) label = 'medium';
+
+      const session = {
+        id: Math.random().toString(36).substring(2, 11),
+        timestamp: Date.now(),
+        score,
+        label,
+        responses: finalResponses
+      };
+
+      updateData({
+        sessions: [...(data.sessions || []), session],
+        completedPlanSteps: []
+      });
+
+      setState('RESULT');
+    }, 2500);
+  }, [data.sessions, updateData, questions.length]);
 
   const handleAnswer = (val: number) => {
     const newResponses = [...responses, { questionId: questions[currentIdx].id, value: val }];
@@ -28,35 +59,6 @@ export default function Quiz({ onComplete }: { onComplete: () => void }) {
     }
   };
 
-  const calculateResult = (finalResponses: any[]) => {
-    setState('ANALYZING');
-
-    setTimeout(() => {
-      const sum = finalResponses.reduce((acc, curr) => acc + curr.value, 0);
-      const score = Math.round(sum / questions.length);
-
-      // New mapping: 0-33 low, 34-66 medium, 67-100 high
-      let label: 'low' | 'medium' | 'high' = 'low';
-      if (score >= 67) label = 'high';
-      else if (score >= 34) label = 'medium';
-
-      const session = {
-        id: Math.random().toString(36).substr(2, 9),
-        timestamp: Date.now(),
-        score,
-        label,
-        responses: finalResponses
-      };
-
-      updateData({
-        sessions: [...data.sessions, session],
-        completedPlanSteps: []
-      });
-
-      setState('RESULT');
-    }, 2500);
-  };
-
   if (state === 'QUESTIONS') {
     const q = questions[currentIdx];
     const progress = ((currentIdx + 1) / questions.length) * 100;
@@ -65,7 +67,7 @@ export default function Quiz({ onComplete }: { onComplete: () => void }) {
       <div className="p-6 h-full flex flex-col animate-fade-in">
         <div className="flex items-center gap-4 mb-8">
           <Progress value={progress} className="h-1.5 flex-1" />
-          <span className="text-xs font-medium text-muted-foreground">{currentIdx + 1}/{questions.length}</span>
+          <span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">{currentIdx + 1}/{questions.length}</span>
         </div>
 
         <div className="flex-1 flex flex-col justify-center">
@@ -79,27 +81,27 @@ export default function Quiz({ onComplete }: { onComplete: () => void }) {
             <Button
               onClick={() => handleAnswer(contentData.quiz.answerScores.yes)}
               variant="outline"
-              className="w-full h-16 text-lg rounded-2xl border-white/10 hover:border-primary/50"
+              className="w-full h-16 text-lg rounded-2xl border-white/10 hover:border-primary/50 transition-all active:scale-[0.98]"
             >
               Sim
             </Button>
             <Button
               onClick={() => handleAnswer(contentData.quiz.answerScores.sometimes)}
               variant="outline"
-              className="w-full h-16 text-lg rounded-2xl border-white/10 hover:border-primary/50"
+              className="w-full h-16 text-lg rounded-2xl border-white/10 hover:border-primary/50 transition-all active:scale-[0.98]"
             >
               Às vezes
             </Button>
             <Button
               onClick={() => handleAnswer(contentData.quiz.answerScores.no)}
               variant="outline"
-              className="w-full h-16 text-lg rounded-2xl border-white/10 hover:border-primary/50"
+              className="w-full h-16 text-lg rounded-2xl border-white/10 hover:border-primary/50 transition-all active:scale-[0.98]"
             >
               Não
             </Button>
           </div>
         </div>
-        <p className="text-center text-xs text-muted-foreground mt-8">
+        <p className="text-center text-[10px] font-bold text-muted-foreground mt-8 uppercase tracking-widest">
           Seja honesta consigo mesma para um resultado preciso.
         </p>
       </div>
@@ -115,9 +117,9 @@ export default function Quiz({ onComplete }: { onComplete: () => void }) {
         </div>
         <h2 className="text-2xl font-headline font-bold mb-4">Radar ativado...</h2>
         <div className="space-y-2">
-          <p className="text-muted-foreground animate-pulse text-sm">Calculando padrão emocional...</p>
-          <p className="text-muted-foreground animate-pulse delay-75 text-sm">Organizando sinais de interesse...</p>
-          <p className="text-muted-foreground animate-pulse delay-150 text-sm">Mapeando reciprocidade...</p>
+          <p className="text-muted-foreground animate-pulse text-xs font-bold uppercase tracking-widest">Calculando padrão emocional...</p>
+          <p className="text-muted-foreground animate-pulse delay-75 text-xs font-bold uppercase tracking-widest">Organizando sinais de interesse...</p>
+          <p className="text-muted-foreground animate-pulse delay-150 text-xs font-bold uppercase tracking-widest">Mapeando reciprocidade...</p>
         </div>
       </div>
     );
@@ -130,21 +132,24 @@ export default function Quiz({ onComplete }: { onComplete: () => void }) {
     return (
       <div className="p-6 h-full flex flex-col animate-slide-up text-center justify-center">
         <div className="mb-10">
-          <h1 className="text-6xl font-headline font-bold text-primary mb-2">{lastSession.score}%</h1>
-          <div className="inline-block px-4 py-1 bg-primary/10 rounded-full text-primary font-bold uppercase tracking-widest text-xs">
+          <h1 className="text-7xl font-headline font-bold text-primary mb-2 tracking-tighter">{lastSession.score}%</h1>
+          <div className="inline-block px-4 py-1.5 bg-primary/10 rounded-full text-primary font-black uppercase tracking-widest text-[10px] border border-primary/20">
             {rangeData.title}
           </div>
         </div>
 
-        <div className="bg-card p-6 rounded-2xl border border-white/5 mb-10 text-left">
-          <h3 className="font-bold mb-2">Análise:</h3>
-          <p className="text-muted-foreground leading-relaxed text-sm">{rangeData.text}</p>
+        <div className="bg-card p-6 rounded-3xl border border-white/5 mb-10 text-left shadow-2xl">
+          <h3 className="text-xs font-black uppercase tracking-widest text-primary mb-3">Análise Estratégica:</h3>
+          <p className="text-muted-foreground leading-relaxed text-sm font-medium">{rangeData.text}</p>
         </div>
 
-        <Button onClick={onComplete} className="w-full h-16 text-lg font-bold glow-primary">
+        <Button 
+          onClick={onComplete} 
+          className="w-full h-16 text-lg font-black glow-primary uppercase tracking-widest"
+        >
           Ver meu plano estratégico
         </Button>
-        <p className="text-xs text-muted-foreground mt-6">
+        <p className="text-[10px] text-muted-foreground mt-8 font-bold uppercase tracking-widest opacity-50">
           Se não fizer sentido, refaça a qualquer momento.
         </p>
       </div>
