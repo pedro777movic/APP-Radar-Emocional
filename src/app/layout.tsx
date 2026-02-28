@@ -8,15 +8,12 @@ export const metadata: Metadata = {
   description: 'Análise de padrões invisíveis e equilíbrio emocional',
 };
 
-export default async function RootLayout({
-  children,
-  params
-}: {
+export default async function RootLayout(props: {
   children: React.ReactNode;
   params: Promise<any>;
 }) {
-  // Explicitly awaiting params to satisfy Next.js 15 requirements
-  await params;
+  const params = await props.params;
+  const children = props.children;
 
   return (
     <html lang="pt-BR">

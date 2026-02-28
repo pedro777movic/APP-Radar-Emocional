@@ -19,10 +19,9 @@ interface HomeProps {
   searchParams: Promise<any>;
 }
 
-export default function Home({ params, searchParams }: HomeProps) {
-  // Unwrapping params even if not used to satisfy Next.js 15 requirements for Client Components
-  React.use(params);
-  React.use(searchParams);
+export default function Home(props: HomeProps) {
+  const params = React.use(props.params);
+  const searchParams = React.use(props.searchParams);
 
   const { data, loading, setPin, verifyPin, hasPin, updateData, clearData } = useLocalData();
   const [step, setStep] = useState<AppStep>('SPLASH');
