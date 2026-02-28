@@ -1,4 +1,3 @@
-
 import type {Metadata} from 'next';
 import './globals.css';
 import {Toaster} from '@/components/ui/toaster';
@@ -8,12 +7,15 @@ export const metadata: Metadata = {
   description: 'Análise de padrões invisíveis e equilíbrio emocional',
 };
 
-export default async function RootLayout(props: {
+export default async function RootLayout({
+  children,
+  params,
+}: {
   children: React.ReactNode;
   params: Promise<any>;
 }) {
-  const params = await props.params;
-  const children = props.children;
+  // Unwrapping params even if not used to satisfy Next.js 15 requirements
+  await params;
 
   return (
     <html lang="pt-BR">

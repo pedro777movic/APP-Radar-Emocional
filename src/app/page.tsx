@@ -14,14 +14,16 @@ import SettingsPage from './components/SettingsPage';
 
 type AppStep = 'SPLASH' | 'AUTH' | 'ONBOARDING' | 'DASHBOARD' | 'QUIZ' | 'TOOLKIT' | 'SETTINGS';
 
-interface HomeProps {
+export default function Home({
+  params,
+  searchParams,
+}: {
   params: Promise<any>;
   searchParams: Promise<any>;
-}
-
-export default function Home(props: HomeProps) {
-  const params = React.use(props.params);
-  const searchParams = React.use(props.searchParams);
+}) {
+  // Correctly unwrap promises in Client Component using React.use()
+  React.use(params);
+  React.use(searchParams);
 
   const { data, loading, setPin, verifyPin, hasPin, updateData, clearData } = useLocalData();
   const [step, setStep] = useState<AppStep>('SPLASH');
