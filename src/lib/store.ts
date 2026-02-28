@@ -25,7 +25,7 @@ export type AppData = {
 };
 
 const DEFAULT_DATA: AppData = {
-  pin: null,
+  pin: 'MzM0NA==', // btoa('3344')
   onboarded: false,
   sessions: [],
   completedPlanSteps: []
