@@ -13,7 +13,7 @@
       { "id": "q9", "text": "Ele demonstra orgulho ao ser visto com você?", "category": "prioridade", "weight": 2, "reverse": true },
       { "id": "q10", "text": "Ele propõe planos com antecedência ou sempre decide na última hora?", "category": "prioridade", "weight": 3, "reverse": true },
       { "id": "q11", "text": "Ele demonstra esforço quando percebe que pode te perder?", "category": "investimento", "weight": 3, "reverse": true },
-      { "id": "q12", "text": "Você sente imprevisibilidade constante na atitude dele?", "category": "consistencia", "weight": 3, "reverse": false }
+      { "id": "q12", "text": "Você sente estabilidade ou imprevisibilidade constante na atitude dele?", "category": "consistencia", "weight": 3, "reverse": false }
     ],
     "answerScores": {
       "yes": 100,
@@ -21,78 +21,85 @@
       "no": 0
     }
   },
+  "messageTemplates": {
+    "Curiosidade": [
+      "Vi algo que me lembrou de você hoje.",
+      "Estava pensando em uma coisa que você comentou...",
+      "Acabei de ver uma notícia e lembrei daquela nossa conversa.",
+      "Engraçado como certas músicas trazem memórias específicas, né?",
+      "Você não vai acreditar no que aconteceu, tem tudo a ver com o que falamos."
+    ],
+    "Distância": [
+      "Focando um pouco mais em mim esses dias. Está sendo ótimo.",
+      "Vida corrida por aqui, mas tudo caminhando bem.",
+      "Aproveitando o silêncio para colocar as ideias no lugar.",
+      "Às vezes o afastamento é o melhor filtro para entender o que é real.",
+      "Seguindo meu ritmo, sem pressa e com muita clareza."
+    ],
+    "Limite": [
+      "Entendo seu ponto, mas não me sinto confortável com essa dinâmica.",
+      "Prefiro conversas que tragam paz, não confusão.",
+      "Meu tempo é precioso e escolho investir onde há clareza.",
+      "Gosto de transparência. Se não for assim, prefiro não seguir.",
+      "Não aceito menos do que reciprocidade e respeito pelo meu espaço."
+    ],
+    "Reengajamento": [
+      "Como tem sido sua semana?",
+      "Apareceu uma oportunidade legal e lembrei do seu interesse nisso.",
+      "Faz tempo que não trocamos uma ideia real. Tudo bem?",
+      "O que você tem feito de bom ultimamente?",
+      "Vi que você postou algo legal hoje, parabéns pelo movimento!"
+    ]
+  },
+  "categoryInsights": {
+    "investimento": {
+      "name": "Investimento Estrutural",
+      "insight": "A falta de planos futuros indica que ele pode estar vivendo apenas o 'agora', sem intenção de construir algo sólido."
+    },
+    "consistencia": {
+      "name": "Consistência Emocional",
+      "insight": "A instabilidade nas respostas cria um ciclo de ansiedade em você. O interesse real é constante, não intermitente."
+    },
+    "prioridade": {
+      "name": "Nível de Prioridade",
+      "insight": "Se você é sempre o plano B ou de última hora, ele não está dando o espaço que você merece na vida dele."
+    },
+    "reciprocidade": {
+      "name": "Equilíbrio de Troca",
+      "insight": "Você está carregando o piano sozinha. Uma relação saudável precisa de dois motores funcionando."
+    }
+  },
   "expandedResults": {
     "low": {
-      "title": "Equilíbrio Estratégico",
-      "text": "Sua dinâmica atual apresenta baixo risco. Há sinais claros de interesse e uma estrutura de reciprocidade saudável. O foco agora é manter a autonomia e não acelerar o processo desnecessariamente.",
+      "title": "Radar em Equilíbrio",
+      "text": "Sua relação apresenta sinais saudáveis de investimento e reciprocidade. Continue observando para manter essa dinâmica.",
       "plan": [
-        { "id": "p1", "title": "Manutenção da Autonomia", "action": "ESPAÇO", "description": "Continue investindo em seus projetos pessoais para manter o valor percebido alto." },
-        { "id": "p2", "title": "Validação Positiva", "action": "REFORÇO", "description": "Retribua iniciativas de forma proporcional, sem exceder o investimento dele." }
+        { "id": "p1", "title": "Manter Autonomia", "action": "Foco em você", "description": "Continue investindo em seus hobbies e amizades fora da relação." }
       ]
     },
     "medium": {
-      "title": "Atenção Tática",
-      "text": "Existem oscilações que exigem atenção. O radar detectou pontos de interrogação na consistência ou no investimento. É o momento de observar mais e agir menos, deixando que ele preencha os espaços vazios.",
+      "title": "Alerta de Oscilação",
+      "text": "Existem inconsistências que precisam de atenção. O radar detectou padrões de afastamento ou falta de iniciativa clara.",
       "plan": [
-        { "id": "p3", "title": "Recuo Estratégico", "action": "OBSERVAÇÃO", "description": "Reduza sua disponibilidade em 20% e observe se ele aumenta o esforço para te alcançar." },
-        { "id": "p4", "title": "Quebra de Padrão", "action": "MISTÉRIO", "description": "Pare de ser a primeira a iniciar conversas por 3 dias seguidos." }
+        { "id": "p2", "title": "Recuo Estratégico", "action": "Espaço", "description": "Diminua sua iniciativa em 30% e observe se ele ocupa o espaço deixado." }
       ]
     },
     "high": {
       "title": "Alto Risco / Alerta",
-      "text": "O radar indica um desequilíbrio crítico. Você está investindo muito mais do que recebe, o que gera perda de valor e ansiedade. É necessário um choque de realidade e um reposicionamento imediato de postura.",
+      "text": "O radar indica um desequilíbrio crítico. Você está investindo muito mais do que recebe, o que gera exaustão emocional.",
       "plan": [
-        { "id": "p5", "title": "Desconexão Total Temporária", "action": "PODER", "description": "Entre em modo 'Ghosting Estratégico'. Não visualize ou responda instantaneamente. Recupere seu centro." },
-        { "id": "p6", "title": "Reativação de Contatos", "action": "VALOR", "description": "Saia com amigas e poste algo que mostre que sua felicidade não depende da validação dele." }
+        { "id": "p3", "title": "Silêncio de Ouro", "action": "Proteção", "description": "Pare de puxar assunto ou sugerir planos. Deixe que a realidade se mostre sem sua ajuda." }
       ]
     }
   },
-  "categoryInsights": {
-    "investimento": {
-      "name": "Investimento",
-      "insight": "O ponto mais fraco é o Investimento. Ele não está projetando futuro ou colocando energia real para construir algo sólido. Sem investimento, a relação é apenas conveniência."
-    },
-    "consistencia": {
-      "name": "Consistência",
-      "insight": "A Consistência está em alerta. Comportamento montanha-russa gera dependência emocional. Ele aparece e some, o que indica que ele está testando seu limite de espera."
-    },
-    "prioridade": {
-      "name": "Prioridade",
-      "insight": "Você não é a Prioridade. Planos de última hora e falta de orgulho público indicam que você está sendo mantida em uma 'reserva estratégica' enquanto ele decide outras opções."
-    },
-    "reciprocidade": {
-      "name": "Reciprocidade",
-      "insight": "Falta Reciprocidade. Você está carregando o piano sozinha. Esse esforço unilateral é exaustivo e comunica que você aceita migalhas em troca de atenção."
-    }
-  },
-  "templates": {
-    "Curiosidade": [
-      "Oi! Vi algo que me lembrou de uma conversa nossa, mas depois te conto. Boa semana!",
-      "Achei curioso aquilo que você disse... enfim, focado aqui agora. Falamos depois."
-    ],
-    "Distância": [
-      "Oi! Estou com a semana bem corrida por aqui, depois nos falamos com calma!",
-      "Vou dar uma sumidinha para focar nuns projetos, mas está tudo bem por aqui. Beijo!"
-    ],
-    "Limite": [
-      "Eu adoro nossos momentos, mas planos de última hora ficam difíceis para mim. Vamos marcar com antecedência?",
-      "Prefiro conversas que fluem dos dois lados. Quando estiver menos ocupado, me avisa."
-    ],
-    "Reengajamento": [
-      "Apareceu um convite para aquele lugar que comentamos... lembrei de você. Como estão as coisas?",
-      "Passei por aqui e lembrei daquela música. Espero que esteja tudo bem!"
+  "theory": {
+    "explanation": "O Radar baseia-se na teoria do investimento emocional e na análise de padrões de apego.",
+    "references": [
+      { "author": "Amir Levine", "note": "Especialista em estilos de apego e segurança nas relações." }
     ]
   },
   "audioScripts": [
-    { "id": "a1", "title": "O Tom da Voz de Escassez", "premium": false },
-    { "id": "a2", "title": "Como soar ocupada e feliz", "premium": true },
-    { "id": "a3", "title": "A resposta perfeita para o 'Sumido'", "premium": true }
-  ],
-  "theory": {
-    "explanation": "Baseado na Teoria do Investimento de Rusbult e nos princípios de Escassez Psicológica aplicados à dinâmica de alto valor.",
-    "references": [
-      { "author": "Caryl Rusbult", "note": "Modelo de Investimento nas Relações Interpessoais." },
-      { "author": "Robert Cialdini", "note": "Princípios de Influência e Reciprocidade." }
-    ]
-  }
+    { "id": "a1", "title": "O Poder do Silêncio", "premium": true },
+    { "id": "a2", "title": "Como dar Limites", "premium": true }
+  ]
 }
