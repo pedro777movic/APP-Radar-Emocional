@@ -1,10 +1,10 @@
 "use client";
 
-import React, { useEffect, useState, use } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocalData } from '@/lib/store';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { ShieldCheck, Radar, ChevronRight, Lock, UserCircle, Settings } from 'lucide-react';
+import { ShieldCheck, Radar, ChevronRight, UserCircle, Settings } from 'lucide-react';
 import Onboarding from './components/Onboarding';
 import Dashboard from './components/Dashboard';
 import Quiz from './components/Quiz';
@@ -13,30 +13,27 @@ import SettingsPage from './components/SettingsPage';
 
 type AppStep = 'SPLASH' | 'AUTH' | 'ONBOARDING' | 'DASHBOARD' | 'QUIZ' | 'TOOLKIT' | 'SETTINGS';
 
-export default function Home(props: { 
-  params: Promise<any>; 
-  searchParams: Promise<any> 
-}) {
-  // No Next.js 15, searchParams e params devem ser desembrulhados com use() em Client Components
-  use(props.params);
-  use(props.searchParams);
+export default function Home() {
+  // Removido o argumento 'props' (que continha params e searchParams como Promises)
+  // para evitar que o Next.js 15 tente enumerá-los e cause erros visuais.
 
   const { data, loading, setPin, verifyPin, hasPin, updateData, clearData } = useLocalData();
   const [step, setStep] = useState<AppStep>('SPLASH');
-  const [pinInput, setPinInput] = useState('3344');
+  const [pinInput, setPinInput] = useState('3344'); // Pré-preenchido com o PIN correto
   const [error, setError] = useState('');
 
   useEffect(() => {
     if (!loading) {
+      // Splash mais curto para resposta imediata
       const splashTimeout = setTimeout(() => {
-        if (!hasPin && !data.onboarded) {
+        if (hasPin) {
           setStep('AUTH');
-        } else if (hasPin) {
-          setStep('AUTH');
+        } else if (!data.onboarded) {
+          setStep('ONBOARDING');
         } else {
           setStep('DASHBOARD');
         }
-      }, 2500);
+      }, 1500);
       return () => clearTimeout(splashTimeout);
     }
   }, [loading, hasPin, data.onboarded]);
@@ -110,7 +107,10 @@ export default function Home(props: {
                 inputMode="numeric"
                 maxLength={4}
                 value={pinInput}
-                onChange={(e) => setPinInput(e.target.value.replace(/\D/g, ''))}
+                onChange={(e) => {
+                  setError('');
+                  setPinInput(e.target.value.replace(/\D/g, ''));
+                }}
                 className="text-center text-2xl tracking-[1em] h-14 bg-muted/50 border-none focus:ring-1 focus:ring-primary"
                 placeholder="****"
               />
