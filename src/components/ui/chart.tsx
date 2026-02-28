@@ -1,3 +1,4 @@
+
 "use client"
 
 import * as React from "react"
@@ -68,9 +69,12 @@ const ChartContainer = React.forwardRef<
 ChartContainer.displayName = "Chart"
 
 const ChartStyle = ({ id, config }: { id: string; config: ChartConfig }) => {
-  const colorConfig = Object.entries(config).filter(
-    ([, config]) => config.theme || config.color
-  )
+  const colorConfig = React.useMemo(() => {
+    if (!config || typeof config !== "object") return []
+    return Object.entries(config).filter(
+      ([, itemConfig]) => (itemConfig as any).theme || (itemConfig as any).color
+    )
+  }, [config])
 
   if (!colorConfig.length) {
     return null
@@ -86,8 +90,8 @@ ${prefix} [data-chart=${id}] {
 ${colorConfig
   .map(([key, itemConfig]) => {
     const color =
-      itemConfig.theme?.[theme as keyof typeof itemConfig.theme] ||
-      itemConfig.color
+      (itemConfig as any).theme?.[theme as keyof typeof THEMES] ||
+      (itemConfig as any).color
     return color ? `  --color-${key}: ${color};` : null
   })
   .join("\n")}
@@ -330,24 +334,22 @@ function getPayloadConfigFromPayload(
     "payload" in payload &&
     typeof payload.payload === "object" &&
     payload.payload !== null
-      ? payload.payload
+      ? (payload as any).payload
       : undefined
 
   let configLabelKey: string = key
 
   if (
-    key in payload &&
-    typeof payload[key as keyof typeof payload] === "string"
+    key in (payload as any) &&
+    typeof (payload as any)[key] === "string"
   ) {
-    configLabelKey = payload[key as keyof typeof payload] as string
+    configLabelKey = (payload as any)[key] as string
   } else if (
     payloadPayload &&
     key in payloadPayload &&
-    typeof payloadPayload[key as keyof typeof payloadPayload] === "string"
+    typeof payloadPayload[key] === "string"
   ) {
-    configLabelKey = payloadPayload[
-      key as keyof typeof payloadPayload
-    ] as string
+    configLabelKey = payloadPayload[key] as string
   }
 
   return configLabelKey in config

@@ -1,6 +1,7 @@
+
 "use client";
 
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocalData } from '@/lib/store';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -13,7 +14,16 @@ import SettingsPage from './components/SettingsPage';
 
 type AppStep = 'SPLASH' | 'AUTH' | 'ONBOARDING' | 'DASHBOARD' | 'QUIZ' | 'TOOLKIT' | 'SETTINGS';
 
-export default function Home() {
+interface HomeProps {
+  params: Promise<any>;
+  searchParams: Promise<any>;
+}
+
+export default function Home({ params, searchParams }: HomeProps) {
+  // Unwrapping params even if not used to satisfy Next.js 15 requirements for Client Components
+  React.use(params);
+  React.use(searchParams);
+
   const { data, loading, setPin, verifyPin, hasPin, updateData, clearData } = useLocalData();
   const [step, setStep] = useState<AppStep>('SPLASH');
   const [pinInput, setPinInput] = useState('3344');

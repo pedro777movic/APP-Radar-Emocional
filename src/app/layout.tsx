@@ -1,3 +1,4 @@
+
 import type {Metadata} from 'next';
 import './globals.css';
 import {Toaster} from '@/components/ui/toaster';
@@ -7,11 +8,16 @@ export const metadata: Metadata = {
   description: 'Análise de padrões invisíveis e equilíbrio emocional',
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
-}: Readonly<{
+  params
+}: {
   children: React.ReactNode;
-}>) {
+  params: Promise<any>;
+}) {
+  // Explicitly awaiting params to satisfy Next.js 15 requirements
+  await params;
+
   return (
     <html lang="pt-BR">
       <head>
