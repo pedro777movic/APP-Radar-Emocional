@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useEffect, useState } from 'react';
@@ -14,17 +13,7 @@ import SettingsPage from './components/SettingsPage';
 
 type AppStep = 'SPLASH' | 'AUTH' | 'ONBOARDING' | 'DASHBOARD' | 'QUIZ' | 'TOOLKIT' | 'SETTINGS';
 
-export default function Home({
-  params,
-  searchParams,
-}: {
-  params: Promise<any>;
-  searchParams: Promise<any>;
-}) {
-  // Correctly unwrap promises in Client Component using React.use()
-  React.use(params);
-  React.use(searchParams);
-
+export default function Home() {
   const { data, loading, setPin, verifyPin, hasPin, updateData, clearData } = useLocalData();
   const [step, setStep] = useState<AppStep>('SPLASH');
   const [pinInput, setPinInput] = useState('3344');
