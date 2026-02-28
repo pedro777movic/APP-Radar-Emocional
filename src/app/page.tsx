@@ -16,7 +16,7 @@ type AppStep = 'SPLASH' | 'AUTH' | 'ONBOARDING' | 'DASHBOARD' | 'QUIZ' | 'TOOLKI
 export default function Home() {
   const { data, loading, setPin, verifyPin, hasPin, updateData, clearData } = useLocalData();
   const [step, setStep] = useState<AppStep>('SPLASH');
-  const [pinInput, setPinInput] = useState('3344');
+  const [pinInput, setPinInput] = useState('');
   const [error, setError] = useState('');
 
   useEffect(() => {
@@ -44,6 +44,18 @@ export default function Home() {
   };
 
   const handleLogin = () => {
+    setError('');
+    
+    if (pinInput.length === 0) {
+      setError('Digite o seu PIN');
+      return;
+    }
+
+    if (pinInput.length < 4) {
+      setError('O PIN deve ter 4 dígitos');
+      return;
+    }
+
     if (verifyPin(pinInput)) {
       if (!data.onboarded) setStep('ONBOARDING');
       else setStep('DASHBOARD');
@@ -102,6 +114,7 @@ export default function Home() {
               <Input
                 type="password"
                 inputMode="numeric"
+                pattern="[0-9]*"
                 maxLength={4}
                 value={pinInput}
                 onChange={(e) => {
@@ -109,7 +122,11 @@ export default function Home() {
                   const val = e.target.value.replace(/\D/g, '');
                   setPinInput(val);
                 }}
-                onKeyDown={(e) => e.key === 'Enter' && pinInput.length === 4 && handleLogin()}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' && pinInput.length === 4) {
+                    handleLogin();
+                  }
+                }}
                 className="text-center text-2xl tracking-[1em] h-14 bg-muted/50 border-none focus:ring-1 focus:ring-primary"
                 placeholder="****"
               />
@@ -118,13 +135,13 @@ export default function Home() {
 
             <Button
               className="w-full h-12 text-md font-semibold glow-primary"
-              onClick={hasPin ? handleLogin : handleCreatePin}
+              onClick={handleLogin}
               disabled={pinInput.length !== 4}
             >
-              {hasPin ? 'Entrar' : 'Criar PIN'}
+              Entrar
             </Button>
 
-            {!hasPin && (
+            {!data.onboarded && (
               <button
                 onClick={enterAsGuest}
                 className="w-full text-sm text-muted-foreground py-2 hover:text-foreground transition-colors flex items-center justify-center gap-1"
