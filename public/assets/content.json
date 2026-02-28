@@ -1,83 +1,98 @@
 
 {
   "quiz": {
+    "questions": [
+      { "id": "q1", "text": "Ele inclui você em planos de médio ou longo prazo?", "category": "investimento", "weight": 3, "reverse": true },
+      { "id": "q2", "text": "Ele demonstra iniciativa para marcar encontros?", "category": "investimento", "weight": 2, "reverse": true },
+      { "id": "q3", "text": "As respostas às suas mensagens são rápidas e consistentes?", "category": "consistencia", "weight": 2, "reverse": true },
+      { "id": "q4", "text": "Você sente que precisa puxar a energia da relação?", "category": "reciprocidade", "weight": 3, "reverse": false },
+      { "id": "q5", "text": "Ele compartilha detalhes da rotina espontaneamente?", "category": "reciprocidade", "weight": 2, "reverse": true },
+      { "id": "q6", "text": "Ele demonstra curiosidade genuína sobre sua vida?", "category": "reciprocidade", "weight": 2, "reverse": true },
+      { "id": "q7", "text": "Ele mantém contato mesmo quando está ocupado?", "category": "consistencia", "weight": 2, "reverse": true },
+      { "id": "q8", "text": "Ele demonstra desconforto quando você reduz levemente a disponibilidade?", "category": "reciprocidade", "weight": 2, "reverse": true },
+      { "id": "q9", "text": "Ele demonstra orgulho ao ser visto com você?", "category": "prioridade", "weight": 2, "reverse": true },
+      { "id": "q10", "text": "Ele propõe planos com antecedência ou sempre decide na última hora?", "category": "prioridade", "weight": 3, "reverse": true },
+      { "id": "q11", "text": "Ele demonstra esforço quando percebe que pode te perder?", "category": "investimento", "weight": 3, "reverse": true },
+      { "id": "q12", "text": "Você sente imprevisibilidade constante na atitude dele?", "category": "consistencia", "weight": 3, "reverse": false }
+    ],
     "answerScores": {
       "yes": 100,
       "sometimes": 50,
       "no": 0
-    },
-    "questions": [
-      { "id": "q1", "text": "Ele inclui você em planos de médio ou longo prazo?" },
-      { "id": "q2", "text": "Ele demonstra iniciativa para marcar encontros?" },
-      { "id": "q3", "text": "As respostas às suas mensagens são rápidas e consistentes?" },
-      { "id": "q4", "text": "Você sente que precisa puxar a energia da relação?" },
-      { "id": "q5", "text": "Ele compartilha detalhes da rotina espontaneamente?" },
-      { "id": "q6", "text": "Ele demonstra curiosidade genuína sobre sua vida?" },
-      { "id": "q7", "text": "Ele mantém contato mesmo quando está ocupado?" },
-      { "id": "q8", "text": "Ele demonstra desconforto quando você reduz levemente a disponibilidade?" },
-      { "id": "q9", "text": "Ele demonstra orgulho ao ser visto com você?" },
-      { "id": "q10", "text": "Ele propõe planos com antecedência ou sempre decide na última hora?" },
-      { "id": "q11", "text": "Ele demonstra esforço quando percebe que pode te perder?" },
-      { "id": "q12", "text": "Você sente estabilidade ou imprevisibilidade constante na atitude dele?" }
-    ]
+    }
   },
   "expandedResults": {
     "low": {
       "title": "Equilíbrio Estratégico",
-      "label": "low",
-      "text": "Sua dinâmica atual apresenta sinais de alta reciprocidade e investimento. O radar indica que você detém o controle emocional da situação, permitindo uma construção sólida e segura.",
+      "text": "Sua dinâmica atual apresenta baixo risco. Há sinais claros de interesse e uma estrutura de reciprocidade saudável. O foco agora é manter a autonomia e não acelerar o processo desnecessariamente.",
       "plan": [
-        { "id": "l1", "title": "Manter o Mistério", "action": "Preservação", "description": "Não revele todas as suas cartas. Mantenha um espaço individual saudável para que a curiosidade dele continue ativa." },
-        { "id": "l2", "title": "Recompensas Variáveis", "action": "Reforço", "description": "Seja calorosa quando ele investir, mas mantenha sua rotina prioritária. Isso reforça que sua atenção é um prêmio conquistado." }
+        { "id": "p1", "title": "Manutenção da Autonomia", "action": "ESPAÇO", "description": "Continue investindo em seus projetos pessoais para manter o valor percebido alto." },
+        { "id": "p2", "title": "Validação Positiva", "action": "REFORÇO", "description": "Retribua iniciativas de forma proporcional, sem exceder o investimento dele." }
       ]
     },
     "medium": {
       "title": "Atenção Tática",
-      "label": "medium",
-      "text": "Existem oscilações na consistência dele. O radar detectou que o investimento não é linear, o que pode gerar ansiedade. É hora de recalibrar sua disponibilidade.",
+      "text": "Existem oscilações que exigem atenção. O radar detectou pontos de interrogação na consistência ou no investimento. É o momento de observar mais e agir menos, deixando que ele preencha os espaços vazios.",
       "plan": [
-        { "id": "m1", "title": "Espelhamento de Energia", "action": "Recalibragem", "description": "Reduza sua iniciativa em 30%. Deixe que ele sinta o vácuo da sua ausência para testar se ele buscará preenchê-lo." },
-        { "id": "m2", "title": "Foco Interno Ativo", "action": "Proteção", "description": "Retome um hobby ou compromisso que você deixou de lado. Sua energia precisa voltar para o seu próprio centro." }
+        { "id": "p3", "title": "Recuo Estratégico", "action": "OBSERVAÇÃO", "description": "Reduza sua disponibilidade em 20% e observe se ele aumenta o esforço para te alcançar." },
+        { "id": "p4", "title": "Quebra de Padrão", "action": "MISTÉRIO", "description": "Pare de ser a primeira a iniciar conversas por 3 dias seguidos." }
       ]
     },
     "high": {
-      "title": "Alerta de Desequilíbrio",
-      "label": "high",
-      "text": "O radar indica um alto risco de desinvestimento por parte dele ou uma dinâmica de migalhas emocionais. Você está investindo muito mais do que recebe, o que compromete seu valor percebido.",
+      "title": "Alto Risco / Alerta",
+      "text": "O radar indica um desequilíbrio crítico. Você está investindo muito mais do que recebe, o que gera perda de valor e ansiedade. É necessário um choque de realidade e um reposicionamento imediato de postura.",
       "plan": [
-        { "id": "h1", "title": "Retirada Estratégica", "action": "Contenção", "description": "Corte iniciativas de contato por 72 horas. O silêncio é a ferramenta mais poderosa para recuperar o respeito em situações de desequilíbrio." },
-        { "id": "h2", "title": "Padrão de Indisponibilidade", "action": "Valorização", "description": "Quando ele procurar, demore a responder. Mostre que sua vida seguiu e que você não está mais 'na espera' das decisões dele." }
+        { "id": "p5", "title": "Desconexão Total Temporária", "action": "PODER", "description": "Entre em modo 'Ghosting Estratégico'. Não visualize ou responda instantaneamente. Recupere seu centro." },
+        { "id": "p6", "title": "Reativação de Contatos", "action": "VALOR", "description": "Saia com amigas e poste algo que mostre que sua felicidade não depende da validação dele." }
       ]
     }
   },
-  "messageTemplates": {
+  "categoryInsights": {
+    "investimento": {
+      "name": "Investimento",
+      "insight": "O ponto mais fraco é o Investimento. Ele não está projetando futuro ou colocando energia real para construir algo sólido. Sem investimento, a relação é apenas conveniência."
+    },
+    "consistencia": {
+      "name": "Consistência",
+      "insight": "A Consistência está em alerta. Comportamento montanha-russa gera dependência emocional. Ele aparece e some, o que indica que ele está testando seu limite de espera."
+    },
+    "prioridade": {
+      "name": "Prioridade",
+      "insight": "Você não é a Prioridade. Planos de última hora e falta de orgulho público indicam que você está sendo mantida em uma 'reserva estratégica' enquanto ele decide outras opções."
+    },
+    "reciprocidade": {
+      "name": "Reciprocidade",
+      "insight": "Falta Reciprocidade. Você está carregando o piano sozinha. Esse esforço unilateral é exaustivo e comunica que você aceita migalhas em troca de atenção."
+    }
+  },
+  "templates": {
     "Curiosidade": [
-      "Acabei de ver algo que me lembrou de uma conversa nossa, mas acho que você não ia acreditar se eu contasse agora.",
-      "Você não vai acreditar no que aconteceu hoje. Quando a gente se falar eu te conto."
+      "Oi! Vi algo que me lembrou de uma conversa nossa, mas depois te conto. Boa semana!",
+      "Achei curioso aquilo que você disse... enfim, focado aqui agora. Falamos depois."
     ],
-    "Leveza": [
-      "Vi isso e lembrei de você. Espero que seu dia esteja sendo produtivo!",
-      "Passando para desejar uma ótima semana. Muita correria por aqui, mas tudo fluindo."
+    "Distância": [
+      "Oi! Estou com a semana bem corrida por aqui, depois nos falamos com calma!",
+      "Vou dar uma sumidinha para focar nuns projetos, mas está tudo bem por aqui. Beijo!"
     ],
-    "Distanciamento": [
-      "Oi! Vi sua mensagem agora, ando bem focada em uns projetos novos. Como você está?",
-      "Estou em uma fase de resolver muita coisa pessoal, depois nos falamos com calma."
+    "Limite": [
+      "Eu adoro nossos momentos, mas planos de última hora ficam difíceis para mim. Vamos marcar com antecedência?",
+      "Prefiro conversas que fluem dos dois lados. Quando estiver menos ocupado, me avisa."
     ],
-    "Encontro": [
-      "Vou estar naquela região amanhã à tarde. Se estiver livre, podemos tomar um café rápido.",
-      "Quinta-feira vou com umas amigas em um lugar novo. Se quiser aparecer, me avisa."
+    "Reengajamento": [
+      "Apareceu um convite para aquele lugar que comentamos... lembrei de você. Como estão as coisas?",
+      "Passei por aqui e lembrei daquela música. Espero que esteja tudo bem!"
     ]
   },
   "audioScripts": [
-    { "id": "a1", "title": "Gatilho de Escassez", "premium": true },
-    { "id": "a2", "title": "Voz de Autoridade", "premium": true },
-    { "id": "a3", "title": "Riso Descontraído", "premium": false }
+    { "id": "a1", "title": "O Tom da Voz de Escassez", "premium": false },
+    { "id": "a2", "title": "Como soar ocupada e feliz", "premium": true },
+    { "id": "a3", "title": "A resposta perfeita para o 'Sumido'", "premium": true }
   ],
   "theory": {
-    "explanation": "O Radar Emocional baseia-se na Teoria do Investimento de Rusbult e nos princípios da Psicologia Evolutiva sobre valor percebido e escassez.",
+    "explanation": "Baseado na Teoria do Investimento de Rusbult e nos princípios de Escassez Psicológica aplicados à dinâmica de alto valor.",
     "references": [
-      { "author": "Caryl Rusbult", "note": "Modelo de Investimento em Relacionamentos Interpessoais." },
-      { "author": "Robert Cialdini", "note": "Gatilhos Mentais: Escassez e Reciprocidade." }
+      { "author": "Caryl Rusbult", "note": "Modelo de Investimento nas Relações Interpessoais." },
+      { "author": "Robert Cialdini", "note": "Princípios de Influência e Reciprocidade." }
     ]
   }
 }

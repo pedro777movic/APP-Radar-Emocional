@@ -1,8 +1,9 @@
+
 "use client";
 
 import { useLocalData, Session } from '@/lib/store';
 import { Button } from '@/components/ui/button';
-import { Radar, ArrowRight, CheckCircle2, Info, BookOpen } from 'lucide-react';
+import { Radar, ArrowRight, CheckCircle2, Info, BookOpen, Target } from 'lucide-react';
 import contentData from '../../../public/assets/content.json';
 import { useState, useMemo } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
@@ -28,8 +29,8 @@ export default function Dashboard({ onStartQuiz }: { onStartQuiz: () => void }) 
   const getLabelText = (label: string) => {
     switch (label) {
       case 'low': return 'Equilíbrio';
-      case 'medium': return 'Médio';
-      case 'high': return 'Alto';
+      case 'medium': return 'Atenção';
+      case 'high': return 'Alto Risco';
       default: return 'Desconhecido';
     }
   };
@@ -89,10 +90,6 @@ export default function Dashboard({ onStartQuiz }: { onStartQuiz: () => void }) 
             );
           })}
         </div>
-
-        <div className="mt-12 p-6 bg-card rounded-2xl border border-white/5 text-center">
-          <p className="text-xs text-muted-foreground italic">"O segredo do controle emocional é agir com estratégia, não com impulso."</p>
-        </div>
       </div>
     );
   }
@@ -115,27 +112,8 @@ export default function Dashboard({ onStartQuiz }: { onStartQuiz: () => void }) 
         <div className="relative w-64 h-64 mb-10">
           <div className="absolute inset-0 bg-primary/5 rounded-full animate-pulse-glow"></div>
           <svg className="w-full h-full transform -rotate-90">
-            <circle
-              cx="128"
-              cy="128"
-              r="115"
-              stroke="currentColor"
-              strokeWidth="10"
-              fill="transparent"
-              className="text-muted/20"
-            />
-            <circle
-              cx="128"
-              cy="128"
-              r="115"
-              stroke="currentColor"
-              strokeWidth="10"
-              fill="transparent"
-              strokeDasharray={722.5}
-              strokeDashoffset={722.5 - (722.5 * (lastSession?.score || 0)) / 100}
-              className="text-primary transition-all duration-1000 ease-out"
-              strokeLinecap="round"
-            />
+            <circle cx="128" cy="128" r="115" stroke="currentColor" strokeWidth="10" fill="transparent" className="text-muted/20" />
+            <circle cx="128" cy="128" r="115" stroke="currentColor" strokeWidth="10" fill="transparent" strokeDasharray={722.5} strokeDashoffset={722.5 - (722.5 * (lastSession?.score || 0)) / 100} className="text-primary transition-all duration-1000 ease-out" strokeLinecap="round" />
           </svg>
           <div className="absolute inset-0 flex flex-col items-center justify-center">
             <span className="text-6xl font-headline font-bold tracking-tighter">{lastSession?.score || 0}%</span>
@@ -144,6 +122,16 @@ export default function Dashboard({ onStartQuiz }: { onStartQuiz: () => void }) 
             </span>
           </div>
         </div>
+
+        {lastSession && lastSession.weakestCategory && (
+          <div className="w-full mb-8 p-4 bg-accent/5 rounded-2xl border border-accent/10 flex items-center gap-4">
+            <Target className="w-6 h-6 text-accent shrink-0" />
+            <div>
+              <p className="text-[10px] font-bold text-accent uppercase tracking-widest">Ponto mais crítico:</p>
+              <p className="text-xs font-medium text-foreground">{(contentData.categoryInsights as any)[lastSession.weakestCategory]?.name}</p>
+            </div>
+          </div>
+        )}
 
         <div className="w-full max-w-xs text-center mb-10">
           <h3 className="font-headline font-bold text-lg mb-2">
@@ -158,36 +146,47 @@ export default function Dashboard({ onStartQuiz }: { onStartQuiz: () => void }) 
               <DialogTrigger asChild>
                 <button className="mt-6 flex items-center gap-2 text-[10px] text-primary font-black mx-auto hover:opacity-80 transition-opacity uppercase tracking-widest border-b border-primary/30 pb-1">
                   <Info className="w-3 h-3" />
-                  SAIBA MAIS
+                  DETALHES DA ANÁLISE
                 </button>
               </DialogTrigger>
-              <DialogContent className="bg-card border-white/10 max-w-[90vw] rounded-3xl overflow-y-auto max-h-[85vh] p-0 gap-0">
-                <div className="p-6">
-                  <DialogHeader className="mb-6">
-                    <DialogTitle className="font-headline text-2xl font-bold text-primary text-left">
-                      {contentData.expandedResults[lastSession.label as 'low' | 'medium' | 'high']?.title}
-                    </DialogTitle>
-                  </DialogHeader>
-                  
-                  <div className="text-muted-foreground text-sm leading-relaxed space-y-4">
-                    <p>{contentData.expandedResults[lastSession.label as 'low' | 'medium' | 'high']?.text}</p>
-                    
-                    <div className="mt-8 pt-8 border-t border-white/5">
-                      <h4 className="font-bold text-foreground flex items-center gap-2 mb-4 uppercase tracking-widest text-xs">
-                        <BookOpen className="w-4 h-4 text-accent" />
-                        Base Científica
-                      </h4>
-                      <p className="text-xs italic text-muted-foreground mb-6 bg-black/20 p-4 rounded-2xl border border-white/5">
-                        {contentData.theory.explanation}
+              <DialogContent className="bg-card border-white/10 max-w-[90vw] rounded-3xl overflow-y-auto max-h-[85vh] p-6 gap-0">
+                <DialogHeader className="mb-6">
+                  <DialogTitle className="font-headline text-2xl font-bold text-primary text-left">
+                    Diagnóstico Completo
+                  </DialogTitle>
+                </DialogHeader>
+                
+                <div className="space-y-6">
+                  <div className="bg-primary/5 p-4 rounded-2xl border border-primary/10">
+                    <p className="text-sm text-foreground leading-relaxed">
+                      {contentData.expandedResults[lastSession.label as 'low' | 'medium' | 'high']?.text}
+                    </p>
+                  </div>
+
+                  {lastSession.weakestCategory && (
+                    <div className="bg-accent/5 p-4 rounded-2xl border border-accent/10">
+                      <h4 className="text-[10px] font-black text-accent uppercase tracking-widest mb-2">Insight de Especialista:</h4>
+                      <p className="text-xs text-muted-foreground italic leading-relaxed">
+                        {(contentData.categoryInsights as any)[lastSession.weakestCategory]?.insight}
                       </p>
-                      <div className="space-y-3">
-                        {contentData.theory.references.map((ref, idx) => (
-                          <div key={idx} className="bg-muted/10 p-4 rounded-2xl border border-white/5">
-                            <p className="text-[10px] font-black text-foreground uppercase tracking-wider mb-1">{ref.author}</p>
-                            <p className="text-[10px] text-muted-foreground leading-snug">{ref.note}</p>
-                          </div>
-                        ))}
-                      </div>
+                    </div>
+                  )}
+
+                  <div className="pt-6 border-t border-white/5">
+                    <h4 className="font-bold text-foreground flex items-center gap-2 mb-4 uppercase tracking-widest text-xs">
+                      <BookOpen className="w-4 h-4 text-accent" />
+                      Teoria do Radar
+                    </h4>
+                    <p className="text-[10px] italic text-muted-foreground mb-4">
+                      {contentData.theory.explanation}
+                    </p>
+                    <div className="space-y-2">
+                      {contentData.theory.references.map((ref, idx) => (
+                        <div key={idx} className="bg-muted/5 p-3 rounded-xl border border-white/5 text-[10px]">
+                          <span className="font-bold text-foreground block mb-1">{ref.author}</span>
+                          <span className="text-muted-foreground">{ref.note}</span>
+                        </div>
+                      ))}
                     </div>
                   </div>
                 </div>
@@ -207,10 +206,7 @@ export default function Dashboard({ onStartQuiz }: { onStartQuiz: () => void }) 
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Button>
           )}
-          <Button
-            onClick={onStartQuiz}
-            className="w-full h-14 rounded-2xl font-black text-sm glow-primary transition-all active:scale-[0.98]"
-          >
+          <Button onClick={onStartQuiz} className="w-full h-14 rounded-2xl font-black text-sm glow-primary transition-all active:scale-[0.98]">
             {lastSession ? 'REFAZER ANÁLISE' : 'COMEÇAR ANÁLISE'}
           </Button>
         </div>

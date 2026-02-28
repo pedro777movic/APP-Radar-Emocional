@@ -1,3 +1,4 @@
+
 import { useEffect, useState, useCallback } from 'react';
 
 // Simplified encryption simulation for the PIN
@@ -13,6 +14,13 @@ const decrypt = (val: string) => {
 export type QuizResponse = {
   questionId: string;
   value: number;
+  category: string;
+  weight: number;
+};
+
+export type CategorySubscore = {
+  category: string;
+  score: number;
 };
 
 export type Session = {
@@ -21,6 +29,8 @@ export type Session = {
   score: number;
   label: 'low' | 'medium' | 'high';
   responses: QuizResponse[];
+  weakestCategory?: string;
+  subscores?: CategorySubscore[];
 };
 
 export type AppData = {
@@ -52,7 +62,6 @@ export function useLocalData() {
       if (saved) {
         try {
           const parsed = JSON.parse(saved);
-          // Migração/Validação básica
           const validated = {
             ...DEFAULT_DATA,
             ...parsed,

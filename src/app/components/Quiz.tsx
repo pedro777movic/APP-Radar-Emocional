@@ -2,7 +2,7 @@
 "use client";
 
 import { useState, useCallback, useMemo } from 'react';
-import { useLocalData } from '@/lib/store';
+import { useLocalData, QuizResponse, CategorySubscore } from '@/lib/store';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Radar } from 'lucide-react';
@@ -14,41 +14,72 @@ export default function Quiz({ onComplete }: { onComplete: () => void }) {
   const { data, updateData } = useLocalData();
   const [state, setState] = useState<QuizState>('QUESTIONS');
   const [currentIdx, setCurrentIdx] = useState(0);
-  const [responses, setResponses] = useState<any[]>([]);
+  const [responses, setResponses] = useState<QuizResponse[]>([]);
 
-  // Seleciona 4 perguntas aleatórias do banco de 12 no início da sessão
+  // Seleciona 4 perguntas aleatórias do banco de 12
   const activeQuestions = useMemo(() => {
     const pool = [...contentData.quiz.questions];
-    // Fisher-Yates shuffle
     for (let i = pool.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [pool[i], pool[j]] = [pool[j], pool[i]];
     }
-    // Retorna apenas as 4 primeiras
     return pool.slice(0, 4);
   }, []);
 
-  const calculateResult = useCallback((finalResponses: any[]) => {
+  const calculateResult = useCallback((finalResponses: QuizResponse[]) => {
     setState('ANALYZING');
 
     setTimeout(() => {
-      if (activeQuestions.length === 0) return;
+      // 1. Cálculo do Score Total Ponderado
+      let weightedSum = 0;
+      let totalWeight = 0;
 
-      const sum = finalResponses.reduce((acc, curr) => acc + curr.value, 0);
-      // O cálculo continua proporcional ao número de perguntas selecionadas (sempre 4)
-      let score = Math.round(sum / activeQuestions.length);
-      score = Math.max(0, Math.min(100, score));
+      finalResponses.forEach(resp => {
+        weightedSum += resp.value * resp.weight;
+        totalWeight += resp.weight;
+      });
+
+      const finalScore = Math.round(weightedSum / totalWeight);
+      const normalizedScore = Math.max(0, Math.min(100, finalScore));
+
+      // 2. Cálculo de Subscores por Categoria
+      const categories = ['investimento', 'consistencia', 'prioridade', 'reciprocidade'];
+      const subscores: CategorySubscore[] = categories.map(cat => {
+        const catResponses = finalResponses.filter(r => r.category === cat);
+        if (catResponses.length === 0) return { category: cat, score: -1 };
+
+        let catSum = 0;
+        let catWeight = 0;
+        catResponses.forEach(r => {
+          catSum += r.value * r.weight;
+          catWeight += r.weight;
+        });
+        return { category: cat, score: Math.round(catSum / catWeight) };
+      }).filter(s => s.score !== -1);
+
+      // 3. Identificar Categoria Crítica (maior risco proporcional)
+      let weakestCategory = subscores.length > 0 ? subscores[0].category : '';
+      let maxCatScore = subscores.length > 0 ? subscores[0].score : 0;
+
+      subscores.forEach(s => {
+        if (s.score > maxCatScore) {
+          maxCatScore = s.score;
+          weakestCategory = s.category;
+        }
+      });
 
       let label: 'low' | 'medium' | 'high' = 'low';
-      if (score >= 67) label = 'high';
-      else if (score >= 34) label = 'medium';
+      if (normalizedScore >= 67) label = 'high';
+      else if (normalizedScore >= 34) label = 'medium';
 
       const session = {
         id: Math.random().toString(36).substring(2, 11),
         timestamp: Date.now(),
-        score,
+        score: normalizedScore,
         label,
-        responses: finalResponses
+        responses: finalResponses,
+        weakestCategory,
+        subscores
       };
 
       updateData({
@@ -58,10 +89,29 @@ export default function Quiz({ onComplete }: { onComplete: () => void }) {
 
       setState('RESULT');
     }, 2500);
-  }, [data.sessions, updateData, activeQuestions.length]);
+  }, [data.sessions, updateData]);
 
   const handleAnswer = (val: number) => {
-    const newResponses = [...responses, { questionId: activeQuestions[currentIdx].id, value: val }];
+    const q = activeQuestions[currentIdx];
+    
+    // Se a pergunta for "reversa", o score deve ser invertido
+    // No nosso JSON, Sim=100 significa ALTO RISCO. 
+    // Se a pergunta for "Ele inclui você em planos?", Sim é BOM (baixo risco).
+    // Logo, se reverse=true, Sim (100) vira 0, e Não (0) vira 100.
+    let finalVal = val;
+    if (q.reverse) {
+      finalVal = 100 - val;
+    }
+
+    const newResponses = [
+      ...responses, 
+      { 
+        questionId: q.id, 
+        value: finalVal, 
+        category: q.category, 
+        weight: q.weight 
+      }
+    ];
     setResponses(newResponses);
 
     if (currentIdx < activeQuestions.length - 1) {
@@ -114,7 +164,7 @@ export default function Quiz({ onComplete }: { onComplete: () => void }) {
           </div>
         </div>
         <p className="text-center text-[10px] font-bold text-muted-foreground mt-8 uppercase tracking-widest">
-          Seja honesta consigo mesma para um resultado preciso.
+          O motor psicológico está analisando suas respostas em tempo real.
         </p>
       </div>
     );
@@ -127,11 +177,11 @@ export default function Quiz({ onComplete }: { onComplete: () => void }) {
           <div className="absolute inset-0 bg-primary/20 blur-3xl rounded-full scale-150 animate-pulse"></div>
           <Radar className="w-20 h-20 text-primary relative z-10 animate-spin-slow" />
         </div>
-        <h2 className="text-2xl font-headline font-bold mb-4">Radar ativado...</h2>
+        <h2 className="text-2xl font-headline font-bold mb-4">Motor Ativado...</h2>
         <div className="space-y-2">
-          <p className="text-muted-foreground animate-pulse text-xs font-bold uppercase tracking-widest">Calculando padrão emocional...</p>
-          <p className="text-muted-foreground animate-pulse delay-75 text-xs font-bold uppercase tracking-widest">Organizando sinais de interesse...</p>
-          <p className="text-muted-foreground animate-pulse delay-150 text-xs font-bold uppercase tracking-widest">Mapeando reciprocidade...</p>
+          <p className="text-muted-foreground animate-pulse text-xs font-bold uppercase tracking-widest">Calculando pesos categoriais...</p>
+          <p className="text-muted-foreground animate-pulse delay-75 text-xs font-bold uppercase tracking-widest">Mapeando sub-dimensões...</p>
+          <p className="text-muted-foreground animate-pulse delay-150 text-xs font-bold uppercase tracking-widest">Cruzando variáveis de risco...</p>
         </div>
       </div>
     );
@@ -140,19 +190,27 @@ export default function Quiz({ onComplete }: { onComplete: () => void }) {
   if (state === 'RESULT') {
     const lastSession = data.sessions[data.sessions.length - 1];
     const rangeData = contentData.expandedResults[lastSession.label as 'low' | 'medium' | 'high'];
+    const categoryInsight = lastSession.weakestCategory ? (contentData.categoryInsights as any)[lastSession.weakestCategory] : null;
 
     return (
       <div className="p-6 h-full flex flex-col animate-slide-up text-center justify-center">
-        <div className="mb-10">
+        <div className="mb-6">
           <h1 className="text-7xl font-headline font-bold text-primary mb-2 tracking-tighter">{lastSession.score}%</h1>
           <div className="inline-block px-4 py-1.5 bg-primary/10 rounded-full text-primary font-black uppercase tracking-widest text-[10px] border border-primary/20">
             {rangeData.title}
           </div>
         </div>
 
-        <div className="bg-card p-6 rounded-3xl border border-white/5 mb-10 text-left shadow-2xl">
-          <h3 className="text-xs font-black uppercase tracking-widest text-primary mb-3">Análise Estratégica:</h3>
-          <p className="text-muted-foreground leading-relaxed text-sm font-medium">{rangeData.text}</p>
+        <div className="bg-card p-6 rounded-3xl border border-white/5 mb-4 text-left shadow-2xl">
+          <h3 className="text-xs font-black uppercase tracking-widest text-primary mb-3">Diagnóstico Adaptativo:</h3>
+          <p className="text-muted-foreground leading-relaxed text-sm font-medium mb-4">{rangeData.text}</p>
+          
+          {categoryInsight && (
+            <div className="mt-4 pt-4 border-t border-white/5">
+              <span className="text-[10px] font-black bg-accent/20 text-accent px-2 py-0.5 rounded-full uppercase tracking-tighter mb-2 inline-block">Foco Crítico: {categoryInsight.name}</span>
+              <p className="text-xs text-muted-foreground italic leading-relaxed">{categoryInsight.insight}</p>
+            </div>
+          )}
         </div>
 
         <Button 
@@ -161,9 +219,6 @@ export default function Quiz({ onComplete }: { onComplete: () => void }) {
         >
           Ver meu plano estratégico
         </Button>
-        <p className="text-[10px] text-muted-foreground mt-8 font-bold uppercase tracking-widest opacity-50">
-          Se não fizer sentido, refaça a qualquer momento.
-        </p>
       </div>
     );
   }
