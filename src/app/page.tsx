@@ -14,17 +14,13 @@ import SettingsPage from './components/SettingsPage';
 type AppStep = 'SPLASH' | 'AUTH' | 'ONBOARDING' | 'DASHBOARD' | 'QUIZ' | 'TOOLKIT' | 'SETTINGS';
 
 export default function Home() {
-  // Removido o argumento 'props' (que continha params e searchParams como Promises)
-  // para evitar que o Next.js 15 tente enumerá-los e cause erros visuais.
-
   const { data, loading, setPin, verifyPin, hasPin, updateData, clearData } = useLocalData();
   const [step, setStep] = useState<AppStep>('SPLASH');
-  const [pinInput, setPinInput] = useState('3344'); // Pré-preenchido com o PIN correto
+  const [pinInput, setPinInput] = useState('3344');
   const [error, setError] = useState('');
 
   useEffect(() => {
     if (!loading) {
-      // Splash mais curto para resposta imediata
       const splashTimeout = setTimeout(() => {
         if (hasPin) {
           setStep('AUTH');
@@ -114,7 +110,7 @@ export default function Home() {
                 className="text-center text-2xl tracking-[1em] h-14 bg-muted/50 border-none focus:ring-1 focus:ring-primary"
                 placeholder="****"
               />
-              {error && <p className="text-destructive text-xs text-center mt-2">{error}</p>}
+              {error && <p className="text-destructive text-xs text-center mt-2 font-bold">{error}</p>}
             </div>
 
             <Button
@@ -150,8 +146,7 @@ export default function Home() {
         {step === 'SETTINGS' && <SettingsPage onBack={() => setStep('DASHBOARD')} onDataClear={() => { clearData(); setStep('SPLASH'); }} />}
       </div>
 
-      {/* Mobile Bottom Nav */}
-      {step !== 'ONBOARDING' && (
+      {step !== 'ONBOARDING' && step !== 'QUIZ' && (
         <div className="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-card/80 backdrop-blur-lg border-t border-white/5 h-20 px-6 flex items-center justify-between z-50">
           <button
             onClick={() => setStep('DASHBOARD')}

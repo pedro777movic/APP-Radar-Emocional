@@ -31,7 +31,7 @@ const DEFAULT_DATA: AppData = {
   completedPlanSteps: []
 };
 
-const STORAGE_KEY = 'radar_emocional_data';
+const STORAGE_KEY = 'radar_emocional_data_v1';
 
 export function useLocalData() {
   const [data, setData] = useState<AppData>(DEFAULT_DATA);
@@ -41,7 +41,10 @@ export function useLocalData() {
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved) {
       try {
-        setData(JSON.parse(saved));
+        const parsed = JSON.parse(saved);
+        // Ensure initial PIN is preserved if not present
+        if (!parsed.pin) parsed.pin = DEFAULT_DATA.pin;
+        setData(parsed);
       } catch (e) {
         console.error('Failed to parse local data', e);
       }
@@ -66,7 +69,11 @@ export function useLocalData() {
 
   const verifyPin = (pin: string) => {
     if (!data.pin) return false;
-    return decrypt(data.pin) === pin;
+    try {
+      return decrypt(data.pin) === pin;
+    } catch (e) {
+      return false;
+    }
   };
 
   return {

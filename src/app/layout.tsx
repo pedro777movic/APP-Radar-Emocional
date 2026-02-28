@@ -12,9 +12,6 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  // Removido o argumento 'params' e a necessidade de 'async/await' para evitar 
-  // erros de enumeração do Next.js 15 quando as props não são utilizadas.
-  
   return (
     <html lang="pt-BR">
       <head>
