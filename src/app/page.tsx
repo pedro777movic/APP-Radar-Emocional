@@ -15,14 +15,15 @@ import SettingsPage from './components/SettingsPage';
 type AppStep = 'SPLASH' | 'AUTH' | 'ONBOARDING' | 'DASHBOARD' | 'QUIZ' | 'TOOLKIT' | 'SETTINGS';
 
 export default function Home() {
-  const { data, loading, setPin, verifyPin, hasPin, updateData, clearData } = useLocalData();
+  const { data, loading, verifyPin, hasPin, updateData, clearData } = useLocalData();
   const [step, setStep] = useState<AppStep>('SPLASH');
   const [pinInput, setPinInput] = useState('');
   const [error, setError] = useState('');
 
-  // Gerenciador de navegação inicial e transições de segurança
+  // Gerenciador de navegação inicial (Splash -> Auth/Onboarding/Dashboard)
+  // Corrigido: Agora só executa se o step atual for 'SPLASH', evitando loops pós-login
   useEffect(() => {
-    if (!loading) {
+    if (!loading && step === 'SPLASH') {
       const splashTimeout = setTimeout(() => {
         if (hasPin) {
           setStep('AUTH');
@@ -52,7 +53,6 @@ export default function Home() {
     if (verifyPin(pinInput)) {
       if (!data.onboarded) setStep('ONBOARDING');
       else setStep('DASHBOARD');
-      // Limpa o input após sucesso para evitar resíduos em caso de logout/reset futuro
       setPinInput('');
     } else {
       setError('PIN incorreto');
@@ -65,12 +65,11 @@ export default function Home() {
     setStep('DASHBOARD');
   };
 
-  // Função de reset blindada para garantir retorno à tela de PIN funcional
   const handleFullReset = () => {
-    clearData(); // Limpa LocalStorage
-    setPinInput(''); // Limpa campo de texto
-    setError(''); // Limpa erros
-    setStep('SPLASH'); // Reinicia fluxo
+    clearData();
+    setPinInput('');
+    setError('');
+    setStep('SPLASH');
   };
 
   if (loading || step === 'SPLASH') {
