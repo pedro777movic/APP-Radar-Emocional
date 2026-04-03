@@ -3,19 +3,42 @@
 
 import { useLocalData, Session } from '@/lib/store';
 import { Button } from '@/components/ui/button';
-import { Radar, ArrowRight, CheckCircle2, Info, BookOpen, Target } from 'lucide-react';
+import { Radar, ArrowRight, CheckCircle2, Info, BookOpen, Target, Flame, Zap } from 'lucide-react';
 import contentData from '../../../public/assets/content.json';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 
-export default function Dashboard({ onStartQuiz }: { onStartQuiz: () => void }) {
+export default function Dashboard({ onStartQuiz, onOpenProtocol }: { onStartQuiz: () => void, onOpenProtocol: () => void }) {
   const { data, updateData } = useLocalData();
   const [showPlan, setShowPlan] = useState(false);
+  const [timeLeft, setTimeLeft] = useState<string>('');
 
   const lastSession = useMemo(() => {
     if (!data.sessions || data.sessions.length === 0) return null;
     return data.sessions[data.sessions.length - 1];
   }, [data.sessions]);
+
+  useEffect(() => {
+    if (!lastSession?.protocolStartTime) return;
+
+    const timer = setInterval(() => {
+      const now = Date.now();
+      const end = lastSession.protocolStartTime! + 24 * 60 * 60 * 1000;
+      const diff = end - now;
+
+      if (diff <= 0) {
+        setTimeLeft('EXPIRADO');
+        clearInterval(timer);
+      } else {
+        const h = Math.floor(diff / (1000 * 60 * 60));
+        const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const s = Math.floor((diff % (1000 * 60)) / 1000);
+        setTimeLeft(`${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`);
+      }
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [lastSession]);
 
   const getLabelColor = (label: string) => {
     switch (label) {
@@ -124,11 +147,32 @@ export default function Dashboard({ onStartQuiz }: { onStartQuiz: () => void }) 
         </div>
 
         {lastSession && lastSession.weakestCategory && (
-          <div className="w-full mb-8 p-4 bg-accent/5 rounded-2xl border border-accent/10 flex items-center gap-4">
+          <div className="w-full mb-4 p-4 bg-accent/5 rounded-2xl border border-accent/10 flex items-center gap-4">
             <Target className="w-6 h-6 text-accent shrink-0" />
             <div>
               <p className="text-[10px] font-bold text-accent uppercase tracking-widest">Ponto mais crítico:</p>
               <p className="text-xs font-medium text-foreground">{(contentData.categoryInsights as any)[lastSession.weakestCategory]?.name}</p>
+            </div>
+          </div>
+        )}
+
+        {lastSession && (
+          <div className="w-full mb-8 p-5 bg-primary/10 rounded-2xl border border-primary/20 flex flex-col gap-3 relative overflow-hidden group cursor-pointer" onClick={onOpenProtocol}>
+            <div className="absolute top-0 right-0 p-2 opacity-20 group-hover:scale-110 transition-transform">
+              <Flame className="w-12 h-12 text-primary" />
+            </div>
+            <div className="flex items-center justify-between">
+              <h3 className="text-sm font-black text-primary uppercase tracking-tighter flex items-center gap-2">
+                <Zap className="w-4 h-4 fill-primary" />
+                Protocolo de Reação Ativado
+              </h3>
+              <span className="text-[10px] font-mono font-bold text-primary tabular-nums">{timeLeft}</span>
+            </div>
+            <p className="text-[11px] text-foreground leading-tight">
+              Ações imediatas recomendadas para o seu nível de esfriamento.
+            </p>
+            <div className="flex items-center gap-1 text-[10px] font-bold text-primary uppercase tracking-widest mt-1">
+              ACESSAR AGORA <ArrowRight className="w-3 h-3" />
             </div>
           </div>
         )}
@@ -138,61 +182,8 @@ export default function Dashboard({ onStartQuiz }: { onStartQuiz: () => void }) 
             {lastSession ? contentData.expandedResults[lastSession.label as 'low' | 'medium' | 'high']?.title : 'Pronta para sua análise?'}
           </h3>
           <p className="text-xs text-muted-foreground px-4 leading-relaxed">
-            {lastSession ? 'Sua dinâmica atual exige atenção estratégica.' : 'Entenda o que está acontecendo nos bastidores da sua relação.'}
+            {lastSession ? 'Sua dinâmica exige uma intervenção estratégica imediata.' : 'Entenda o que está acontecendo nos bastidores da sua relação.'}
           </p>
-          
-          {lastSession && (
-            <Dialog>
-              <DialogTrigger asChild>
-                <button className="mt-6 flex items-center gap-2 text-[10px] text-primary font-black mx-auto hover:opacity-80 transition-opacity uppercase tracking-widest border-b border-primary/30 pb-1">
-                  <Info className="w-3 h-3" />
-                  DETALHES DA ANÁLISE
-                </button>
-              </DialogTrigger>
-              <DialogContent className="bg-card border-white/10 max-w-[90vw] rounded-3xl overflow-y-auto max-h-[85vh] p-6 gap-0">
-                <DialogHeader className="mb-6">
-                  <DialogTitle className="font-headline text-2xl font-bold text-primary text-left">
-                    Diagnóstico Completo
-                  </DialogTitle>
-                </DialogHeader>
-                
-                <div className="space-y-6">
-                  <div className="bg-primary/5 p-4 rounded-2xl border border-primary/10">
-                    <p className="text-sm text-foreground leading-relaxed">
-                      {contentData.expandedResults[lastSession.label as 'low' | 'medium' | 'high']?.text}
-                    </p>
-                  </div>
-
-                  {lastSession.weakestCategory && (
-                    <div className="bg-accent/5 p-4 rounded-2xl border border-accent/10">
-                      <h4 className="text-[10px] font-black text-accent uppercase tracking-widest mb-2">Insight de Especialista:</h4>
-                      <p className="text-xs text-muted-foreground italic leading-relaxed">
-                        {(contentData.categoryInsights as any)[lastSession.weakestCategory]?.insight}
-                      </p>
-                    </div>
-                  )}
-
-                  <div className="pt-6 border-t border-white/5">
-                    <h4 className="font-bold text-foreground flex items-center gap-2 mb-4 uppercase tracking-widest text-xs">
-                      <BookOpen className="w-4 h-4 text-accent" />
-                      Teoria do Radar
-                    </h4>
-                    <p className="text-[10px] italic text-muted-foreground mb-4">
-                      {contentData.theory.explanation}
-                    </p>
-                    <div className="space-y-2">
-                      {contentData.theory.references.map((ref, idx) => (
-                        <div key={idx} className="bg-muted/5 p-3 rounded-xl border border-white/5 text-[10px]">
-                          <span className="font-bold text-foreground block mb-1">{ref.author}</span>
-                          <span className="text-muted-foreground">{ref.note}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </DialogContent>
-            </Dialog>
-          )}
         </div>
 
         <div className="w-full space-y-3">
@@ -202,12 +193,12 @@ export default function Dashboard({ onStartQuiz }: { onStartQuiz: () => void }) 
               onClick={() => setShowPlan(true)}
               className="w-full h-14 rounded-2xl border-white/10 hover:bg-card flex justify-between px-6 transition-all group"
             >
-              <span className="font-bold text-sm">Ver plano estratégico</span>
+              <span className="font-bold text-sm">Ver análise detalhada</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Button>
           )}
           <Button onClick={onStartQuiz} className="w-full h-14 rounded-2xl font-black text-sm glow-primary transition-all active:scale-[0.98]">
-            {lastSession ? 'REFAZER ANÁLISE' : 'COMEÇAR ANÁLISE'}
+            {lastSession ? 'REFAZER RADAR' : 'COMEÇAR ANÁLISE'}
           </Button>
         </div>
       </div>

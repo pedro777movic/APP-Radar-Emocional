@@ -5,14 +5,15 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { useLocalData } from '@/lib/store';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { ShieldCheck, Radar, ChevronRight, UserCircle, Settings } from 'lucide-react';
+import { ShieldCheck, Radar, ChevronRight, UserCircle, Settings, Flame } from 'lucide-react';
 import Onboarding from './components/Onboarding';
 import Dashboard from './components/Dashboard';
 import Quiz from './components/Quiz';
 import Toolkit from './components/Toolkit';
 import SettingsPage from './components/SettingsPage';
+import ProtocoloReacao from './components/ProtocoloReacao';
 
-type AppStep = 'SPLASH' | 'AUTH' | 'ONBOARDING' | 'DASHBOARD' | 'QUIZ' | 'TOOLKIT' | 'SETTINGS';
+type AppStep = 'SPLASH' | 'AUTH' | 'ONBOARDING' | 'DASHBOARD' | 'QUIZ' | 'TOOLKIT' | 'SETTINGS' | 'PROTOCOLO';
 
 export default function Home() {
   const { data, loading, verifyPin, hasPin, updateData, clearData } = useLocalData();
@@ -20,8 +21,6 @@ export default function Home() {
   const [pinInput, setPinInput] = useState('');
   const [error, setError] = useState('');
 
-  // Gerenciador de navegação inicial (Splash -> Auth/Onboarding/Dashboard)
-  // Corrigido: Agora só executa se o step atual for 'SPLASH', evitando loops pós-login
   useEffect(() => {
     if (!loading && step === 'SPLASH') {
       const splashTimeout = setTimeout(() => {
@@ -79,8 +78,8 @@ export default function Home() {
           <div className="absolute inset-0 bg-primary/20 blur-3xl rounded-full scale-150 animate-pulse"></div>
           <Radar className="w-16 h-16 text-primary relative z-10 animate-spin-slow" style={{ animationDuration: '4s' }} />
         </div>
-        <h1 className="text-2xl font-headline font-bold text-foreground mb-2 text-primary">RADAR EMOCIONAL</h1>
-        <p className="text-muted-foreground font-body text-sm">Analisando padrões invisíveis...</p>
+        <h1 className="text-2xl font-headline font-bold text-foreground mb-2 text-primary tracking-tighter">RADAR EMOCIONAL V3</h1>
+        <p className="text-muted-foreground font-body text-sm">Ativando Protocolos de Reação...</p>
         <div className="w-32 h-1 bg-muted mt-8 rounded-full overflow-hidden">
           <div className="h-full bg-primary animate-progress-ind"></div>
         </div>
@@ -107,7 +106,7 @@ export default function Home() {
               <ShieldCheck className="w-8 h-8 text-primary" />
             </div>
             <h2 className="text-2xl font-headline font-bold mb-2">Acesso seguro</h2>
-            <p className="text-muted-foreground text-sm">Seus dados ficam apenas no seu celular.</p>
+            <p className="text-muted-foreground text-sm">Seus dados e protocolos são 100% privados.</p>
           </div>
 
           <div className="space-y-4">
@@ -162,9 +161,10 @@ export default function Home() {
     <div className="flex flex-col h-screen bg-background">
       <div className="flex-1 overflow-y-auto pb-24">
         {step === 'ONBOARDING' && <Onboarding onComplete={() => { updateData({ onboarded: true }); setStep('DASHBOARD'); }} />}
-        {step === 'DASHBOARD' && <Dashboard onStartQuiz={() => setStep('QUIZ')} />}
+        {step === 'DASHBOARD' && <Dashboard onStartQuiz={() => setStep('QUIZ')} onOpenProtocol={() => setStep('PROTOCOLO')} />}
         {step === 'QUIZ' && <Quiz onComplete={() => setStep('DASHBOARD')} />}
         {step === 'TOOLKIT' && <Toolkit />}
+        {step === 'PROTOCOLO' && <ProtocoloReacao onBack={() => setStep('DASHBOARD')} />}
         {step === 'SETTINGS' && (
           <SettingsPage 
             onBack={() => setStep('DASHBOARD')} 
@@ -173,7 +173,7 @@ export default function Home() {
         )}
       </div>
 
-      {step !== 'ONBOARDING' && step !== 'QUIZ' && (
+      {step !== 'ONBOARDING' && step !== 'QUIZ' && step !== 'PROTOCOLO' && (
         <div className="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-card/80 backdrop-blur-lg border-t border-white/5 h-20 px-6 flex items-center justify-between z-50">
           <button
             onClick={() => setStep('DASHBOARD')}
@@ -187,7 +187,7 @@ export default function Home() {
             className={`flex flex-col items-center gap-1 transition-colors ${step === 'TOOLKIT' ? 'text-primary' : 'text-muted-foreground hover:text-foreground'}`}
           >
             <ChevronRight className="w-6 h-6 rotate-90" />
-            <span className="text-[10px] font-medium">Toolkit</span>
+            <span className="text-[10px] font-medium">Central</span>
           </button>
           <button
             onClick={() => setStep('SETTINGS')}

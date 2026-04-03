@@ -31,6 +31,7 @@ export type Session = {
   responses: QuizResponse[];
   weakestCategory?: string;
   subscores?: CategorySubscore[];
+  protocolStartTime?: number;
 };
 
 export type AppData = {
@@ -50,7 +51,7 @@ const DEFAULT_DATA: AppData = {
   completedPlanSteps: []
 };
 
-const STORAGE_KEY = 'radar_emocional_data_v2';
+const STORAGE_KEY = 'radar_emocional_data_v3';
 
 export function useLocalData() {
   const [data, setData] = useState<AppData>(DEFAULT_DATA);

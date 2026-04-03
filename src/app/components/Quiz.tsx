@@ -5,7 +5,7 @@ import { useState, useCallback, useMemo } from 'react';
 import { useLocalData, QuizResponse, CategorySubscore } from '@/lib/store';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
-import { Radar } from 'lucide-react';
+import { Radar, Zap } from 'lucide-react';
 import contentData from '../../../public/assets/content.json';
 
 type QuizState = 'QUESTIONS' | 'ANALYZING' | 'RESULT';
@@ -16,7 +16,6 @@ export default function Quiz({ onComplete }: { onComplete: () => void }) {
   const [currentIdx, setCurrentIdx] = useState(0);
   const [responses, setResponses] = useState<QuizResponse[]>([]);
 
-  // Seleciona 4 perguntas aleatórias do banco de 12
   const activeQuestions = useMemo(() => {
     const pool = [...contentData.quiz.questions];
     for (let i = pool.length - 1; i > 0; i--) {
@@ -30,7 +29,6 @@ export default function Quiz({ onComplete }: { onComplete: () => void }) {
     setState('ANALYZING');
 
     setTimeout(() => {
-      // 1. Cálculo do Score Total Ponderado
       let weightedSum = 0;
       let totalWeight = 0;
 
@@ -42,7 +40,6 @@ export default function Quiz({ onComplete }: { onComplete: () => void }) {
       const finalScore = Math.round(weightedSum / totalWeight);
       const normalizedScore = Math.max(0, Math.min(100, finalScore));
 
-      // 2. Cálculo de Subscores por Categoria
       const categories = ['investimento', 'consistencia', 'prioridade', 'reciprocidade'];
       const subscores: CategorySubscore[] = categories.map(cat => {
         const catResponses = finalResponses.filter(r => r.category === cat);
@@ -57,7 +54,6 @@ export default function Quiz({ onComplete }: { onComplete: () => void }) {
         return { category: cat, score: Math.round(catSum / catWeight) };
       }).filter(s => s.score !== -1);
 
-      // 3. Identificar Categoria Crítica (maior risco proporcional)
       let weakestCategory = subscores.length > 0 ? subscores[0].category : '';
       let maxCatScore = subscores.length > 0 ? subscores[0].score : 0;
 
@@ -79,7 +75,8 @@ export default function Quiz({ onComplete }: { onComplete: () => void }) {
         label,
         responses: finalResponses,
         weakestCategory,
-        subscores
+        subscores,
+        protocolStartTime: Date.now()
       };
 
       updateData({
@@ -93,11 +90,6 @@ export default function Quiz({ onComplete }: { onComplete: () => void }) {
 
   const handleAnswer = (val: number) => {
     const q = activeQuestions[currentIdx];
-    
-    // Se a pergunta for "reversa", o score deve ser invertido
-    // No nosso JSON, Sim=100 significa ALTO RISCO. 
-    // Se a pergunta for "Ele inclui você em planos?", Sim é BOM (baixo risco).
-    // Logo, se reverse=true, Sim (100) vira 0, e Não (0) vira 100.
     let finalVal = val;
     if (q.reverse) {
       finalVal = 100 - val;
@@ -163,9 +155,6 @@ export default function Quiz({ onComplete }: { onComplete: () => void }) {
             </Button>
           </div>
         </div>
-        <p className="text-center text-[10px] font-bold text-muted-foreground mt-8 uppercase tracking-widest">
-          O motor psicológico está analisando suas respostas em tempo real.
-        </p>
       </div>
     );
   }
@@ -177,11 +166,11 @@ export default function Quiz({ onComplete }: { onComplete: () => void }) {
           <div className="absolute inset-0 bg-primary/20 blur-3xl rounded-full scale-150 animate-pulse"></div>
           <Radar className="w-20 h-20 text-primary relative z-10 animate-spin-slow" />
         </div>
-        <h2 className="text-2xl font-headline font-bold mb-4">Motor Ativado...</h2>
+        <h2 className="text-2xl font-headline font-bold mb-4">Gerando Protocolo...</h2>
         <div className="space-y-2">
-          <p className="text-muted-foreground animate-pulse text-xs font-bold uppercase tracking-widest">Calculando pesos categoriais...</p>
-          <p className="text-muted-foreground animate-pulse delay-75 text-xs font-bold uppercase tracking-widest">Mapeando sub-dimensões...</p>
-          <p className="text-muted-foreground animate-pulse delay-150 text-xs font-bold uppercase tracking-widest">Cruzando variáveis de risco...</p>
+          <p className="text-muted-foreground animate-pulse text-xs font-bold uppercase tracking-widest">Calculando níveis de esfriamento...</p>
+          <p className="text-muted-foreground animate-pulse delay-75 text-xs font-bold uppercase tracking-widest">Mapeando scripts de reversão...</p>
+          <p className="text-muted-foreground animate-pulse delay-150 text-xs font-bold uppercase tracking-widest">Ativando cronograma de 24h...</p>
         </div>
       </div>
     );
@@ -197,27 +186,34 @@ export default function Quiz({ onComplete }: { onComplete: () => void }) {
         <div className="mb-6">
           <h1 className="text-7xl font-headline font-bold text-primary mb-2 tracking-tighter">{lastSession.score}%</h1>
           <div className="inline-block px-4 py-1.5 bg-primary/10 rounded-full text-primary font-black uppercase tracking-widest text-[10px] border border-primary/20">
-            {rangeData.title}
+            Nível de Esfriamento: {rangeData.title}
           </div>
         </div>
 
         <div className="bg-card p-6 rounded-3xl border border-white/5 mb-4 text-left shadow-2xl">
-          <h3 className="text-xs font-black uppercase tracking-widest text-primary mb-3">Diagnóstico Adaptativo:</h3>
+          <h3 className="text-xs font-black uppercase tracking-widest text-primary mb-3">Laudo Adaptativo:</h3>
           <p className="text-muted-foreground leading-relaxed text-sm font-medium mb-4">{rangeData.text}</p>
           
           {categoryInsight && (
             <div className="mt-4 pt-4 border-t border-white/5">
-              <span className="text-[10px] font-black bg-accent/20 text-accent px-2 py-0.5 rounded-full uppercase tracking-tighter mb-2 inline-block">Foco Crítico: {categoryInsight.name}</span>
+              <span className="text-[10px] font-black bg-accent/20 text-accent px-2 py-0.5 rounded-full uppercase tracking-tighter mb-2 inline-block">Diagnóstico: {categoryInsight.name}</span>
               <p className="text-xs text-muted-foreground italic leading-relaxed">{categoryInsight.insight}</p>
             </div>
           )}
+        </div>
+
+        <div className="p-4 bg-primary/5 rounded-2xl border border-primary/10 mb-6 flex items-center gap-3">
+          <Zap className="w-5 h-5 text-primary animate-bounce" />
+          <p className="text-[10px] font-bold text-foreground text-left uppercase leading-tight">
+            Seu Protocolo de Reação de 24h foi gerado com base no diagnóstico.
+          </p>
         </div>
 
         <Button 
           onClick={onComplete} 
           className="w-full h-16 text-lg font-black glow-primary uppercase tracking-widest"
         >
-          Ver meu plano estratégico
+          ACESSAR PROTOCOLO
         </Button>
       </div>
     );
