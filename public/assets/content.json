@@ -1,159 +1,158 @@
 
 {
-  "theory": {
-    "explanation": "O Radar Emocional baseia-se na Teoria do Investimento de Rusbult e na Psicologia Comportamental Tática para identificar desequilíbrios em dinâmicas afetivas.",
-    "references": [
-      { "author": "Caryl Rusbult", "note": "Modelo de Investimento em Relacionamentos." },
-      { "author": "Robert Cialdini", "note": "Gatilhos Mentais de Escassez e Reciprocidade." }
-    ]
-  },
   "quiz": {
     "questions": [
-      { "id": "q1", "text": "Ele inclui você em planos de médio ou longo prazo?", "category": "investimento", "weight": 3, "reverse": false },
-      { "id": "q2", "text": "Ele demonstra iniciativa para marcar encontros?", "category": "investimento", "weight": 2, "reverse": false },
-      { "id": "q3", "text": "As respostas às suas mensagens são rápidas e consistentes?", "category": "consistencia", "weight": 2, "reverse": false },
-      { "id": "q4", "text": "Você sente que precisa puxar a energia da relação?", "category": "reciprocidade", "weight": 3, "reverse": true },
-      { "id": "q5", "text": "Ele compartilha detalhes da rotina espontaneamente?", "category": "reciprocidade", "weight": 2, "reverse": false },
-      { "id": "q6", "text": "Ele demonstra curiosidade genuína sobre sua vida?", "category": "reciprocidade", "weight": 2, "reverse": false },
-      { "id": "q7", "text": "Ele mantém contato mesmo quando está ocupado?", "category": "consistencia", "weight": 2, "reverse": false },
-      { "id": "q8", "text": "Ele demonstra desconforto quando você reduz levemente a disponibilidade?", "category": "reciprocidade", "weight": 2, "reverse": false },
-      { "id": "q9", "text": "Ele demonstra orgulho ao ser visto com você?", "category": "prioridade", "weight": 2, "reverse": false },
-      { "id": "q10", "text": "Ele propõe planos com antecedência ou sempre decide na última hora?", "category": "prioridade", "weight": 3, "reverse": false },
-      { "id": "q11", "text": "Ele demonstra esforço quando percebe que pode te perder?", "category": "investimento", "weight": 3, "reverse": false },
-      { "id": "q12", "text": "Você sente estabilidade ou imprevisibilidade constante na atitude dele?", "category": "consistencia", "weight": 3, "reverse": true }
+      { "id": "q1", "text": "Ele inclui você em planos de médio ou longo prazo?", "category": "investimento", "weight": 3 },
+      { "id": "q2", "text": "Ele demonstra iniciativa para marcar encontros?", "category": "investimento", "weight": 2 },
+      { "id": "q3", "text": "Ele demonstra esforço quando percebe que pode te perder?", "category": "investimento", "weight": 3 },
+      { "id": "q4", "text": "As respostas às suas mensagens são rápidas e consistentes?", "category": "consistencia", "weight": 2 },
+      { "id": "q5", "text": "Ele mantém contato mesmo quando está ocupado?", "category": "consistencia", "weight": 2 },
+      { "id": "q6", "text": "Você sente estabilidade ou imprevisibilidade constante na atitude dele?", "category": "consistencia", "weight": 3, "reverse": true },
+      { "id": "q7", "text": "Ele demonstra orgulho ao ser visto com você?", "category": "prioridade", "weight": 2 },
+      { "id": "q8", "text": "Ele propõe planos com antecedência ou sempre decide na última hora?", "category": "prioridade", "weight": 3 },
+      { "id": "q9", "text": "Você sente que precisa puxar a energia da relação?", "category": "reciprocidade", "weight": 3, "reverse": true },
+      { "id": "q10", "text": "Ele compartilha detalhes da rotina espontaneamente?", "category": "reciprocidade", "weight": 2 },
+      { "id": "q11", "text": "Ele demonstra curiosidade genuína sobre sua vida?", "category": "reciprocidade", "weight": 2 },
+      { "id": "q12", "text": "Ele demonstra desconforto quando você reduz levemente a disponibilidade?", "category": "reciprocidade", "weight": 2 }
     ],
     "answerScores": {
-      "yes": 0,
+      "yes": 100,
       "sometimes": 50,
-      "no": 100
-    }
-  },
-  "categoryInsights": {
-    "investimento": {
-      "name": "Baixo Investimento",
-      "insight": "Ele está em modo de 'manutenção'. Para reverter, você precisa retirar sua energia e fazê-lo sentir a escassez da sua presença."
-    },
-    "consistencia": {
-      "name": "Instabilidade Comportamental",
-      "insight": "O interesse dele é intermitente. A solução é o espelhamento: trate a relação com a mesma leveza (ou frieza) que ele."
-    },
-    "prioridade": {
-      "name": "Falta de Prioridade",
-      "insight": "Você está sendo tratada como uma opção conveniente. É necessário elevar seu valor percebido através do afastamento tático."
-    },
-    "reciprocidade": {
-      "name": "Desequilíbrio de Esforço",
-      "insight": "Você está carregando a relação nas costas. O silêncio estratégico é sua melhor ferramenta para equilibrar os pratos."
+      "no": 0
     }
   },
   "expandedResults": {
     "low": {
       "title": "Equilíbrio Estratégico",
-      "text": "A dinâmica está saudável, mas exige manutenção de mistério para evitar a zona de conforto.",
+      "text": "A relação apresenta uma dinâmica saudável. O investimento é recíproco e a consistência está presente. O protocolo foca em manutenção de valor.",
       "plan": [
-        { "id": "p1", "title": "Injeção de Mistério", "action": "Retirada", "description": "Fique 4 horas a mais sem responder hoje." },
-        { "id": "p2", "title": "Validação Externa", "action": "Social", "description": "Poste algo feliz sem ele." }
+        { "id": "p1", "title": "Manutenção de Mistério", "description": "Não entregue toda a sua agenda de uma vez.", "action": "Preservar Espaço" }
       ]
     },
     "medium": {
       "title": "Alerta de Esfriamento",
-      "text": "O interesse dele está oscilando. Se você não agir agora, a tendência é o afastamento total.",
+      "text": "Existem oscilações perigosas. Ele começou a se sentir seguro demais e parou de investir. É hora de recalibrar a sua disponibilidade.",
       "plan": [
-        { "id": "p3", "title": "Pausa de Contato", "action": "Silêncio", "description": "Não inicie nenhuma conversa nas próximas 24h." },
-        { "id": "p4", "title": "Gatilho de Perda", "action": "Stories", "description": "Poste uma foto em um lugar novo sem marcar ninguém." }
+        { "id": "p2", "title": "Retirada de Atenção", "description": "Reduza a velocidade das respostas em 50%.", "action": "Espelhamento" }
       ]
     },
     "high": {
-      "title": "Risco de Desconexão",
-      "text": "Nível crítico. Você está investindo muito e recebendo pouco. O afastamento imediato é vital.",
+      "title": "Risco Crítico / Frieza",
+      "text": "A dinâmica está unilateral. Você está carregando o peso da relação sozinha enquanto ele se afasta. Intervenção de choque necessária.",
       "plan": [
-        { "id": "p5", "title": "Protocolo de Gelo", "action": "Total", "description": "Desapareça por 48h. Nenhuma curtida, nenhum 'oi'." },
-        { "id": "p6", "title": "Mudança de Frame", "action": "Mental", "description": "Pare de visualizar as mensagens dele instantaneamente." }
+        { "id": "p3", "title": "Silêncio Estratégico", "description": "Corte total de iniciativa por 48h.", "action": "Desconexão" }
       ]
     }
   },
+  "categoryInsights": {
+    "investimento": {
+      "name": "Investimento",
+      "insight": "Ele parou de projetar o futuro com você. O plano foca em retomar a escassez."
+    },
+    "consistencia": {
+      "name": "Consistência",
+      "insight": "O comportamento dele é montanha-russa. O plano foca em estabilidade emocional própria."
+    },
+    "prioridade": {
+      "name": "Prioridade",
+      "insight": "Você virou uma opção de última hora. O plano foca em recuperar sua agenda."
+    },
+    "reciprocidade": {
+      "name": "Reciprocidade",
+      "insight": "Você está dando 100% e recebendo 10%. O plano foca em espelhamento tático."
+    }
+  },
   "protocolo_24h": [
-    { "id": "act1", "title": "Silêncio Estratégico", "desc": "Não envie mensagens, não curta fotos e não visualize Stories dele pelas próximas 24h." },
-    { "id": "act2", "title": "Quebra de Padrão", "desc": "Se ele te procurar, demore o triplo do tempo habitual para responder." },
-    { "id": "act3", "title": "Isca de Curiosidade", "desc": "Poste um Story de algo que você está fazendo agora (um café, um livro, um lugar) sem texto e sem marcá-lo." },
-    { "id": "act4", "title": "Ocupação Real", "desc": "Foque em uma atividade que você ama e que não tenha nada a ver com ele. A energia de 'esquecimento' é sentida." },
-    { "id": "act5", "title": "Limite de Valor", "desc": "Se houver conversa, encerre-a você primeiro com algo gentil mas breve." }
+    { "title": "Corte de Iniciativa", "desc": "Não envie a primeira mensagem sob nenhuma circunstância nas próximas 24h." },
+    { "title": "Regra do Dobro", "desc": "Demore exatamente o dobro do tempo dele para responder qualquer interação." },
+    { "title": "Isca de Stories", "desc": "Poste uma foto de um momento seu de prazer/estudo/treino SEM legenda e SEM rostos." },
+    { "title": "Respostas Escassas", "desc": "Use no máximo 5 palavras se ele te procurar. Sem emoticons de afeto." },
+    { "title": "Vácuo Controlado", "desc": "Se ele mandar algo 'frio', visualize e só responda 4 horas depois." }
   ],
   "scripts_copy_paste": [
     {
       "id": "s1",
       "categoria": "Emergência: Vácuo",
-      "situação": "Visualizou e não respondeu (Vácuo)",
       "texto": "Acabei de ver uma coisa aqui que me fez lembrar muito daquela nossa conversa sobre... mas esquece, depois te conto. Acabei me perdendo no horário aqui kkk.",
       "instrução": "Use quando ele visualizar e não responder por mais de 6 horas."
     },
     {
       "id": "s2",
       "categoria": "Reversão: Frieza",
-      "situação": "Ele está frio ou monossilábico",
       "texto": "Senti que o clima mudou um pouco por aqui e, honestamente, eu não curto muito esse tipo de dinâmica 'morna'. Vou focar em umas coisas minhas aqui agora e a gente se fala quando você estiver mais disponível, beleza?",
-      "instrução": "Use para estabelecer limites de valor e parar de aceitar migalhas."
+      "instrução": "Use quando ele der respostas curtas ou secas."
     },
     {
       "id": "s3",
-      "categoria": "Atração: Stories",
-      "situação": "Isca de Curiosidade (Indireta)",
-      "texto": "Às vezes a gente só precisa mudar a perspectiva para as coisas voltarem a fazer sentido. ✨",
-      "instrução": "Legenda ideal para foto em lugar legal onde você aparece feliz e independente."
+      "categoria": "Recuperação de Valor",
+      "texto": "Sabe, andei pensando e percebi que eu estava investindo tempo em algo que não estava na mesma sintonia que eu. Foi bom pra eu recalibrar minhas prioridades. No fim das contas, foi um aprendizado necessário. 😉",
+      "instrução": "Use como 'Xeque-Mate' se o afastamento dele for prolongado."
     },
     {
       "id": "s4",
-      "categoria": "Reaproximação: Leveza",
-      "situação": "Após dias de silêncio tático",
-      "texto": "Ei! Vi que vai rolar esse evento e lembrei que você queria muito. Espero que esteja tudo bem por aí! Abração.",
-      "instrução": "Use para testar a temperatura sem parecer carente ou cobradora."
+      "categoria": "Reaproximação Segura",
+      "texto": "Ei! Vi que vai rolar aquele evento e lembrei que você queria muito. Espero que esteja tudo bem por aí! Abração.",
+      "instrução": "Use após o período de silêncio estratégico do Plano de 3 Dias."
     },
     {
       "id": "s5",
-      "categoria": "Xeque-Mate: Valor",
-      "situação": "Recuperação Total de Valor",
-      "texto": "Sabe, andei pensando e percebi que eu estava investindo tempo em algo que não estava na mesma sintonia que eu. Foi bom pra eu recalibrar minhas prioridades. No fim das contas, foi um aprendizado necessário. 😉",
-      "instrução": "Use quando decidir que ele precisa sentir que 'perdeu o jogo'."
+      "categoria": "Encerramento Dominante",
+      "texto": "Gostei do papo, mas agora vou ter que sair para resolver umas coisas. A gente se fala!",
+      "instrução": "Use para ser você a encerrar a interação, mantendo o controle da narrativa."
     }
   ],
   "plano_resgate_3dias": [
-    { "dia": 1, "titulo": "Afastamento Tático", "acao": "Silêncio absoluto. Nenhuma interação digital ou física. Deixe o vácuo da sua ausência ecoar na mente dele." },
-    { "dia": 2, "titulo": "Gatilho de Mistério", "acao": "Poste uma foto sugestiva (sem ser vulgar) mostrando que você está em movimento. Sem legenda ou com emoji de mistério." },
-    { "dia": 3, "titulo": "Reaproximação Controlada", "acao": "Se ele não te procurar, envie uma mensagem neutra e curta sobre um assunto de interesse comum dele." }
+    {
+      "dia": 1,
+      "titulo": "Silêncio Seletivo",
+      "acao": "Corte de Suprimento. Mostre que sua vida continuou sem a validação dele. Zero iniciativa e zero cobrança.",
+      "detalhes": ["Zero mensagens", "Não responda por 6h", "Poste story sem legenda"]
+    },
+    {
+      "dia": 2,
+      "titulo": "Quebra de Padrão",
+      "acao": "Gatilho de Curiosidade. Reative o investimento emocional dele através da dúvida estratégica.",
+      "detalhes": ["Use o Script de Vácuo às 18h", "Demore o dobro para responder", "Mantenha o mistério"]
+    },
+    {
+      "dia": 3,
+      "titulo": "Reposicionamento",
+      "acao": "Xeque-Mate. Estabeleça a nova dinâmica de poder. Você encerra a conversa e define o ritmo.",
+      "detalhes": ["Termine a conversa primeiro", "Use o Script de Recuperação", "Foque na sua agenda"]
+    }
+  ],
+  "audioScripts": [
+    { "id": "a1", "title": "Como Recriar Curiosidade", "premium": true },
+    { "id": "a2", "title": "A Técnica do Afastamento", "premium": true }
   ],
   "templates": {
     "Curiosidade": [
-      "Acabei de ver algo que é a sua cara, mas só conto depois!",
-      "Você não imagina quem eu encontrei hoje e o que me falaram...",
-      "Preciso da sua opinião sincera sobre um plano que tive.",
-      "Adivinha onde eu estou agora? Dica: você adora esse lugar.",
-      "Tive um insight engraçado sobre a gente hoje cedo..."
+      "Lembrei de algo que você falou...",
+      "Você não imagina o que acabei de ver.",
+      "Sabe aquela coisa que comentamos?",
+      "Vi algo que é muito a sua cara...",
+      "Preciso te contar uma coisa depois."
     ],
     "Distância": [
-      "Ando com a cabeça em mil projetos, mas está sendo ótimo!",
-      "Acho que precisamos de um tempo para recalibrar as energias.",
-      "Vou tirar esses dias para focar 100% em mim, te aviso quando voltar.",
-      "O silêncio às vezes diz mais do que mil conversas, não acha?",
-      "Estou em uma fase de priorizar minha paz acima de tudo."
+      "Estou bem focada em uns projetos agora.",
+      "Semana corrida, quase não peguei no celular.",
+      "Depois a gente se fala com calma.",
+      "Estou aproveitando o momento.",
+      "A vida está acontecendo rápido demais kkk."
     ],
     "Limite": [
-      "Eu adoro nossa conexão, mas não aceito desatenção.",
-      "Minha disponibilidade é um presente, não um direito garantido.",
-      "Podemos conversar quando você puder me dar 100% da sua atenção.",
-      "Não faz meu estilo jogos de desinteresse, prefiro clareza.",
-      "Se você quer estar na minha vida, precisa estar por inteiro."
+      "Eu não curto muito esse tipo de conversa.",
+      "Prefiro falar disso pessoalmente.",
+      "Não faz meu estilo essa dinâmica.",
+      "Vou focar em mim agora.",
+      "Isso não funciona para mim."
     ],
     "Reengajamento": [
-      "Saudades daquela sua risada de quando a gente...",
-      "Vi esse meme e impossível não lembrar de você kkk",
-      "O que você anda ouvindo de bom ultimamente? Preciso de música nova.",
-      "Sonhei algo curioso hoje e você estava lá...",
-      "Que tal a gente deixar o orgulho de lado e tomar um café?"
+      "Oi! Vi isso e lembrei de você.",
+      "Como andam as coisas?",
+      "Espero que sua semana esteja ótima.",
+      "Passando para dar um oi.",
+      "Saudades das nossas conversas."
     ]
-  },
-  "audioScripts": [
-    { "id": "a1", "title": "O Poder do Silêncio", "premium": false },
-    { "id": "a2", "title": "Gatilhos de Stories", "premium": true },
-    { "id": "a3", "title": "A Técnica do Espelho", "premium": true }
-  ]
+  }
 }
