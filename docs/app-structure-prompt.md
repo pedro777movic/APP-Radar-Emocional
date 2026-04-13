@@ -1,45 +1,36 @@
-# Prompt de Estrutura Técnica: Radar Emocional (v2 - Motor Adaptativo)
+# Prompt de Estrutura Técnica: Radar Emocional (v3 - The Reaction Update)
 
-Este documento descreve a arquitetura do aplicativo "Radar Emocional" para fins de auditoria, expansão ou refatoração em ambientes de IA.
+Este documento descreve a arquitetura e funcionalidades do "Radar Emocional v3" para referência em auditorias ou expansões via IA.
 
 ---
 
 ## 1. Visão Geral do Produto
-O **Radar Emocional** é um aplicativo mobile-first de análise estratégica de relacionamentos. Ele permite que usuárias avaliem a dinâmica afetiva através de um quiz dinâmico, gerando um score de 0 a 100% e um diagnóstico baseado em subcategorias psicológicas.
+O **Radar Emocional** é um sistema mobile-first de intervenção estratégica. Ele não apenas diagnostica a saúde de uma relação, mas fornece um protocolo tático (scripts e ações) para reverter padrões de desvalorização e frieza.
 
-## 2. Stack Tecnológica
-- **Framework:** Next.js 15 (App Router)
-- **Biblioteca UI:** React 19 + ShadCN UI
-- **Estilização:** Tailwind CSS (Tema Dark #0B0F16)
-- **Ícones:** Lucide-React
-- **Persistência:** LocalStorage (Offline-first)
-- **Segurança:** PIN de acesso local (Padrão: `3344`)
+## 2. Funcionalidades Principais
+- **Acesso Seguro:** PIN de 4 dígitos (3344) com armazenamento local criptografado.
+- **Motor de Diagnóstico:** Banco de 12 perguntas com sorteio aleatório de 4 por sessão, avaliando Investimento, Consistência, Prioridade e Reciprocidade.
+- **Cálculo de Score Ponderado:** Resultados de 0 a 100% com identificação automática da categoria mais fraca (Ponto Crítico).
+- **Protocolo de Reação (V3):** 
+    - Timer de 24h para gerar urgência.
+    - Ações de choque imediatas.
+    - Biblioteca de scripts "Copy-Paste" para emergências (Vácuo, Frieza).
+    - Plano de Resgate de 3 dias (Timeline estratégica).
 
-## 3. Lógica de Negócio e Motor Psicológico
-- **Banco de Perguntas:** Possui um pool de 12 perguntas estruturadas.
-- **Seleção Dinâmica:** A cada análise, o app sorteia aleatoriamente 4 perguntas (sem repetição).
-- **Subcategorias (Dimensões):** Cada pergunta pertence a uma categoria:
-    - *Investimento:* Energia e projeção futura.
-    - *Consistência:* Estabilidade comportamental.
-    - *Prioridade:* Espaço na agenda e mente.
-    - *Reciprocidade:* Equilíbrio de esforço.
-- **Cálculo de Score Ponderado:** Cada pergunta tem um peso (2 ou 3). O score final é normalizado de 0 a 100%.
-- **Diagnóstico Adaptativo:** Além do nível geral (Low/Medium/High), o app identifica a "Categoria Crítica" (menor subscore) para exibir insights específicos.
+## 3. Stack Tecnológica
+- **Framework:** Next.js 15 (App Router).
+- **UI:** React 19, Tailwind CSS, ShadCN UI.
+- **Estilo:** Tema Dark (#0B0F16) com sotaques em Azul Radar (#1E6FFF).
+- **Persistência:** LocalStorage (Offline-first total).
 
-## 4. Estrutura de Arquivos Principal
-- `src/app/page.tsx`: Gerenciador de estados global (Router interno: SPLASH, AUTH, ONBOARDING, DASHBOARD, QUIZ, TOOLKIT, SETTINGS).
-- `src/lib/store.ts`: Hook `useLocalData` que gerencia a persistência no LocalStorage (chave: `radar_emocional_data_v2`).
-- `public/assets/content.json`: Cérebro do app. Contém o pool de perguntas, pesos, categorias, textos de resultados e templates de mensagens.
-- `src/app/components/`:
-    - `Quiz.tsx`: Implementa o motor de shuffle, cálculo ponderado e identificação de fraqueza categorial.
-    - `Dashboard.tsx`: Exibe o radar visual (SVG), o score e o ponto mais crítico da relação.
-    - `Toolkit.tsx`: Templates de mensagens (5 por categoria: Curiosidade, Distância, Limite, Reengajamento).
+## 4. Estrutura de Arquivos
+- `src/lib/store.ts`: Gerencia o estado global, PIN, sessões e cronômetro de 24h.
+- `public/assets/content.json`: O "cérebro" contendo perguntas, scripts táticos e o plano de 3 dias.
+- `src/app/page.tsx`: Orquestrador de rotas internas (Splash, Auth, Dashboard, Quiz, Protocolo).
+- `src/app/components/ProtocoloReacao.tsx`: Componente central da V3 que entrega o conteúdo de intervenção.
 
-## 5. Constraints Críticas
-- **Offline Total:** Nenhuma dependência de APIs externas ou nuvem.
-- **Next.js 15 Compliance:** Não enumerar `params` ou `searchParams` síncronos (as funções de página e layout devem ser limpas ou usar `use()`).
-- **Navegação Segura:** O fluxo de autenticação é protegido contra loops de reidratação de estado.
-- **Design:** Foco estrito em Mobile (max-width: 448px).
+## 5. Lógica de Intervenção
+O diagnóstico é adaptativo: se o app detecta falha em "Investimento", ele prioriza scripts de "Escassez". Se a falha é em "Reciprocidade", prioriza "Espelhamento".
 
 ---
-*Fim do documento de referência técnica.*
+*Fim do documento.*
