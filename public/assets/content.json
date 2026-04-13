@@ -16,58 +16,58 @@
       { "id": "q12", "text": "Ele demonstra desconforto quando você reduz levemente a disponibilidade?", "category": "reciprocidade", "weight": 2 }
     ],
     "answerScores": {
-      "yes": 100,
+      "yes": 0,
       "sometimes": 50,
-      "no": 0
-    }
-  },
-  "expandedResults": {
-    "low": {
-      "title": "Equilíbrio Estratégico",
-      "text": "A relação apresenta uma dinâmica saudável. O investimento é recíproco e a consistência está presente. O protocolo foca em manutenção de valor.",
-      "plan": [
-        { "id": "p1", "title": "Manutenção de Mistério", "description": "Não entregue toda a sua agenda de uma vez.", "action": "Preservar Espaço" }
-      ]
-    },
-    "medium": {
-      "title": "Alerta de Esfriamento",
-      "text": "Existem oscilações perigosas. Ele começou a se sentir seguro demais e parou de investir. É hora de recalibrar a sua disponibilidade.",
-      "plan": [
-        { "id": "p2", "title": "Retirada de Atenção", "description": "Reduza a velocidade das respostas em 50%.", "action": "Espelhamento" }
-      ]
-    },
-    "high": {
-      "title": "Risco Crítico / Frieza",
-      "text": "A dinâmica está unilateral. Você está carregando o peso da relação sozinha enquanto ele se afasta. Intervenção de choque necessária.",
-      "plan": [
-        { "id": "p3", "title": "Silêncio Estratégico", "description": "Corte total de iniciativa por 48h.", "action": "Desconexão" }
-      ]
+      "no": 100
     }
   },
   "categoryInsights": {
     "investimento": {
-      "name": "Investimento",
-      "insight": "Ele parou de projetar o futuro com você. O plano foca em retomar a escassez."
+      "name": "Falta de Investimento",
+      "insight": "Ele parou de projetar o futuro com você. O risco aqui é você se tornar um 'passatempo' por tempo indeterminado."
     },
     "consistencia": {
-      "name": "Consistência",
-      "insight": "O comportamento dele é montanha-russa. O plano foca em estabilidade emocional própria."
+      "name": "Instabilidade Emocional",
+      "insight": "A montanha-russa emocional dele dita o seu humor. Você está viciada na intermitência de atenção dele."
     },
     "prioridade": {
-      "name": "Prioridade",
-      "insight": "Você virou uma opção de última hora. O plano foca em recuperar sua agenda."
+      "name": "Baixa Prioridade",
+      "insight": "Você é o 'plano B' para quando nada mais interessante acontece. Ele não tem medo de te perder."
     },
     "reciprocidade": {
-      "name": "Reciprocidade",
-      "insight": "Você está dando 100% e recebendo 10%. O plano foca em espelhamento tático."
+      "name": "Desequilíbrio de Troca",
+      "insight": "Você está carregando a relação nas costas. Quanto mais você faz, menos ele sente que precisa se esforçar."
+    }
+  },
+  "expandedResults": {
+    "low": {
+      "title": "Equilíbrio",
+      "text": "Sua relação ainda respira saúde, mas pequenas brechas de desvalorização estão surgindo. O protocolo foca em prevenção.",
+      "plan": [
+        { "id": "l1", "title": "Ajuste de Expectativa", "description": "Não antecipe planos que ele ainda não confirmou.", "action": "ESPERAR" }
+      ]
+    },
+    "medium": {
+      "title": "Atenção Crítica",
+      "text": "O padrão de esfriamento está instalado. Ele começou a te ver como algo 'garantido'. É hora de aplicar o choque de realidade.",
+      "plan": [
+        { "id": "m1", "title": "Retirada de Atenção", "description": "Reduza suas interações em 50% nos próximos dois dias.", "action": "AFASTAR" }
+      ]
+    },
+    "high": {
+      "title": "Alto Risco",
+      "text": "Nível de desvalorização máximo. Se você não agir agora, o término ou a indiferença total são inevitáveis. Protocolo de Resgate ativado.",
+      "plan": [
+        { "id": "h1", "title": "Silêncio Estratégico", "description": "Desapareça das notificações dele. Deixe que o vácuo crie a dúvida.", "action": "SUMIR" }
+      ]
     }
   },
   "protocolo_24h": [
-    { "title": "Corte de Iniciativa", "desc": "Não envie a primeira mensagem sob nenhuma circunstância nas próximas 24h." },
-    { "title": "Regra do Dobro", "desc": "Demore exatamente o dobro do tempo dele para responder qualquer interação." },
-    { "title": "Isca de Stories", "desc": "Poste uma foto de um momento seu de prazer/estudo/treino SEM legenda e SEM rostos." },
-    { "title": "Respostas Escassas", "desc": "Use no máximo 5 palavras se ele te procurar. Sem emoticons de afeto." },
-    { "title": "Vácuo Controlado", "desc": "Se ele mandar algo 'frio', visualize e só responda 4 horas depois." }
+    { "title": "Corte o Suprimento", "desc": "Pare de enviar mensagens de bom dia, boa noite ou perguntas sobre a rotina dele." },
+    { "title": "Janela de Silêncio", "desc": "Se ele mandar mensagem, demore pelo menos 4 horas para responder, independente do que for." },
+    { "title": "Story Sem Isca", "desc": "Poste uma foto sua em um lugar novo. Sem legenda, sem indireta. Deixe que ele se pergunte com quem você está." },
+    { "title": "Zero Cobrança", "desc": "Não questione a frieza dele. Cobrar atenção é o oposto de ser atraente." },
+    { "title": "Foco no 'Eu'", "desc": "Retome um hobby ou atividade que você abandonou para ficar disponível para ele." }
   ],
   "scripts_copy_paste": [
     {
@@ -84,75 +84,76 @@
     },
     {
       "id": "s3",
-      "categoria": "Recuperação de Valor",
-      "texto": "Sabe, andei pensando e percebi que eu estava investindo tempo em algo que não estava na mesma sintonia que eu. Foi bom pra eu recalibrar minhas prioridades. No fim das contas, foi um aprendizado necessário. 😉",
-      "instrução": "Use como 'Xeque-Mate' se o afastamento dele for prolongado."
+      "categoria": "Isca: Curiosidade",
+      "texto": "Andei pensando sobre algumas prioridades minhas ultimamente e percebi que estava deixando passar umas coisas importantes. Foi bom dar essa parada pra refletir. 😉",
+      "instrução": "Use para mostrar que você está 'seguindo em frente' mentalmente."
     },
     {
       "id": "s4",
-      "categoria": "Reaproximação Segura",
-      "texto": "Ei! Vi que vai rolar aquele evento e lembrei que você queria muito. Espero que esteja tudo bem por aí! Abração.",
-      "instrução": "Use após o período de silêncio estratégico do Plano de 3 Dias."
+      "categoria": "Reengajamento Leve",
+      "texto": "Ei! Vi que vai rolar aquele evento que você comentou e lembrei na hora. Espero que esteja tudo bem por aí! Abração.",
+      "instrução": "Use após 3 dias de silêncio para testar a temperatura."
     },
     {
       "id": "s5",
-      "categoria": "Encerramento Dominante",
-      "texto": "Gostei do papo, mas agora vou ter que sair para resolver umas coisas. A gente se fala!",
-      "instrução": "Use para ser você a encerrar a interação, mantendo o controle da narrativa."
+      "categoria": "Xeque-Mate",
+      "texto": "Sabe, percebi que eu estava investindo tempo em algo que não estava na mesma sintonia que eu. No fim das contas, foi um aprendizado necessário pra eu recalibrar o que eu aceito.",
+      "instrução": "Use para encerrar o ciclo de desvalorização e forçar uma decisão dele."
     }
   ],
   "plano_resgate_3dias": [
     {
       "dia": 1,
-      "titulo": "Silêncio Seletivo",
-      "acao": "Corte de Suprimento. Mostre que sua vida continuou sem a validação dele. Zero iniciativa e zero cobrança.",
-      "detalhes": ["Zero mensagens", "Não responda por 6h", "Poste story sem legenda"]
+      "titulo": "O Silêncio Seletivo",
+      "acao": "Zero mensagens. Mostre que sua vida continuou sem a validação dele.",
+      "detalhes": ["Não visualize status dele", "Poste foto feliz sozinha", "Demore 6h para responder"]
     },
     {
       "dia": 2,
-      "titulo": "Quebra de Padrão",
-      "acao": "Gatilho de Curiosidade. Reative o investimento emocional dele através da dúvida estratégica.",
-      "detalhes": ["Use o Script de Vácuo às 18h", "Demore o dobro para responder", "Mantenha o mistério"]
+      "titulo": "A Quebra do Padrão",
+      "acao": "Use o Script de Curiosidade para reativar o investimento emocional dele.",
+      "detalhes": ["Mande a isca às 18h", "Se ele responder, não abra a conversa na hora", "Mantenha o mistério"]
     },
     {
       "dia": 3,
-      "titulo": "Reposicionamento",
-      "acao": "Xeque-Mate. Estabeleça a nova dinâmica de poder. Você encerra a conversa e define o ritmo.",
-      "detalhes": ["Termine a conversa primeiro", "Use o Script de Recuperação", "Foque na sua agenda"]
+      "titulo": "O Reposicionamento",
+      "acao": "Estabeleça a nova dinâmica de poder. Você encerra a interação primeiro.",
+      "detalhes": ["Seja leve, mas ocupada", "Termine o papo: 'vou sair agora'", "Não faça planos para hoje"]
     }
   ],
-  "audioScripts": [
-    { "id": "a1", "title": "Como Recriar Curiosidade", "premium": true },
-    { "id": "a2", "title": "A Técnica do Afastamento", "premium": true }
-  ],
-  "templates": {
+  "messageTemplates": {
     "Curiosidade": [
-      "Lembrei de algo que você falou...",
-      "Você não imagina o que acabei de ver.",
-      "Sabe aquela coisa que comentamos?",
-      "Vi algo que é muito a sua cara...",
-      "Preciso te contar uma coisa depois."
+      "Adivinha o que eu acabei de ver que me lembrou você? Mas só conto se prometer não rir kkk.",
+      "Você não vai acreditar no que aconteceu hoje... lembrei na hora daquela sua história.",
+      "Vi uma coisa que é a sua cara, mas acho que você ainda não está pronto para essa conversa.",
+      "Sabe aquele lugar que a gente comentou? Fui lá hoje e tive uma surpresa.",
+      "Tive um insight sobre você hoje, mas depois a gente conversa sobre isso."
     ],
     "Distância": [
-      "Estou bem focada em uns projetos agora.",
-      "Semana corrida, quase não peguei no celular.",
-      "Depois a gente se fala com calma.",
-      "Estou aproveitando o momento.",
-      "A vida está acontecendo rápido demais kkk."
+      "Estou em uma fase de focar muito nos meus projetos agora, ando meio sem tempo para o celular.",
+      "Senti que precisava de um tempo para recalibrar minhas energias. Nos falamos depois!",
+      "Acho que a gente está em sintonias diferentes agora, e tudo bem. Vou focar nas minhas coisas.",
+      "Vou dar uma sumida das redes por esses dias, preciso de silêncio.",
+      "Hoje meu dia está uma loucura, não consigo dar a atenção que o papo exige."
     ],
     "Limite": [
-      "Eu não curto muito esse tipo de conversa.",
-      "Prefiro falar disso pessoalmente.",
-      "Não faz meu estilo essa dinâmica.",
-      "Vou focar em mim agora.",
-      "Isso não funciona para mim."
+      "Eu não funciono bem com esse tipo de comunicação incerta. Prefiro clareza.",
+      "Gosto de você, mas não aceito ser plano B de ninguém. Minhas regras mudaram.",
+      "Se você quer estar na minha vida, o investimento precisa ser recíproco. Menos que isso não me serve.",
+      "Percebi que eu estava facilitando demais as coisas. A partir de agora, as coisas serão no meu tempo.",
+      "Não aceito respostas curtas depois de dias de silêncio. Se for pra ser assim, prefiro nem falar."
     ],
     "Reengajamento": [
-      "Oi! Vi isso e lembrei de você.",
-      "Como andam as coisas?",
-      "Espero que sua semana esteja ótima.",
-      "Passando para dar um oi.",
-      "Saudades das nossas conversas."
+      "Vi isso e lembrei que você ama. Espero que esteja tendo uma semana boa!",
+      "Como andam as coisas por aí? Estava lembrando daquela nossa viagem.",
+      "Passei por aquele café hoje e lembrei de você. Um abraço!",
+      "Estava ouvindo aquela música e seu nome veio na cabeça. Tudo bem por aí?",
+      "Ei! Vi que você conseguiu [conquista/fato]. Parabéns, você merece muito!"
     ]
-  }
+  },
+  "audioScripts": [
+    { "id": "a1", "title": "O Poder do Silêncio", "premium": false },
+    { "id": "a2", "title": "Gatilhos de Curiosidade", "premium": true },
+    { "id": "a3", "title": "A Psicologia do Afastamento", "premium": true }
+  ]
 }
