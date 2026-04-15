@@ -15,7 +15,7 @@ O app é um software de **análise comportamental e protocolo tático**. Ele dia
     - **Efeitos:** Glassmorphism (blur 12px), Grid Dark (40px), Pulse Glow nos botões.
     - **Fontes:** `Outfit` (Títulos) e `Inter` (Corpo).
 - **Persistência:** LocalStorage (Offline-first total).
-- **Segurança:** PIN de acesso local (`3344`) com criptografia simulada.
+- **Segurança:** PIN de acesso local (`3344`) com validação estrita.
 
 ## 3. Motor de Inteligência (Algoritmo do Quiz)
 - **Banco de Dados:** Pool de 25 perguntas categorizadas.
@@ -41,7 +41,7 @@ O app é um software de **análise comportamental e protocolo tático**. Ele dia
 - `src/app/components/ProtocoloReacao.tsx`: Componente tático de entrega de conteúdo.
 
 ## 6. Lógica de Segurança
-- Acesso bloqueado por PIN obrigatório.
+- Acesso bloqueado por PIN obrigatório (3344).
 - Loop de autenticação protegido por travas de estado na Splash.
 - Reset de dados limpa LocalStorage e redireciona para Auth limpa.
 
