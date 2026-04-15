@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useLocalData } from '@/lib/store';
@@ -15,6 +16,11 @@ export default function Dashboard({ onStartQuiz, onOpenProtocol }: { onStartQuiz
     if (!data.sessions || data.sessions.length === 0) return null;
     return data.sessions[data.sessions.length - 1];
   }, [data.sessions]);
+
+  const activeProtocol = useMemo(() => {
+    if (!lastSession?.activeProtocolId) return null;
+    return (contentData.protocolos as any)[lastSession.activeProtocolId];
+  }, [lastSession]);
 
   useEffect(() => {
     if (!lastSession?.protocolStartTime) return;
@@ -174,7 +180,7 @@ export default function Dashboard({ onStartQuiz, onOpenProtocol }: { onStartQuiz
             <div className="flex items-center justify-between relative z-10">
               <h3 className="text-xs font-black text-success uppercase tracking-widest flex items-center gap-2">
                 <Zap className="w-4 h-4 fill-success" />
-                Protocolo Ativado
+                {activeProtocol?.title ? `Protocolo: ${activeProtocol.title}` : 'Protocolo Ativado'}
               </h3>
               <div className="flex items-center gap-1.5 bg-black/40 px-3 py-1 rounded-full border border-white/5">
                 <Timer className="w-3 h-3 text-success" />
@@ -182,10 +188,10 @@ export default function Dashboard({ onStartQuiz, onOpenProtocol }: { onStartQuiz
               </div>
             </div>
             <p className="text-xs text-foreground/80 leading-snug font-medium relative z-10">
-              Ações de intervenção imediata para reverter o esfriamento detectado.
+              {activeProtocol?.description || 'Ações de intervenção imediata para reverter o esfriamento detectado.'}
             </p>
             <div className="flex items-center gap-2 text-[10px] font-black text-success uppercase tracking-[0.2em] mt-2 relative z-10">
-              EXECUTAR AGORA <ArrowRight className="w-3 h-3" />
+              ACESSAR AGORA <ArrowRight className="w-3 h-3" />
             </div>
           </div>
         )}

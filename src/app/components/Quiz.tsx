@@ -1,7 +1,8 @@
+
 "use client";
 
 import { useState, useCallback, useMemo } from 'react';
-import { useLocalData, QuizResponse, CategorySubscore } from '@/lib/store';
+import { useLocalData, QuizResponse, CategorySubscore, Session } from '@/lib/store';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Radar, Zap } from 'lucide-react';
@@ -95,7 +96,28 @@ export default function Quiz({ onComplete }: { onComplete: () => void }) {
       if (normalizedScore >= 70) sessionLabel = 'low';
       else if (normalizedScore >= 40) sessionLabel = 'medium';
 
-      const session = {
+      // Lógica de Seleção de Protocolo Adaptativo (V4)
+      let activeProtocolId = 'retomada_autonomia'; // Default
+
+      if (normalizedScore >= 70) {
+        activeProtocolId = 'consolidacao';
+      } else {
+        const mapping: Record<string, string> = {
+          'consistencia': 'recalibracao_emocional',
+          'investimento': 'reengajamento_leve',
+          'reciprocidade': 'realinhamento_expectativa',
+          'prioridade': 'clareza_posicionamento',
+          'profundidade': 'reconexao_emocional',
+          'dinamica': 'descompressao_pressao',
+          'percepcao': 'retomada_autonomia',
+          'comunicacao': 'reengajamento_leve',
+          'interesse': 'reconexao_emocional',
+          'alertas': 'retomada_autonomia'
+        };
+        activeProtocolId = mapping[weakestCategory] || 'retomada_autonomia';
+      }
+
+      const session: Session = {
         id: Math.random().toString(36).substring(2, 11),
         timestamp: Date.now(),
         score: normalizedScore,
@@ -103,7 +125,8 @@ export default function Quiz({ onComplete }: { onComplete: () => void }) {
         responses: finalResponses,
         weakestCategory,
         subscores,
-        protocolStartTime: Date.now()
+        protocolStartTime: Date.now(),
+        activeProtocolId
       };
 
       updateData({
@@ -197,7 +220,7 @@ export default function Quiz({ onComplete }: { onComplete: () => void }) {
         <div className="space-y-4">
           <p className="text-muted-foreground animate-pulse text-[10px] font-black uppercase tracking-[0.3em]">Identificando padrões de vácuo...</p>
           <p className="text-muted-foreground animate-pulse delay-100 text-[10px] font-black uppercase tracking-[0.3em]">Mapeando desinvestimento...</p>
-          <p className="text-muted-foreground animate-pulse delay-200 text-[10px] font-black uppercase tracking-[0.3em]">Ativando Protocolos de Reação...</p>
+          <p className="text-muted-foreground animate-pulse delay-200 text-[10px] font-black uppercase tracking-[0.3em]">Ativando Protocolos Adaptativos...</p>
         </div>
       </div>
     );
@@ -205,6 +228,7 @@ export default function Quiz({ onComplete }: { onComplete: () => void }) {
 
   if (state === 'RESULT') {
     const lastSession = data.sessions[data.sessions.length - 1];
+    if (!lastSession) return null;
     const rangeData = contentData.expandedResults[lastSession.label as 'low' | 'medium' | 'high'];
     const categoryInsight = lastSession.weakestCategory ? (contentData.categoryInsights as any)[lastSession.weakestCategory] : null;
 
@@ -224,7 +248,7 @@ export default function Quiz({ onComplete }: { onComplete: () => void }) {
           </div>
         </div>
 
-        <div className="glass-card p-8 rounded-[40px] border-white/5 mb-6 text-left shadow-2xl relative">
+        <div className="glass-card p-8 rounded-[40px] border-white/5 mb-6 text-left shadow-2xl relative overflow-hidden">
           <div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none">
             <Radar className="w-16 h-16 text-white" />
           </div>
@@ -244,7 +268,7 @@ export default function Quiz({ onComplete }: { onComplete: () => void }) {
         <div className="p-5 glass-card rounded-3xl border-success/30 mb-8 flex items-center gap-4 bg-success/5">
           <Zap className="w-6 h-6 text-success shrink-0" />
           <p className="text-[10px] font-black text-foreground text-left uppercase tracking-tight leading-snug">
-            Como você mesma percebeu, a área de {categoryInsight?.name.toLowerCase()} está {lastSession.score < 50 ? 'crítica' : 'instável'}. Seu protocolo foi adaptado para isso.
+            {lastSession.activeProtocolId ? `Como você percebeu, a área de ${categoryInsight?.name.toLowerCase() || 'relacionamento'} está crítica. Ativamos o protocolo ${(contentData.protocolos as any)[lastSession.activeProtocolId!]?.title || 'Especial'}.` : `Protocolo Adaptativo Ativado.`}
           </p>
         </div>
 

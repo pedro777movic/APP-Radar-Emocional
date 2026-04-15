@@ -1,11 +1,12 @@
+
 "use client";
 
 import { useLocalData } from '@/lib/store';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ArrowLeft, Copy, Check, Flame, Zap, Clock, Info, ShieldCheck } from 'lucide-react';
+import { ArrowLeft, Copy, Check, Flame, Zap, Clock, Info, ShieldCheck, Target } from 'lucide-react';
 import contentData from '../../../public/assets/content.json';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useToast } from '@/hooks/use-toast';
 
 export default function ProtocoloReacao({ onBack }: { onBack: () => void }) {
@@ -14,7 +15,15 @@ export default function ProtocoloReacao({ onBack }: { onBack: () => void }) {
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [timeLeft, setTimeLeft] = useState<string>('');
 
-  const lastSession = data.sessions[data.sessions.length - 1];
+  const lastSession = useMemo(() => {
+    if (!data.sessions || data.sessions.length === 0) return null;
+    return data.sessions[data.sessions.length - 1];
+  }, [data.sessions]);
+
+  const activeProtocol = useMemo(() => {
+    if (!lastSession?.activeProtocolId) return null;
+    return (contentData.protocolos as any)[lastSession.activeProtocolId];
+  }, [lastSession]);
 
   useEffect(() => {
     if (!lastSession?.protocolStartTime) return;
@@ -47,7 +56,12 @@ export default function ProtocoloReacao({ onBack }: { onBack: () => void }) {
     setTimeout(() => setCopiedId(null), 2000);
   };
 
-  if (!lastSession) return null;
+  if (!lastSession || !activeProtocol) return (
+    <div className="p-6 flex flex-col items-center justify-center h-full text-center">
+      <h2 className="text-xl font-bold mb-4">Nenhum protocolo ativo</h2>
+      <Button onClick={onBack}>Voltar</Button>
+    </div>
+  );
 
   return (
     <div className="p-6 animate-slide-up pb-24 h-full overflow-y-auto">
@@ -58,10 +72,16 @@ export default function ProtocoloReacao({ onBack }: { onBack: () => void }) {
         <div>
           <div className="flex items-center gap-2 text-primary mb-1">
             <ShieldCheck className="w-4 h-4 text-accent" />
-            <h2 className="text-2xl font-headline font-black tracking-tight">PROTOCOLO V3</h2>
+            <h2 className="text-xl font-headline font-black tracking-tight uppercase">{activeProtocol.title}</h2>
           </div>
-          <p className="text-[9px] text-muted-foreground font-black uppercase tracking-[0.3em]">Intervenção Estratégica</p>
+          <p className="text-[9px] text-muted-foreground font-black uppercase tracking-[0.3em]">Intervenção Adaptativa</p>
         </div>
+      </div>
+
+      <div className="glass-card p-6 rounded-[32px] mb-8 border-accent/20">
+        <p className="text-xs text-foreground/80 leading-relaxed italic font-medium">
+          "{activeProtocol.description}"
+        </p>
       </div>
 
       <div className="glass-card p-6 rounded-[32px] mb-10 flex items-center justify-between relative overflow-hidden group border-success/20">
@@ -82,15 +102,15 @@ export default function ProtocoloReacao({ onBack }: { onBack: () => void }) {
         <TabsList className="grid grid-cols-3 glass-card p-1.5 h-16 mb-10 border-white/5">
           <TabsTrigger value="24h" className="text-[9px] font-black uppercase tracking-widest rounded-xl data-[state=active]:bg-primary data-[state=active]:text-white transition-all">Ações 24h</TabsTrigger>
           <TabsTrigger value="scripts" className="text-[9px] font-black uppercase tracking-widest rounded-xl data-[state=active]:bg-primary data-[state=active]:text-white transition-all">Scripts</TabsTrigger>
-          <TabsTrigger value="3dias" className="text-[9px] font-black uppercase tracking-widest rounded-xl data-[state=active]:bg-primary data-[state=active]:text-white transition-all">Resgate</TabsTrigger>
+          <TabsTrigger value="3dias" className="text-[9px] font-black uppercase tracking-widest rounded-xl data-[state=active]:bg-primary data-[state=active]:text-white transition-all">Plano 3D</TabsTrigger>
         </TabsList>
 
         <TabsContent value="24h" className="space-y-5 animate-fade-in">
           <div className="mb-8 px-2">
             <h3 className="font-headline font-black text-xl mb-2 tracking-tight uppercase">Choque Tático</h3>
-            <p className="text-xs text-muted-foreground leading-relaxed">Siga estas ações à risca para resetar a percepção de valor.</p>
+            <p className="text-xs text-muted-foreground leading-relaxed">Ações personalizadas para sua situação de {lastSession.weakestCategory}.</p>
           </div>
-          {contentData.protocolo_24h.map((step, idx) => (
+          {activeProtocol.acoes_24h.map((step: any, idx: number) => (
             <div key={idx} className="p-6 glass-card rounded-[32px] border-white/5 flex gap-5 transition-all hover:border-accent/20">
               <div className="w-10 h-10 rounded-2xl bg-accent/10 flex items-center justify-center text-accent font-black text-sm shrink-0 border border-accent/20">
                 {idx + 1}
@@ -105,10 +125,10 @@ export default function ProtocoloReacao({ onBack }: { onBack: () => void }) {
 
         <TabsContent value="scripts" className="space-y-5 animate-fade-in">
           <div className="mb-8 px-2">
-            <h3 className="font-headline font-black text-xl mb-2 tracking-tight uppercase">Copy-Paste</h3>
-            <p className="text-xs text-muted-foreground leading-relaxed">Pressione para copiar. Use no momento exato sugerido.</p>
+            <h3 className="font-headline font-black text-xl mb-2 tracking-tight uppercase">Adaptados</h3>
+            <p className="text-xs text-muted-foreground leading-relaxed">Mensagens específicas para o padrão detectado no seu Radar.</p>
           </div>
-          {contentData.scripts_copy_paste.map((script) => (
+          {activeProtocol.scripts.map((script: any) => (
             <div 
               key={script.id} 
               onClick={() => copyToClipboard(script.texto, script.id)}
@@ -123,7 +143,7 @@ export default function ProtocoloReacao({ onBack }: { onBack: () => void }) {
               <p className="text-md font-medium leading-relaxed italic mb-5 text-foreground/90 bg-black/40 p-4 rounded-2xl border border-white/5">"{script.texto}"</p>
               <div className="flex items-start gap-3">
                 <Info className="w-4 h-4 text-accent shrink-0 mt-0.5" />
-                <p className="text-[10px] text-muted-foreground leading-normal font-medium">{script.instrução}</p>
+                <p className="text-[10px] text-muted-foreground leading-normal font-medium">{script.instrucao}</p>
               </div>
             </div>
           ))}
@@ -131,11 +151,11 @@ export default function ProtocoloReacao({ onBack }: { onBack: () => void }) {
 
         <TabsContent value="3dias" className="space-y-8 animate-fade-in">
           <div className="mb-8 px-2">
-            <h3 className="font-headline font-black text-xl mb-2 tracking-tight uppercase">Mapa de Resgate</h3>
-            <p className="text-xs text-muted-foreground leading-relaxed">Cronograma tático de 72 horas para mudança de percepção.</p>
+            <h3 className="font-headline font-black text-xl mb-2 tracking-tight uppercase">Cronograma</h3>
+            <p className="text-xs text-muted-foreground leading-relaxed">Roteiro tático de 72 horas para reposicionamento de valor.</p>
           </div>
           <div className="relative pl-10 space-y-12 before:absolute before:left-[19px] before:top-2 before:bottom-2 before:w-[2px] before:bg-gradient-to-b before:from-primary before:to-accent before:opacity-30">
-            {contentData.plano_resgate_3dias.map((dia) => (
+            {activeProtocol.plano_3dias.map((dia: any) => (
               <div key={dia.dia} className="relative">
                 <div className="absolute -left-[30px] top-0 w-10 h-10 rounded-2xl bg-background border-2 border-primary flex items-center justify-center z-10 shadow-[0_0_20px_rgba(157,0,255,0.4)]">
                   <span className="text-xs font-black text-primary">{dia.dia}</span>
@@ -144,7 +164,7 @@ export default function ProtocoloReacao({ onBack }: { onBack: () => void }) {
                   <h4 className="text-[10px] font-black text-accent uppercase tracking-[0.2em] mb-3">DIA {dia.dia}: {dia.titulo}</h4>
                   <p className="text-sm text-foreground font-bold mb-4 leading-snug">{dia.acao}</p>
                   <div className="flex flex-wrap gap-2">
-                    {dia.detalhes.map((det, i) => (
+                    {dia.detalhes.map((det: string, i: number) => (
                       <span key={i} className="text-[9px] bg-white/5 px-3 py-1.5 rounded-xl text-muted-foreground border border-white/5 font-medium">
                         {det}
                       </span>
@@ -165,7 +185,7 @@ export default function ProtocoloReacao({ onBack }: { onBack: () => void }) {
           Mentalidade Blindada
         </h3>
         <p className="text-xs text-muted-foreground leading-relaxed font-medium">
-          Este plano não visa a manipulação, mas a sua **Dignidade Emocional**. Ao retirar seu investimento, você cria o vácuo necessário para que ele sinta a perda e reavalie sua importância. O silêncio é poder.
+          {activeProtocol.mentalidade}
         </p>
       </div>
     </div>

@@ -32,6 +32,7 @@ export type Session = {
   weakestCategory?: string;
   subscores?: CategorySubscore[];
   protocolStartTime?: number;
+  activeProtocolId?: string;
 };
 
 export type AppData = {
