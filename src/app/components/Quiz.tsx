@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useCallback, useMemo } from 'react';
@@ -16,12 +17,41 @@ export default function Quiz({ onComplete }: { onComplete: () => void }) {
   const [responses, setResponses] = useState<QuizResponse[]>([]);
 
   const activeQuestions = useMemo(() => {
-    const pool = [...contentData.quiz.questions];
-    for (let i = pool.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [pool[i], pool[j]] = [pool[j], pool[i]];
-    }
-    return pool.slice(0, 4);
+    const allQuestions = contentData.quiz.questions;
+    const coreCategories = ['investimento', 'consistencia', 'prioridade', 'reciprocidade'];
+    
+    // Shuffle helper
+    const shuffle = (array: any[]) => {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    };
+
+    // 1. Garantir 1 de cada categoria core
+    const selected: any[] = [];
+    const usedIds = new Set<string>();
+
+    coreCategories.forEach(cat => {
+      const catQuestions = allQuestions.filter(q => q.category === cat);
+      const shuffledCat = shuffle(catQuestions);
+      if (shuffledCat.length > 0) {
+        selected.push(shuffledCat[0]);
+        usedIds.add(shuffledCat[0].id);
+      }
+    });
+
+    // 2. Preencher o restante (total 10) com as outras perguntas de forma aleatória
+    const remainingCount = 10 - selected.length;
+    const available = allQuestions.filter(q => !usedIds.has(q.id));
+    const shuffledAvailable = shuffle(available);
+    
+    const finalSelection = [...selected, ...shuffledAvailable.slice(0, remainingCount)];
+    
+    // 3. Embaralhar a ordem final das 10 perguntas
+    return shuffle(finalSelection);
   }, []);
 
   const calculateResult = useCallback((finalResponses: QuizResponse[]) => {
@@ -39,7 +69,11 @@ export default function Quiz({ onComplete }: { onComplete: () => void }) {
       const finalScore = Math.round(weightedSum / totalWeight);
       const normalizedScore = Math.max(0, Math.min(100, finalScore));
 
-      const categories = ['investimento', 'consistencia', 'prioridade', 'reciprocidade'];
+      const categories = [
+        'investimento', 'consistencia', 'prioridade', 'reciprocidade', 
+        'profundidade', 'comunicacao', 'interesse', 'dinamica', 'percepcao', 'alertas'
+      ];
+      
       const subscores: CategorySubscore[] = categories.map(cat => {
         const catResponses = finalResponses.filter(r => r.category === cat);
         if (catResponses.length === 0) return { category: cat, score: -1 };
@@ -53,25 +87,34 @@ export default function Quiz({ onComplete }: { onComplete: () => void }) {
         return { category: cat, score: Math.round(catSum / catWeight) };
       }).filter(s => s.score !== -1);
 
+      // Encontrar a categoria com menor score (mais crítica)
+      // Nota: Scores menores indicam maior risco se a pergunta for positiva, 
+      // mas as respostas já foram normalizadas no handleAnswer
       let weakestCategory = subscores.length > 0 ? subscores[0].category : '';
-      let maxCatScore = subscores.length > 0 ? subscores[0].score : 0;
+      let minScore = subscores.length > 0 ? subscores[0].score : 100;
 
       subscores.forEach(s => {
-        if (s.score > maxCatScore) {
-          maxCatScore = s.score;
+        if (s.score < minScore) {
+          minScore = s.score;
           weakestCategory = s.category;
         }
       });
 
       let label: 'low' | 'medium' | 'high' = 'low';
-      if (normalizedScore >= 67) label = 'high';
+      if (normalizedScore >= 67) label = 'low'; // Invertido na UI para mostrar saúde, mas o diagnóstico adaptativo lida com o nível
       else if (normalizedScore >= 34) label = 'medium';
+      else label = 'high';
+
+      // Ajuste de label para ser coerente com a gravidade (Quanto menor o score, maior o risco)
+      let sessionLabel: 'low' | 'medium' | 'high' = 'high';
+      if (normalizedScore >= 70) sessionLabel = 'low';
+      else if (normalizedScore >= 40) sessionLabel = 'medium';
 
       const session = {
         id: Math.random().toString(36).substring(2, 11),
         timestamp: Date.now(),
         score: normalizedScore,
-        label,
+        label: sessionLabel,
         responses: finalResponses,
         weakestCategory,
         subscores,
@@ -90,6 +133,7 @@ export default function Quiz({ onComplete }: { onComplete: () => void }) {
   const handleAnswer = (val: number) => {
     const q = activeQuestions[currentIdx];
     let finalVal = val;
+    // Se a pergunta for reversa, invertemos a pontuação (0 vira 100, 100 vira 0)
     if (q.reverse) {
       finalVal = 100 - val;
     }
@@ -214,7 +258,7 @@ export default function Quiz({ onComplete }: { onComplete: () => void }) {
         <div className="p-5 glass-card rounded-3xl border-success/30 mb-8 flex items-center gap-4 bg-success/5">
           <Zap className="w-6 h-6 text-success animate-bounce" />
           <p className="text-[10px] font-black text-foreground text-left uppercase tracking-tight leading-snug">
-            Seu Plano de Intervenção Estratégica foi gerado com base no seu ponto crítico.
+            Como você mesma percebeu, a área de {categoryInsight?.name.toLowerCase()} está {lastSession.score < 50 ? 'crítica' : 'instável'}. Seu protocolo foi adaptado para isso.
           </p>
         </div>
 
