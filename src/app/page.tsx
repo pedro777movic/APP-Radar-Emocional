@@ -1,11 +1,10 @@
-
 "use client";
 
 import React, { useEffect, useState, useCallback } from 'react';
 import { useLocalData } from '@/lib/store';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { ShieldCheck, Radar, ChevronRight, UserCircle, Settings, Flame } from 'lucide-react';
+import { ShieldCheck, Radar, UserCircle, Settings } from 'lucide-react';
 import Onboarding from './components/Onboarding';
 import Dashboard from './components/Dashboard';
 import Quiz from './components/Quiz';
@@ -31,24 +30,17 @@ export default function Home() {
         } else {
           setStep('DASHBOARD');
         }
-      }, 1500);
+      }, 2000);
       return () => clearTimeout(splashTimeout);
     }
   }, [loading, hasPin, data.onboarded, step]);
 
   const handleLogin = useCallback(() => {
     setError('');
-    
-    if (pinInput.length === 0) {
-      setError('Digite o seu PIN');
-      return;
-    }
-
     if (pinInput.length < 4) {
-      setError('O PIN deve ter 4 dígitos');
+      setError('Digite o PIN de 4 dígitos');
       return;
     }
-
     if (verifyPin(pinInput)) {
       if (!data.onboarded) setStep('ONBOARDING');
       else setStep('DASHBOARD');
@@ -73,24 +65,29 @@ export default function Home() {
 
   if (loading || step === 'SPLASH') {
     return (
-      <div className="flex flex-col items-center justify-center h-screen bg-background p-6 text-center animate-fade-in">
+      <div className="flex flex-col items-center justify-center h-screen bg-background p-6 text-center animate-fade-in relative">
+        <div className="absolute inset-0 radar-scan opacity-20" />
         <div className="relative mb-8">
-          <div className="absolute inset-0 bg-primary/20 blur-3xl rounded-full scale-150 animate-pulse"></div>
-          <Radar className="w-16 h-16 text-primary relative z-10 animate-spin-slow" style={{ animationDuration: '4s' }} />
+          <div className="absolute inset-0 bg-primary/30 blur-[60px] rounded-full scale-150 animate-pulse"></div>
+          <Radar className="w-24 h-24 text-primary relative z-10 animate-spin-slow" />
         </div>
-        <h1 className="text-2xl font-headline font-bold text-foreground mb-2 text-primary tracking-tighter">RADAR EMOCIONAL V3</h1>
-        <p className="text-muted-foreground font-body text-sm">Ativando Protocolos de Reação...</p>
-        <div className="w-32 h-1 bg-muted mt-8 rounded-full overflow-hidden">
-          <div className="h-full bg-primary animate-progress-ind"></div>
+        <h1 className="text-3xl font-headline font-extrabold text-foreground mb-2 tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-primary via-secondary to-accent">
+          RADAR EMOCIONAL
+        </h1>
+        <p className="text-muted-foreground font-body text-xs uppercase tracking-[0.2em] font-medium opacity-70">
+          Escaneando Frequências...
+        </p>
+        <div className="w-48 h-1 bg-white/5 mt-10 rounded-full overflow-hidden border border-white/5">
+          <div className="h-full bg-gradient-to-r from-primary to-accent animate-loading-bar"></div>
         </div>
         <style jsx>{`
-          @keyframes progress-ind {
-            0% { width: 0%; margin-left: 0%; }
-            50% { width: 40%; margin-left: 30%; }
-            100% { width: 0%; margin-left: 100%; }
+          @keyframes loading-bar {
+            0% { width: 0%; transform: translateX(-100%); }
+            50% { width: 100%; transform: translateX(0); }
+            100% { width: 0%; transform: translateX(100%); }
           }
-          .animate-progress-ind {
-            animation: progress-ind 2s infinite ease-in-out;
+          .animate-loading-bar {
+            animation: loading-bar 2.5s infinite cubic-bezier(0.65, 0, 0.35, 1);
           }
         `}</style>
       </div>
@@ -101,17 +98,18 @@ export default function Home() {
     return (
       <div className="flex flex-col h-screen bg-background p-6 animate-fade-in">
         <div className="flex-1 flex flex-col justify-center max-w-xs mx-auto w-full">
-          <div className="mb-10 text-center">
-            <div className="bg-primary/10 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-6">
-              <ShieldCheck className="w-8 h-8 text-primary" />
+          <div className="mb-12 text-center">
+            <div className="glass-card w-20 h-20 rounded-3xl flex items-center justify-center mx-auto mb-8 relative group">
+              <div className="absolute inset-0 bg-primary/20 blur-xl rounded-full group-hover:bg-primary/40 transition-all" />
+              <ShieldCheck className="w-10 h-10 text-accent relative z-10" />
             </div>
-            <h2 className="text-2xl font-headline font-bold mb-2">Acesso seguro</h2>
-            <p className="text-muted-foreground text-sm">Seus dados e protocolos são 100% privados.</p>
+            <h2 className="text-3xl font-headline font-bold mb-3 tracking-tight">Acesso Seguro</h2>
+            <p className="text-muted-foreground text-sm leading-relaxed px-4">Seus dados e protocolos são 100% privados.</p>
           </div>
 
-          <div className="space-y-4">
-            <div className="space-y-2">
-              <label className="text-xs font-medium uppercase tracking-wider text-muted-foreground ml-1">PIN de 4 dígitos</label>
+          <div className="space-y-6">
+            <div className="space-y-3">
+              <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground ml-1">PIN de 4 dígitos</label>
               <Input
                 type="password"
                 inputMode="numeric"
@@ -124,31 +122,29 @@ export default function Home() {
                   setPinInput(val);
                 }}
                 onKeyDown={(e) => {
-                  if (e.key === 'Enter' && pinInput.length === 4) {
-                    handleLogin();
-                  }
+                  if (e.key === 'Enter' && pinInput.length === 4) handleLogin();
                 }}
-                className="text-center text-2xl tracking-[1em] h-14 bg-muted/50 border-none focus:ring-1 focus:ring-primary"
+                className="text-center text-3xl font-headline tracking-[0.8em] h-16 glass-card border-none focus:ring-2 focus:ring-primary/50 transition-all"
                 placeholder="****"
               />
-              {error && <p className="text-destructive text-[10px] text-center mt-2 font-black uppercase tracking-widest animate-pulse">{error}</p>}
+              {error && <p className="text-destructive text-[10px] text-center mt-3 font-black uppercase tracking-widest animate-pulse">{error}</p>}
             </div>
 
             <Button
-              className="w-full h-12 text-md font-semibold glow-primary"
+              className="w-full h-16 text-lg font-extrabold uppercase tracking-widest bg-success text-success-foreground hover:bg-success/90 animate-pulse-glow-success border-none"
               onClick={handleLogin}
               disabled={pinInput.length !== 4}
             >
-              Entrar
+              Desbloquear
             </Button>
 
             {!data.onboarded && (
               <button
                 onClick={enterAsGuest}
-                className="w-full text-sm text-muted-foreground py-2 hover:text-foreground transition-colors flex items-center justify-center gap-1"
+                className="w-full text-[10px] font-bold uppercase tracking-widest text-muted-foreground py-4 hover:text-foreground transition-all flex items-center justify-center gap-2"
               >
                 <UserCircle className="w-4 h-4" />
-                Entrar como convidada
+                Acesso Convidada
               </button>
             )}
           </div>
@@ -174,27 +170,29 @@ export default function Home() {
       </div>
 
       {step !== 'ONBOARDING' && step !== 'QUIZ' && step !== 'PROTOCOLO' && (
-        <div className="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-card/80 backdrop-blur-lg border-t border-white/5 h-20 px-6 flex items-center justify-between z-50">
+        <div className="fixed bottom-0 left-0 right-0 max-w-md mx-auto glass-card border-t border-white/10 h-20 px-10 flex items-center justify-between z-50 rounded-none">
           <button
             onClick={() => setStep('DASHBOARD')}
-            className={`flex flex-col items-center gap-1 transition-colors ${step === 'DASHBOARD' ? 'text-primary' : 'text-muted-foreground hover:text-foreground'}`}
+            className={`flex flex-col items-center gap-1.5 transition-all ${step === 'DASHBOARD' ? 'text-accent scale-110' : 'text-muted-foreground hover:text-foreground'}`}
           >
             <Radar className="w-6 h-6" />
-            <span className="text-[10px] font-medium">Radar</span>
+            <span className="text-[10px] font-bold uppercase tracking-tighter">Radar</span>
           </button>
           <button
             onClick={() => setStep('TOOLKIT')}
-            className={`flex flex-col items-center gap-1 transition-colors ${step === 'TOOLKIT' ? 'text-primary' : 'text-muted-foreground hover:text-foreground'}`}
+            className={`flex flex-col items-center gap-1.5 transition-all ${step === 'TOOLKIT' ? 'text-accent scale-110' : 'text-muted-foreground hover:text-foreground'}`}
           >
-            <ChevronRight className="w-6 h-6 rotate-90" />
-            <span className="text-[10px] font-medium">Central</span>
+            <div className="w-10 h-10 rounded-full flex items-center justify-center bg-primary/10 border border-primary/20 -mt-8 glass-card">
+              <UserCircle className="w-6 h-6" />
+            </div>
+            <span className="text-[10px] font-bold uppercase tracking-tighter mt-1">Central</span>
           </button>
           <button
             onClick={() => setStep('SETTINGS')}
-            className={`flex flex-col items-center gap-1 transition-colors ${step === 'SETTINGS' ? 'text-primary' : 'text-muted-foreground hover:text-foreground'}`}
+            className={`flex flex-col items-center gap-1.5 transition-all ${step === 'SETTINGS' ? 'text-accent scale-110' : 'text-muted-foreground hover:text-foreground'}`}
           >
             <Settings className="w-6 h-6" />
-            <span className="text-[10px] font-medium">Ajustes</span>
+            <span className="text-[10px] font-bold uppercase tracking-tighter">Ajustes</span>
           </button>
         </div>
       )}

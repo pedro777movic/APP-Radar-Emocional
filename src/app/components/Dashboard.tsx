@@ -1,12 +1,10 @@
-
 "use client";
 
-import { useLocalData, Session } from '@/lib/store';
+import { useLocalData } from '@/lib/store';
 import { Button } from '@/components/ui/button';
-import { Radar, ArrowRight, CheckCircle2, Info, BookOpen, Target, Flame, Zap } from 'lucide-react';
+import { Radar, ArrowRight, Target, Flame, Zap, Timer } from 'lucide-react';
 import contentData from '../../../public/assets/content.json';
 import { useState, useMemo, useEffect } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 
 export default function Dashboard({ onStartQuiz, onOpenProtocol }: { onStartQuiz: () => void, onOpenProtocol: () => void }) {
   const { data, updateData } = useLocalData();
@@ -42,9 +40,9 @@ export default function Dashboard({ onStartQuiz, onOpenProtocol }: { onStartQuiz
 
   const getLabelColor = (label: string) => {
     switch (label) {
-      case 'low': return 'text-green-400';
-      case 'medium': return 'text-primary';
-      case 'high': return 'text-secondary';
+      case 'low': return 'text-success';
+      case 'medium': return 'text-accent';
+      case 'high': return 'text-destructive';
       default: return 'text-muted-foreground';
     }
   };
@@ -52,9 +50,9 @@ export default function Dashboard({ onStartQuiz, onOpenProtocol }: { onStartQuiz
   const getLabelText = (label: string) => {
     switch (label) {
       case 'low': return 'Equilíbrio';
-      case 'medium': return 'Atenção';
-      case 'high': return 'Alto Risco';
-      default: return 'Desconhecido';
+      case 'medium': return 'Alerta';
+      case 'high': return 'Risco Crítico';
+      default: return 'Sem Dados';
     }
   };
 
@@ -72,11 +70,11 @@ export default function Dashboard({ onStartQuiz, onOpenProtocol }: { onStartQuiz
     const plan = contentData.expandedResults[lastSession.label as 'low' | 'medium' | 'high']?.plan || [];
     return (
       <div className="p-6 animate-slide-up pb-24">
-        <div className="flex items-center justify-between mb-8">
-          <h2 className="text-2xl font-headline font-bold">Seu Plano</h2>
+        <div className="flex items-center justify-between mb-10">
+          <h2 className="text-3xl font-headline font-extrabold tracking-tight">Estratégia Detalhada</h2>
           <button 
             onClick={() => setShowPlan(false)} 
-            className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+            className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors glass-card px-4 py-2 rounded-full"
           >
             Voltar
           </button>
@@ -88,25 +86,25 @@ export default function Dashboard({ onStartQuiz, onOpenProtocol }: { onStartQuiz
             return (
               <div
                 key={step.id}
-                className={`p-5 rounded-2xl border transition-all duration-300 ${
-                  isDone ? 'bg-primary/5 border-primary/20' : 'bg-card border-white/5'
+                className={`p-6 rounded-3xl border transition-all duration-300 glass-card ${
+                  isDone ? 'border-success/30 bg-success/5' : 'border-white/5'
                 }`}
               >
-                <div className="flex items-start justify-between mb-3">
+                <div className="flex items-start justify-between mb-4">
                   <div className="flex-1 pr-4">
-                    <h3 className={`font-headline font-bold text-sm ${isDone ? 'text-primary' : 'text-foreground'}`}>
+                    <p className="text-[9px] text-accent font-black uppercase tracking-widest mb-1">{step.action}</p>
+                    <h3 className={`font-headline font-bold text-lg leading-tight ${isDone ? 'text-success' : 'text-foreground'}`}>
                       {step.title}
                     </h3>
-                    <p className="text-[10px] text-primary font-bold mt-1 uppercase tracking-wider">{step.action}</p>
                   </div>
                   <button 
                     onClick={() => toggleStep(step.id)}
-                    className={`p-1 rounded-full transition-colors ${isDone ? 'text-primary' : 'text-muted-foreground/30 hover:text-muted-foreground/50'}`}
+                    className={`w-8 h-8 rounded-full flex items-center justify-center transition-all ${isDone ? 'bg-success text-success-foreground' : 'bg-white/5 text-muted-foreground'}`}
                   >
-                    <CheckCircle2 className="w-6 h-6" />
+                    <Zap className="w-4 h-4" />
                   </button>
                 </div>
-                <p className="text-xs text-muted-foreground leading-relaxed bg-black/20 p-3 rounded-xl border border-white/5">
+                <p className="text-sm text-muted-foreground leading-relaxed bg-black/40 p-4 rounded-2xl border border-white/5 italic">
                   {step.description}
                 </p>
               </div>
@@ -118,88 +116,114 @@ export default function Dashboard({ onStartQuiz, onOpenProtocol }: { onStartQuiz
   }
 
   return (
-    <div className="p-6 animate-fade-in radar-gradient h-full flex flex-col pb-24">
-      <div className="flex items-center justify-between mb-10">
+    <div className="p-6 animate-fade-in h-full flex flex-col pb-24">
+      <div className="flex items-center justify-between mb-12">
         <div>
-          <h2 className="text-2xl font-headline font-bold">Meu Radar</h2>
-          <p className="text-[10px] text-muted-foreground uppercase tracking-widest font-bold">
-            {lastSession ? `Última análise: ${new Date(lastSession.timestamp).toLocaleDateString()}` : 'Nenhuma análise'}
+          <h2 className="text-3xl font-headline font-black tracking-tighter">MEU RADAR</h2>
+          <p className="text-[9px] text-muted-foreground uppercase tracking-[0.3em] font-bold mt-1">
+            {lastSession ? `Sincronizado: ${new Date(lastSession.timestamp).toLocaleDateString()}` : 'Pronto para Escaneamento'}
           </p>
         </div>
-        <div className="bg-card p-2.5 rounded-xl border border-white/5 shadow-lg">
-          <Radar className="w-5 h-5 text-primary" />
+        <div className="glass-card p-3 rounded-2xl shadow-xl border-accent/20">
+          <Radar className="w-6 h-6 text-accent" />
         </div>
       </div>
 
-      <div className="flex-1 flex flex-col items-center justify-center py-6">
-        <div className="relative w-64 h-64 mb-10">
-          <div className="absolute inset-0 bg-primary/5 rounded-full animate-pulse-glow"></div>
-          <svg className="w-full h-full transform -rotate-90">
-            <circle cx="128" cy="128" r="115" stroke="currentColor" strokeWidth="10" fill="transparent" className="text-muted/20" />
-            <circle cx="128" cy="128" r="115" stroke="currentColor" strokeWidth="10" fill="transparent" strokeDasharray={722.5} strokeDashoffset={722.5 - (722.5 * (lastSession?.score || 0)) / 100} className="text-primary transition-all duration-1000 ease-out" strokeLinecap="round" />
+      <div className="flex-1 flex flex-col items-center justify-center py-4">
+        <div className="relative w-72 h-72 mb-12 flex items-center justify-center">
+          <div className="absolute inset-0 bg-primary/10 rounded-full blur-3xl animate-pulse"></div>
+          <svg className="w-full h-full transform -rotate-90 relative z-10">
+            <defs>
+              <linearGradient id="scoreGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="hsl(var(--primary))" />
+                <stop offset="100%" stopColor="hsl(var(--accent))" />
+              </linearGradient>
+            </defs>
+            <circle cx="144" cy="144" r="130" stroke="rgba(255,255,255,0.05)" strokeWidth="8" fill="transparent" />
+            <circle 
+              cx="144" 
+              cy="144" 
+              r="130" 
+              stroke="url(#scoreGradient)" 
+              strokeWidth="10" 
+              fill="transparent" 
+              strokeDasharray={816.8} 
+              strokeDashoffset={816.8 - (816.8 * (lastSession?.score || 0)) / 100} 
+              className="transition-all duration-1000 ease-out" 
+              strokeLinecap="round" 
+            />
           </svg>
-          <div className="absolute inset-0 flex flex-col items-center justify-center">
-            <span className="text-6xl font-headline font-bold tracking-tighter">{lastSession?.score || 0}%</span>
-            <span className={`text-xs font-bold uppercase tracking-widest mt-1 ${getLabelColor(lastSession?.label || '')}`}>
+          <div className="absolute inset-0 flex flex-col items-center justify-center z-20">
+            <span className="text-7xl font-headline font-black tracking-tighter text-foreground drop-shadow-2xl">
+              {lastSession?.score || 0}<span className="text-3xl text-primary opacity-50">%</span>
+            </span>
+            <span className={`text-[10px] font-black uppercase tracking-[0.3em] mt-2 px-3 py-1 glass-card rounded-full border-none ${getLabelColor(lastSession?.label || '')}`}>
               {getLabelText(lastSession?.label || '')}
             </span>
           </div>
         </div>
 
-        {lastSession && lastSession.weakestCategory && (
-          <div className="w-full mb-4 p-4 bg-accent/5 rounded-2xl border border-accent/10 flex items-center gap-4">
-            <Target className="w-6 h-6 text-accent shrink-0" />
-            <div>
-              <p className="text-[10px] font-bold text-accent uppercase tracking-widest">Ponto mais crítico:</p>
-              <p className="text-xs font-medium text-foreground">{(contentData.categoryInsights as any)[lastSession.weakestCategory]?.name}</p>
+        {lastSession && (
+          <div 
+            onClick={onOpenProtocol}
+            className="w-full mb-8 p-6 glass-card rounded-[32px] border-primary/30 flex flex-col gap-3 relative overflow-hidden group cursor-pointer animate-pulse-glow-success"
+          >
+            <div className="absolute -top-4 -right-4 opacity-10 group-hover:scale-125 transition-transform duration-700">
+              <Flame className="w-24 h-24 text-success" />
+            </div>
+            <div className="flex items-center justify-between relative z-10">
+              <h3 className="text-xs font-black text-success uppercase tracking-widest flex items-center gap-2">
+                <Zap className="w-4 h-4 fill-success" />
+                Protocolo Ativado
+              </h3>
+              <div className="flex items-center gap-1.5 bg-black/40 px-3 py-1 rounded-full border border-white/5">
+                <Timer className="w-3 h-3 text-success" />
+                <span className="text-[10px] font-mono font-bold text-success tabular-nums">{timeLeft}</span>
+              </div>
+            </div>
+            <p className="text-xs text-foreground/80 leading-snug font-medium relative z-10">
+              Ações de intervenção imediata para reverter o esfriamento detectado.
+            </p>
+            <div className="flex items-center gap-2 text-[10px] font-black text-success uppercase tracking-[0.2em] mt-2 relative z-10">
+              EXECUTAR AGORA <ArrowRight className="w-3 h-3" />
             </div>
           </div>
         )}
 
-        {lastSession && (
-          <div className="w-full mb-8 p-5 bg-primary/10 rounded-2xl border border-primary/20 flex flex-col gap-3 relative overflow-hidden group cursor-pointer" onClick={onOpenProtocol}>
-            <div className="absolute top-0 right-0 p-2 opacity-20 group-hover:scale-110 transition-transform">
-              <Flame className="w-12 h-12 text-primary" />
+        {lastSession && lastSession.weakestCategory && (
+          <div className="w-full mb-6 p-5 glass-card rounded-3xl border-white/5 flex items-center gap-5">
+            <div className="w-12 h-12 rounded-2xl bg-accent/10 flex items-center justify-center border border-accent/20">
+              <Target className="w-6 h-6 text-accent" />
             </div>
-            <div className="flex items-center justify-between">
-              <h3 className="text-sm font-black text-primary uppercase tracking-tighter flex items-center gap-2">
-                <Zap className="w-4 h-4 fill-primary" />
-                Protocolo de Reação Ativado
-              </h3>
-              <span className="text-[10px] font-mono font-bold text-primary tabular-nums">{timeLeft}</span>
-            </div>
-            <p className="text-[11px] text-foreground leading-tight">
-              Ações imediatas recomendadas para o seu nível de esfriamento.
-            </p>
-            <div className="flex items-center gap-1 text-[10px] font-bold text-primary uppercase tracking-widest mt-1">
-              ACESSAR AGORA <ArrowRight className="w-3 h-3" />
+            <div>
+              <p className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest">Ponto Crítico:</p>
+              <p className="text-sm font-bold text-foreground">{(contentData.categoryInsights as any)[lastSession.weakestCategory]?.name}</p>
             </div>
           </div>
         )}
 
         <div className="w-full max-w-xs text-center mb-10">
-          <h3 className="font-headline font-bold text-lg mb-2">
-            {lastSession ? contentData.expandedResults[lastSession.label as 'low' | 'medium' | 'high']?.title : 'Pronta para sua análise?'}
+          <h3 className="font-headline font-bold text-xl mb-3 leading-tight">
+            {lastSession ? contentData.expandedResults[lastSession.label as 'low' | 'medium' | 'high']?.title : 'Pronta para o Diagnóstico?'}
           </h3>
-          <p className="text-xs text-muted-foreground px-4 leading-relaxed">
-            {lastSession ? 'Sua dinâmica exige uma intervenção estratégica imediata.' : 'Entenda o que está acontecendo nos bastidores da sua relação.'}
+          <p className="text-xs text-muted-foreground px-6 leading-relaxed opacity-80">
+            {lastSession ? 'Sua dinâmica exige uma intervenção estratégica para recuperar o valor percebido.' : 'Escaneie os padrões invisíveis que estão moldando o futuro da sua relação.'}
           </p>
         </div>
 
-        <div className="w-full space-y-3">
-          {lastSession && (
-            <Button
-              variant="outline"
-              onClick={() => setShowPlan(true)}
-              className="w-full h-14 rounded-2xl border-white/10 hover:bg-card flex justify-between px-6 transition-all group"
-            >
-              <span className="font-bold text-sm">Ver análise detalhada</span>
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </Button>
-          )}
-          <Button onClick={onStartQuiz} className="w-full h-14 rounded-2xl font-black text-sm glow-primary transition-all active:scale-[0.98]">
-            {lastSession ? 'REFAZER RADAR' : 'COMEÇAR ANÁLISE'}
+        <div className="w-full space-y-4">
+          <Button onClick={onStartQuiz} className="w-full h-16 rounded-3xl font-black text-sm glow-primary transition-all active:scale-[0.98] uppercase tracking-widest bg-primary hover:bg-primary/90">
+            {lastSession ? 'Refazer Análise' : 'Iniciar Escaneamento'}
           </Button>
+          {lastSession && (
+            <button
+              onClick={() => setShowPlan(true)}
+              className="w-full h-14 rounded-3xl glass-card border-white/10 hover:bg-white/5 flex items-center justify-center gap-3 transition-all group"
+            >
+              <span className="font-bold text-[10px] uppercase tracking-widest">Ver Laudo Completo</span>
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </button>
+          )}
         </div>
       </div>
     </div>

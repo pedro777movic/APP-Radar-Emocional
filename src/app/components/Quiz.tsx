@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useCallback, useMemo } from 'react';
@@ -85,7 +84,7 @@ export default function Quiz({ onComplete }: { onComplete: () => void }) {
       });
 
       setState('RESULT');
-    }, 2500);
+    }, 3000);
   }, [data.sessions, updateData]);
 
   const handleAnswer = (val: number) => {
@@ -118,15 +117,18 @@ export default function Quiz({ onComplete }: { onComplete: () => void }) {
     const progress = ((currentIdx + 1) / activeQuestions.length) * 100;
 
     return (
-      <div className="p-6 h-full flex flex-col animate-fade-in">
-        <div className="flex items-center gap-4 mb-8">
-          <Progress value={progress} className="h-1.5 flex-1" />
-          <span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">{currentIdx + 1}/{activeQuestions.length}</span>
+      <div className="p-6 h-full flex flex-col animate-fade-in relative">
+        <div className="flex items-center gap-5 mb-12">
+          <Progress value={progress} className="h-2 flex-1 bg-white/5 overflow-hidden rounded-full">
+            <div className="h-full bg-gradient-to-r from-primary to-accent" style={{ width: `${progress}%` }} />
+          </Progress>
+          <span className="text-[10px] font-black text-accent uppercase tracking-widest">{currentIdx + 1}/{activeQuestions.length}</span>
         </div>
 
         <div className="flex-1 flex flex-col justify-center">
-          <div className="bg-card p-8 rounded-3xl border border-white/5 glass-card mb-12 shadow-2xl">
-            <h2 className="text-2xl font-headline font-bold leading-tight text-center">
+          <div className="glass-card p-10 rounded-[40px] border-white/5 mb-16 relative overflow-hidden text-center">
+            <div className="absolute top-0 left-0 w-1 h-full bg-primary/30" />
+            <h2 className="text-2xl font-headline font-extrabold leading-tight text-foreground tracking-tight">
               {q.text}
             </h2>
           </div>
@@ -134,24 +136,21 @@ export default function Quiz({ onComplete }: { onComplete: () => void }) {
           <div className="space-y-4">
             <Button
               onClick={() => handleAnswer(contentData.quiz.answerScores.yes)}
-              variant="outline"
-              className="w-full h-16 text-lg rounded-2xl border-white/10 hover:border-primary/50 transition-all active:scale-[0.98]"
+              className="w-full h-16 text-md font-bold rounded-3xl glass-card border-white/10 hover:border-primary hover:bg-primary/10 transition-all active:scale-[0.98]"
             >
-              Sim
+              Sim, com certeza
             </Button>
             <Button
               onClick={() => handleAnswer(contentData.quiz.answerScores.sometimes)}
-              variant="outline"
-              className="w-full h-16 text-lg rounded-2xl border-white/10 hover:border-primary/50 transition-all active:scale-[0.98]"
+              className="w-full h-16 text-md font-bold rounded-3xl glass-card border-white/10 hover:border-primary hover:bg-primary/10 transition-all active:scale-[0.98]"
             >
-              Às vezes
+              Às vezes / Talvez
             </Button>
             <Button
               onClick={() => handleAnswer(contentData.quiz.answerScores.no)}
-              variant="outline"
-              className="w-full h-16 text-lg rounded-2xl border-white/10 hover:border-primary/50 transition-all active:scale-[0.98]"
+              className="w-full h-16 text-md font-bold rounded-3xl glass-card border-white/10 hover:border-destructive hover:bg-destructive/10 transition-all active:scale-[0.98]"
             >
-              Não
+              Não, raramente
             </Button>
           </div>
         </div>
@@ -161,16 +160,16 @@ export default function Quiz({ onComplete }: { onComplete: () => void }) {
 
   if (state === 'ANALYZING') {
     return (
-      <div className="flex flex-col items-center justify-center h-full p-6 text-center animate-fade-in">
-        <div className="relative mb-12">
-          <div className="absolute inset-0 bg-primary/20 blur-3xl rounded-full scale-150 animate-pulse"></div>
-          <Radar className="w-20 h-20 text-primary relative z-10 animate-spin-slow" />
+      <div className="flex flex-col items-center justify-center h-full p-10 text-center animate-fade-in">
+        <div className="relative mb-16">
+          <div className="absolute inset-0 bg-primary/20 blur-[60px] rounded-full scale-150 animate-pulse"></div>
+          <Radar className="w-24 h-24 text-accent relative z-10 animate-spin-slow" />
         </div>
-        <h2 className="text-2xl font-headline font-bold mb-4">Gerando Protocolo...</h2>
-        <div className="space-y-2">
-          <p className="text-muted-foreground animate-pulse text-xs font-bold uppercase tracking-widest">Calculando níveis de esfriamento...</p>
-          <p className="text-muted-foreground animate-pulse delay-75 text-xs font-bold uppercase tracking-widest">Mapeando scripts de reversão...</p>
-          <p className="text-muted-foreground animate-pulse delay-150 text-xs font-bold uppercase tracking-widest">Ativando cronograma de 24h...</p>
+        <h2 className="text-3xl font-headline font-black mb-4 tracking-tight uppercase">Cruzando Dados...</h2>
+        <div className="space-y-4">
+          <p className="text-muted-foreground animate-pulse text-[10px] font-black uppercase tracking-[0.3em]">Identificando padrões de vácuo...</p>
+          <p className="text-muted-foreground animate-pulse delay-100 text-[10px] font-black uppercase tracking-[0.3em]">Mapeando desinvestimento...</p>
+          <p className="text-muted-foreground animate-pulse delay-200 text-[10px] font-black uppercase tracking-[0.3em]">Ativando Protocolos de Reação...</p>
         </div>
       </div>
     );
@@ -183,37 +182,47 @@ export default function Quiz({ onComplete }: { onComplete: () => void }) {
 
     return (
       <div className="p-6 h-full flex flex-col animate-slide-up text-center justify-center">
-        <div className="mb-6">
-          <h1 className="text-7xl font-headline font-bold text-primary mb-2 tracking-tighter">{lastSession.score}%</h1>
-          <div className="inline-block px-4 py-1.5 bg-primary/10 rounded-full text-primary font-black uppercase tracking-widest text-[10px] border border-primary/20">
-            Nível de Esfriamento: {rangeData.title}
+        <div className="mb-10">
+          <div className="relative inline-block mb-4">
+            <div className="absolute inset-0 bg-primary/20 blur-3xl rounded-full scale-150" />
+            <h1 className="text-8xl font-headline font-black text-foreground mb-2 tracking-tighter relative z-10">
+              {lastSession.score}<span className="text-4xl text-primary">%</span>
+            </h1>
+          </div>
+          <div className="inline-block px-5 py-2 glass-card rounded-full text-accent font-black uppercase tracking-widest text-[10px] border-accent/20">
+            Nível: {rangeData.title}
           </div>
         </div>
 
-        <div className="bg-card p-6 rounded-3xl border border-white/5 mb-4 text-left shadow-2xl">
-          <h3 className="text-xs font-black uppercase tracking-widest text-primary mb-3">Laudo Adaptativo:</h3>
-          <p className="text-muted-foreground leading-relaxed text-sm font-medium mb-4">{rangeData.text}</p>
+        <div className="glass-card p-8 rounded-[40px] border-white/5 mb-6 text-left shadow-2xl relative overflow-hidden">
+          <div className="absolute top-0 right-0 p-4 opacity-5">
+            <Radar className="w-16 h-16 text-white" />
+          </div>
+          <h3 className="text-[10px] font-black uppercase tracking-widest text-primary mb-4">Laudo Técnico:</h3>
+          <p className="text-foreground leading-relaxed text-sm font-medium mb-6 opacity-90">{rangeData.text}</p>
           
           {categoryInsight && (
-            <div className="mt-4 pt-4 border-t border-white/5">
-              <span className="text-[10px] font-black bg-accent/20 text-accent px-2 py-0.5 rounded-full uppercase tracking-tighter mb-2 inline-block">Diagnóstico: {categoryInsight.name}</span>
-              <p className="text-xs text-muted-foreground italic leading-relaxed">{categoryInsight.insight}</p>
+            <div className="mt-6 pt-6 border-t border-white/5">
+              <span className="text-[10px] font-black bg-accent/10 text-accent px-3 py-1.5 rounded-full uppercase tracking-widest mb-3 inline-block border border-accent/20">
+                Alvo: {categoryInsight.name}
+              </span>
+              <p className="text-xs text-muted-foreground italic leading-relaxed font-medium">"{categoryInsight.insight}"</p>
             </div>
           )}
         </div>
 
-        <div className="p-4 bg-primary/5 rounded-2xl border border-primary/10 mb-6 flex items-center gap-3">
-          <Zap className="w-5 h-5 text-primary animate-bounce" />
-          <p className="text-[10px] font-bold text-foreground text-left uppercase leading-tight">
-            Seu Protocolo de Reação de 24h foi gerado com base no diagnóstico.
+        <div className="p-5 glass-card rounded-3xl border-success/30 mb-8 flex items-center gap-4 bg-success/5">
+          <Zap className="w-6 h-6 text-success animate-bounce" />
+          <p className="text-[10px] font-black text-foreground text-left uppercase tracking-tight leading-snug">
+            Seu Plano de Intervenção Estratégica foi gerado com base no seu ponto crítico.
           </p>
         </div>
 
         <Button 
           onClick={onComplete} 
-          className="w-full h-16 text-lg font-black glow-primary uppercase tracking-widest"
+          className="w-full h-18 text-xl font-black uppercase tracking-widest bg-success text-success-foreground hover:bg-success/90 animate-pulse-glow-success border-none rounded-[32px] py-6 shadow-2xl"
         >
-          ACESSAR PROTOCOLO
+          Acessar Protocolo
         </Button>
       </div>
     );
