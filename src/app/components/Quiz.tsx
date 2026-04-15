@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useCallback, useMemo } from 'react';
@@ -20,7 +19,6 @@ export default function Quiz({ onComplete }: { onComplete: () => void }) {
     const allQuestions = contentData.quiz.questions;
     const coreCategories = ['investimento', 'consistencia', 'prioridade', 'reciprocidade'];
     
-    // Shuffle helper
     const shuffle = (array: any[]) => {
       const arr = [...array];
       for (let i = arr.length - 1; i > 0; i--) {
@@ -30,7 +28,6 @@ export default function Quiz({ onComplete }: { onComplete: () => void }) {
       return arr;
     };
 
-    // 1. Garantir 1 de cada categoria core
     const selected: any[] = [];
     const usedIds = new Set<string>();
 
@@ -43,14 +40,11 @@ export default function Quiz({ onComplete }: { onComplete: () => void }) {
       }
     });
 
-    // 2. Preencher o restante (total 10) com as outras perguntas de forma aleatória
     const remainingCount = 10 - selected.length;
     const available = allQuestions.filter(q => !usedIds.has(q.id));
     const shuffledAvailable = shuffle(available);
     
     const finalSelection = [...selected, ...shuffledAvailable.slice(0, remainingCount)];
-    
-    // 3. Embaralhar a ordem final das 10 perguntas
     return shuffle(finalSelection);
   }, []);
 
@@ -87,9 +81,6 @@ export default function Quiz({ onComplete }: { onComplete: () => void }) {
         return { category: cat, score: Math.round(catSum / catWeight) };
       }).filter(s => s.score !== -1);
 
-      // Encontrar a categoria com menor score (mais crítica)
-      // Nota: Scores menores indicam maior risco se a pergunta for positiva, 
-      // mas as respostas já foram normalizadas no handleAnswer
       let weakestCategory = subscores.length > 0 ? subscores[0].category : '';
       let minScore = subscores.length > 0 ? subscores[0].score : 100;
 
@@ -100,12 +91,6 @@ export default function Quiz({ onComplete }: { onComplete: () => void }) {
         }
       });
 
-      let label: 'low' | 'medium' | 'high' = 'low';
-      if (normalizedScore >= 67) label = 'low'; // Invertido na UI para mostrar saúde, mas o diagnóstico adaptativo lida com o nível
-      else if (normalizedScore >= 34) label = 'medium';
-      else label = 'high';
-
-      // Ajuste de label para ser coerente com a gravidade (Quanto menor o score, maior o risco)
       let sessionLabel: 'low' | 'medium' | 'high' = 'high';
       if (normalizedScore >= 70) sessionLabel = 'low';
       else if (normalizedScore >= 40) sessionLabel = 'medium';
@@ -133,7 +118,6 @@ export default function Quiz({ onComplete }: { onComplete: () => void }) {
   const handleAnswer = (val: number) => {
     const q = activeQuestions[currentIdx];
     let finalVal = val;
-    // Se a pergunta for reversa, invertemos a pontuação (0 vira 100, 100 vira 0)
     if (q.reverse) {
       finalVal = 100 - val;
     }
@@ -161,7 +145,7 @@ export default function Quiz({ onComplete }: { onComplete: () => void }) {
     const progress = ((currentIdx + 1) / activeQuestions.length) * 100;
 
     return (
-      <div className="p-6 h-full flex flex-col animate-fade-in relative">
+      <div className="p-6 min-h-full flex flex-col animate-fade-in relative">
         <div className="flex items-center gap-5 mb-12">
           <Progress value={progress} className="h-2 flex-1 bg-white/5 overflow-hidden rounded-full">
             <div className="h-full bg-gradient-to-r from-primary to-accent" style={{ width: `${progress}%` }} />
@@ -225,21 +209,23 @@ export default function Quiz({ onComplete }: { onComplete: () => void }) {
     const categoryInsight = lastSession.weakestCategory ? (contentData.categoryInsights as any)[lastSession.weakestCategory] : null;
 
     return (
-      <div className="p-6 h-full flex flex-col animate-slide-up text-center justify-center">
-        <div className="mb-10">
+      <div className="p-6 min-h-full flex flex-col animate-slide-up text-center pb-20">
+        <div className="mb-10 mt-6">
           <div className="relative inline-block mb-4">
             <div className="absolute inset-0 bg-primary/20 blur-3xl rounded-full scale-150" />
             <h1 className="text-8xl font-headline font-black text-foreground mb-2 tracking-tighter relative z-10">
               {lastSession.score}<span className="text-4xl text-primary">%</span>
             </h1>
           </div>
-          <div className="inline-block px-5 py-2 glass-card rounded-full text-accent font-black uppercase tracking-widest text-[10px] border-accent/20">
-            Nível: {rangeData.title}
+          <div>
+            <div className="inline-block px-5 py-2 glass-card rounded-full text-accent font-black uppercase tracking-widest text-[10px] border-accent/20">
+              Nível: {rangeData.title}
+            </div>
           </div>
         </div>
 
-        <div className="glass-card p-8 rounded-[40px] border-white/5 mb-6 text-left shadow-2xl relative overflow-hidden">
-          <div className="absolute top-0 right-0 p-4 opacity-5">
+        <div className="glass-card p-8 rounded-[40px] border-white/5 mb-6 text-left shadow-2xl relative">
+          <div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none">
             <Radar className="w-16 h-16 text-white" />
           </div>
           <h3 className="text-[10px] font-black uppercase tracking-widest text-primary mb-4">Laudo Técnico:</h3>
@@ -256,7 +242,7 @@ export default function Quiz({ onComplete }: { onComplete: () => void }) {
         </div>
 
         <div className="p-5 glass-card rounded-3xl border-success/30 mb-8 flex items-center gap-4 bg-success/5">
-          <Zap className="w-6 h-6 text-success animate-bounce" />
+          <Zap className="w-6 h-6 text-success shrink-0" />
           <p className="text-[10px] font-black text-foreground text-left uppercase tracking-tight leading-snug">
             Como você mesma percebeu, a área de {categoryInsight?.name.toLowerCase()} está {lastSession.score < 50 ? 'crítica' : 'instável'}. Seu protocolo foi adaptado para isso.
           </p>
@@ -264,7 +250,7 @@ export default function Quiz({ onComplete }: { onComplete: () => void }) {
 
         <Button 
           onClick={onComplete} 
-          className="w-full h-18 text-xl font-black uppercase tracking-widest bg-success text-success-foreground hover:bg-success/90 animate-pulse-glow-success border-none rounded-[32px] py-6 shadow-2xl"
+          className="w-full h-18 text-xl font-black uppercase tracking-widest bg-success text-success-foreground hover:bg-success/90 animate-pulse-glow-success border-none rounded-[32px] py-6 shadow-2xl mb-10"
         >
           Acessar Protocolo
         </Button>
