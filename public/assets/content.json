@@ -1,216 +1,234 @@
-
 {
   "quiz": {
-    "answerScores": {
-      "yes": 100,
-      "sometimes": 50,
-      "no": 0
-    },
     "questions": [
       { "id": "q1", "text": "Ele ainda faz planos com você para o futuro?", "category": "investimento", "weight": 3 },
       { "id": "q2", "text": "Ele demonstra esforço ativo para te ver ou passar tempo com você?", "category": "investimento", "weight": 3 },
       { "id": "q3", "text": "O comportamento dele muda de forma imprevisível (um dia quente, outro frio)?", "category": "consistencia", "weight": 3, "reverse": true },
-      { "id": "q4", "text": "Você sente que precisa 'adivinhar' o humor ou interesse dele?", "category": "consistencia", "weight": 2, "reverse": true },
+      { "id": "q4", "text": "Você sente que precisa “adivinhar” o humor ou interesse dele?", "category": "consistencia", "weight": 2, "reverse": true },
       { "id": "q5", "text": "Ele costuma te colocar como prioridade no dia a dia?", "category": "prioridade", "weight": 3 },
       { "id": "q6", "text": "Ele cancela ou adia planos com você com frequência?", "category": "prioridade", "weight": 2, "reverse": true },
-      { "id": "q7", "text": "Quem geralmente inicia as conversas?", "category": "reciprocidade", "weight": 3 },
-      { "id": "q8", "text": "Você sente que está se esforçando mais do que ele na relação?", "category": "reciprocidade", "weight": 2, "reverse": true },
+      { "id": "q7", "text": "Quem geralmente inicia as conversas?", "category": "reciprocidade", "weight": 2 },
+      { "id": "q8", "text": "Você sente que está se esforçando mais do que ele na relação?", "category": "reciprocidade", "weight": 3, "reverse": true },
       { "id": "q9", "text": "Você já se sentiu ansiosa esperando uma resposta dele?", "category": "profundidade", "weight": 2, "reverse": true },
-      { "id": "q10", "text": "Você sente que ele poderia se afastar se nada mudar?", "category": "profundidade", "weight": 3, "reverse": true },
+      { "id": "q10", "text": "Você sente que ele poderia se afastar se nada mudar?", "category": "alertas", "weight": 3, "reverse": true },
       { "id": "q11", "text": "As conversas entre vocês perderam intensidade?", "category": "comunicacao", "weight": 2, "reverse": true },
       { "id": "q12", "text": "Ele responde com interesse ou de forma seca?", "category": "comunicacao", "weight": 2 },
-      { "id": "q13", "text": "Ele demonstra curiosidade sobre sua vida ainda?", "category": "comunicacao", "weight": 2 },
+      { "id": "q13", "text": "Ele demonstra curiosidade sobre sua vida ainda?", "category": "interesse", "weight": 2 },
       { "id": "q14", "text": "Ele ainda demonstra desejo ou atração por você?", "category": "interesse", "weight": 3 },
-      { "id": "q15", "text": "Ele elogia ou valoriza você como antes?", "category": "interesse", "weight": 2 },
-      { "id": "q16", "text": "Você sente que ele está emocionalmente presente?", "category": "interesse", "weight": 3 },
-      { "id": "q17", "text": "Você sente que precisa 'se adaptar' para não afastá-lo?", "category": "dinamica", "weight": 2, "reverse": true },
-      { "id": "q18", "text": "Ele demonstra cuidado ou preocupação com você?", "category": "dinamica", "weight": 2 },
-      { "id": "q19", "text": "Ele compartilha coisas pessoais com você?", "category": "dinamica", "weight": 2 },
+      { "id": "q15", "text": "Ele elogia ou valoriza você como antes?", "category": "percepcao", "weight": 2 },
+      { "id": "q16", "text": "Você sente que ele está emocionalmente presente?", "category": "profundidade", "weight": 3 },
+      { "id": "q17", "text": "Você sente que precisa “se adaptar” para não afastá-lo?", "category": "dinamica", "weight": 2, "reverse": true },
+      { "id": "q18", "text": "Ele demonstra cuidado ou preocupação genuína?", "category": "interesse", "weight": 2 },
+      { "id": "q19", "text": "Ele compartilha coisas pessoais ou vulnerabilidades com você?", "category": "profundidade", "weight": 2 },
       { "id": "q20", "text": "Você sente que perdeu um pouco do seu valor na relação?", "category": "percepcao", "weight": 3, "reverse": true },
-      { "id": "q21", "text": "Você já tentou mudar seu comportamento pra reconquistar ele?", "category": "percepcao", "weight": 2, "reverse": true },
-      { "id": "q22", "text": "Você sente que ele te vê como 'garantida'?", "category": "percepcao", "weight": 3, "reverse": true },
+      { "id": "q21", "text": "Você já tentou mudar seu comportamento pra reconquistar ele?", "category": "dinamica", "weight": 2, "reverse": true },
+      { "id": "q22", "text": "Você sente que ele te vê como “garantida”?", "category": "percepcao", "weight": 3, "reverse": true },
       { "id": "q23", "text": "Ele já ficou distante por dias sem explicação?", "category": "alertas", "weight": 3, "reverse": true },
       { "id": "q24", "text": "Você sente que a relação está esfriando?", "category": "alertas", "weight": 3, "reverse": true },
-      { "id": "q25", "text": "Você sente que está mais disponível do que deveria?", "category": "alertas", "weight": 2, "reverse": true }
-    ]
+      { "id": "q25", "text": "Você sente que está mais disponível do que deveria?", "category": "dinamica", "weight": 2, "reverse": true }
+    ],
+    "answerScores": {
+      "yes": 100,
+      "sometimes": 50,
+      "no": 0
+    }
+  },
+  "categoryInsights": {
+    "investimento": { "name": "Investimento", "insight": "Ele parou de projetar o futuro com você, indicando uma queda na intenção de longo prazo." },
+    "consistencia": { "name": "Consistência", "insight": "A instabilidade dele gera ansiedade e coloca você em uma posição de dúvida constante." },
+    "prioridade": { "name": "Prioridade", "insight": "Você deixou de ser o foco central e passou a ser uma opção secundária na agenda dele." },
+    "reciprocidade": { "name": "Reciprocidade", "insight": "O desequilíbrio de esforço está sugando sua energia e desvalorizando sua presença." },
+    "profundidade": { "name": "Conexão", "insight": "A relação perdeu a camada emocional íntima, tornando-se superficial e mecânica." },
+    "comunicacao": { "name": "Comunicação", "insight": "O diálogo tornou-se seco, com perda de interesse genuíno nas trocas diárias." },
+    "interesse": { "name": "Interesse", "insight": "O desejo e a curiosidade dele por você estão em declínio visível." },
+    "dinamica": { "name": "Dinâmica", "insight": "Você está se adaptando excessivamente para manter a relação, o que gera perda de valor." },
+    "percepcao": { "name": "Valor Percebido", "insight": "Ele vê você como algo garantido, perdendo o medo de perder sua presença." },
+    "alertas": { "name": "Alertas Críticos", "insight": "Sinais claros de afastamento que exigem uma interrupção imediata do padrão." }
   },
   "expandedResults": {
     "low": {
-      "title": "Equilíbrio Seguro",
-      "text": "Sua relação apresenta sinais de estabilidade e investimento saudável. O foco agora deve ser a manutenção do valor e a prevenção do esfriamento natural através da inovação emocional.",
+      "title": "Equilíbrio",
+      "text": "Sua relação apresenta padrões saudáveis, mas requer manutenção estratégica para evitar o comodismo.",
       "plan": [
-        { "id": "p1", "title": "Aumentar Conexão", "action": "Inovação", "description": "Sugira uma atividade que nunca fizeram juntos para criar novas memórias." }
+        { "id": "p1", "title": "Inovação de Estímulo", "action": "Ação", "description": "Introduza uma nova atividade ou tópico de interesse que vocês nunca exploraram antes." },
+        { "id": "p2", "title": "Afirmação de Valor", "action": "Mindset", "description": "Reforce seus próprios projetos para manter o mistério e a admiração dele." }
       ]
     },
     "medium": {
-      "title": "Alerta de Esfriamento",
-      "text": "Detectamos padrões de oscilação. O investimento dele não está condizente com o seu, o que gera um desequilíbrio de valor percebido. É hora de recalibrar seu posicionamento.",
+      "title": "Alerta de Frieza",
+      "text": "Existem sinais claros de desinvestimento. Ele está começando a testar o quanto você aceita receber menos.",
       "plan": [
-        { "id": "p1", "title": "Recalibrar Disponibilidade", "action": "Mistério", "description": "Fique menos disponível por 48h para testar a proatividade dele." }
+        { "id": "p3", "title": "Retirada Seletiva", "action": "Intervenção", "description": "Reduza sua disponibilidade em 30% nas próximas 48 horas." },
+        { "id": "p4", "title": "Quebra de Padrão", "action": "Ação", "description": "Pare de ser a primeira a dar 'bom dia' ou iniciar conversas logísticas." }
       ]
     },
     "high": {
       "title": "Risco Crítico",
-      "text": "O nível de desinvestimento é alto. Você está operando em modo de 'espera', o que retira seu poder de atração. É necessária uma intervenção de choque imediata para resetar a dinâmica.",
+      "text": "O esfriamento é profundo. Você está em uma posição de desvalorização onde ele sente que tem controle total.",
       "plan": [
-        { "id": "p1", "title": "Retirada Total", "action": "Choque", "description": "Interrompa qualquer iniciativa de contato por 72h para recuperar autonomia." }
+        { "id": "p5", "title": "Choque de Escassez", "action": "Urgente", "description": "Aplique o silêncio estratégico total por 24 horas." },
+        { "id": "p6", "title": "Reposicionamento", "action": "Mindset", "description": "Pare de reclamar e comece a agir. O silêncio fala mais que a crítica." }
       ]
     }
-  },
-  "categoryInsights": {
-    "investimento": { "name": "Investimento", "insight": "Ele parou de projetar o futuro com você, indicando que a relação caiu na zona de conveniência." },
-    "consistencia": { "name": "Consistência", "insight": "A instabilidade dele (quente/frio) é uma forma de controle que gera ansiedade em você." },
-    "prioridade": { "name": "Prioridade", "insight": "Você virou a 'última opção' da agenda dele, sinalizando baixa percepção de valor." },
-    "reciprocidade": { "name": "Reciprocidade", "insight": "A balança está pesada apenas para o seu lado. Você está carregando a relação sozinha." },
-    "profundidade": { "name": "Profundidade", "insight": "A conexão emocional está superficial, focada apenas no dia a dia sem intimidade real." },
-    "comunicacao": { "name": "Comunicação", "insight": "As conversas estão secas. A curiosidade dele sobre sua vida desapareceu." },
-    "interesse": { "name": "Interesse", "insight": "A falta de elogios e desejo sinaliza que ele te vê como 'garantida' na vida dele." },
-    "dinamica": { "name": "Dinâmica", "insight": "Você está se adaptando demais ao humor dele, perdendo sua identidade no processo." },
-    "percepcao": { "name": "Percepção", "insight": "Seu valor percebido caiu drasticamente. Ele sente que você nunca irá embora." },
-    "alertas": { "name": "Alertas Críticos", "insight": "Sinais de afastamento prolongado indicam que a relação está no limite do término." }
   },
   "protocolos": {
     "recalibracao_emocional": {
       "title": "Recalibração Emocional",
-      "description": "Focado em quebrar o padrão de instabilidade (quente/frio) dele.",
+      "description": "Focado em quebrar o ciclo de instabilidade (quente/frio) e retomar a previsibilidade do seu valor.",
       "acoes_24h": [
-        { "title": "Espelhamento", "desc": "Responda exatamente na mesma velocidade e intensidade que ele." }
+        { "title": "Espelhamento de Tempo", "desc": "Demore exatamente o mesmo tempo que ele demora para responder." },
+        { "title": "Corte de Validação", "desc": "Não curta nem comente nenhuma postagem dele hoje." }
       ],
       "scripts": [
-        { "id": "re1", "categoria": "Frieza", "texto": "Senti que o clima mudou e não curto dinâmica morna. Vou focar nas minhas coisas.", "instrucao": "Use se ele estiver monossilábico." }
+        { "id": "s1", "categoria": "Estabilidade", "texto": "Senti que o clima mudou e não curto dinâmica morna. Vou focar nas minhas coisas e nos falamos depois.", "instrucao": "Use quando ele der respostas curtas." }
       ],
       "plano_3dias": [
-        { "dia": 1, "titulo": "Afastamento", "acao": "Silêncio seletivo", "detalhes": ["Zero iniciativa", "Responder tarde"] }
+        { "dia": 1, "titulo": "Corte", "acao": "Silêncio absoluto", "detalhes": ["Sem mensagens", "Sem stories direcionados"] },
+        { "dia": 2, "titulo": "Dúvida", "acao": "Story enigmático", "detalhes": ["Lugar novo", "Sem legenda"] },
+        { "dia": 3, "titulo": "Teste", "acao": "Resposta curta", "detalhes": ["Seja educada, mas breve"] }
       ],
-      "mentalidade": "Sua felicidade não pode depender do humor oscilante de outra pessoa."
+      "mentalidade": "A instabilidade dele é uma forma de controle. Quando você para de reagir às mudanças dele, você retoma o poder."
     },
     "reengajamento_leve": {
       "title": "Reengajamento Leve",
-      "description": "Para quando o investimento dele diminuiu mas ainda há abertura.",
+      "description": "Ideal para quando o interesse caiu mas ainda existe uma base. Focado em gerar curiosidade.",
       "acoes_24h": [
-        { "title": "Gatilho de Memória", "desc": "Mencione algo positivo do passado sem pedir nada em troca." }
+        { "title": "Gatilho de Memória", "desc": "Mencione algo positivo do passado sem pedir nada em troca." },
+        { "title": "Presença Ausente", "desc": "Poste algo muito feliz no seu story, mas não responda o direct dele imediatamente." }
       ],
       "scripts": [
-        { "id": "rl1", "categoria": "Conexão", "texto": "Lembrei daquele lugar que fomos. Espero que sua semana esteja boa!", "instrucao": "Mensagem leve e sem cobrança." }
+        { "id": "s2", "categoria": "Curiosidade", "texto": "Acabei de ver algo que me lembrou daquela nossa conversa... mas esquece, depois te conto.", "instrucao": "Gera curiosidade imediata." }
       ],
       "plano_3dias": [
-        { "dia": 1, "titulo": "Leveza", "acao": "Contato pontual", "detalhes": ["Sem dramas", "Foco no positivo"] }
+        { "dia": 1, "titulo": "Atração", "acao": "Visual impactante", "detalhes": ["Foto sua confiante", "Sem texto"] },
+        { "dia": 2, "titulo": "Isca", "acao": "Script de curiosidade", "detalhes": ["Use o script s2"] },
+        { "dia": 3, "titulo": "Fluxo", "acao": "Conversa leve", "detalhes": ["Mantenha o papo descontraído"] }
       ],
-      "mentalidade": "Reconstruir atração requer espaço e ausência de pressão."
+      "mentalidade": "O reengajamento acontece através do prazer e da curiosidade, nunca através da cobrança."
     },
     "realinhamento_expectativa": {
       "title": "Realinhamento de Expectativa",
-      "description": "Para equilibrar a balança de esforço na relação.",
+      "description": "Para quando você está se esforçando mais. Focado em equilibrar a balança da reciprocidade.",
       "acoes_24h": [
-        { "title": "Redução de Entrega", "desc": "Pare de sugerir planos ou puxar assuntos profundos por 24h." }
+        { "title": "Lei da Troca", "desc": "Só dê atenção na exata medida em que recebe." },
+        { "title": "Retirada de Apoio", "desc": "Pare de resolver pequenos problemas dele por hoje." }
       ],
       "scripts": [
-        { "id": "rex1", "categoria": "Limites", "texto": "Tô bem focada nos meus projetos hoje, depois a gente se fala!", "instrucao": "Mostre que sua vida é cheia." }
+        { "id": "s3", "categoria": "Limites", "texto": "Percebi que nossas sintonias estão diferentes ultimamente e decidi focar um pouco mais em mim. Tudo certo.", "instrucao": "Mostra que você notou o desequilíbrio." }
       ],
       "plano_3dias": [
-        { "dia": 1, "titulo": "Autonomia", "acao": "Focar em si", "detalhes": ["Hobby novo", "Social sem ele"] }
+        { "dia": 1, "titulo": "Ego", "acao": "Pare de elogiar", "detalhes": ["Remova a validação gratuita"] },
+        { "dia": 2, "titulo": "Foco", "acao": "Projetos pessoais", "detalhes": ["Demonstre que está ocupada"] },
+        { "dia": 3, "titulo": "Acordo", "acao": "Conversa de valor", "detalhes": ["Estabeleça o que você aceita"] }
       ],
-      "mentalidade": "O valor é percebido quando a entrega não é garantida."
+      "mentalidade": "Quem se esforça demais perde o valor. O equilíbrio é o que mantém o respeito vivo."
     },
     "clareza_posicionamento": {
       "title": "Clareza e Posicionamento",
-      "description": "Para quando você deixou de ser prioridade.",
+      "description": "Focado em retomar o lugar de prioridade através de limites firmes e valor próprio.",
       "acoes_24h": [
-        { "title": "Dizer Não", "desc": "Se ele sugerir algo de última hora, recuse educadamente." }
+        { "title": "Não aos Planos de Última Hora", "desc": "Se ele chamar hoje para algo em cima da hora, recuse educadamente." },
+        { "title": "Agenda Blindada", "desc": "Mostre que sua semana já está planejada." }
       ],
       "scripts": [
-        { "id": "cp1", "categoria": "Prioridade", "texto": "Hoje já tenho compromisso. Quem sabe outro dia com antecedência?", "instrucao": "Não aceite ser plano B." }
+        { "id": "s4", "categoria": "Prioridade", "texto": "Hoje não consigo, já tenho um compromisso. Quem sabe na próxima semana com mais antecedência?", "instrucao": "Mostra que seu tempo é valioso." }
       ],
       "plano_3dias": [
-        { "dia": 1, "titulo": "Respeito", "acao": "Estabelecer regras", "detalhes": ["Não ceder", "Valorizar seu tempo"] }
+        { "dia": 1, "titulo": "Recusa", "acao": "Diga 'Não'", "detalhes": ["Recuse um convite morno"] },
+        { "dia": 2, "titulo": "Social", "acao": "Saia com amigos", "detalhes": ["Mostre vida social ativa"] },
+        { "dia": 3, "titulo": "Check", "acao": "Avalie a reação", "detalhes": ["Veja se ele tentou marcar antes"] }
       ],
-      "mentalidade": "Você ensina as pessoas como elas devem te tratar."
+      "mentalidade": "Você ensina as pessoas como te tratar. Se você aceita ser o plano B, nunca será o plano A."
     },
     "reconexao_emocional": {
       "title": "Reconexão Emocional",
-      "description": "Para quando a profundidade e intimidade esfriaram.",
+      "description": "Para quando a relação esfriou emocionalmente. Focado em vulnerabilidade e intimidade.",
       "acoes_24h": [
-        { "title": "Pergunta Aberta", "desc": "Faça uma pergunta sobre os sentimentos ou sonhos dele." }
+        { "title": "Pergunta Aberta", "desc": "Faça uma pergunta sobre os sentimentos ou sonhos dele, não sobre rotina." },
+        { "title": "Toque de Afeto", "desc": "Um gesto pequeno de cuidado sem segundas intenções." }
       ],
       "scripts": [
-        { "id": "rec1", "categoria": "Intimidade", "texto": "O que mais te deixou animado hoje? Queria ouvir sua voz.", "instrucao": "Busque conexão real." }
+        { "id": "s5", "categoria": "Conexão", "texto": "Estava lembrando daquela vez que... sinto falta dessas nossas trocas mais profundas.", "instrucao": "Convite suave para intimidade." }
       ],
       "plano_3dias": [
-        { "dia": 1, "titulo": "Ouvir", "acao": "Espaço de fala", "detalhes": ["Sem julgamentos", "Presença total"] }
+        { "dia": 1, "titulo": "Escuta", "acao": "Ouvir sem julgar", "detalhes": ["Crie um espaço seguro"] },
+        { "dia": 2, "titulo": "Nostalgia", "acao": "Foto antiga", "detalhes": ["Relembre um momento forte"] },
+        { "dia": 3, "titulo": "Presença", "acao": "Tempo de qualidade", "detalhes": ["Celular longe, foco nele"] }
       ],
-      "mentalidade": "Intimidade é o oxigênio de qualquer relação duradoura."
+      "mentalidade": "A frieza às vezes é medo de vulnerabilidade. Abertura gera abertura."
     },
     "descompressao_pressao": {
       "title": "Descompressão de Pressão",
-      "description": "Para quando ele se afastou por se sentir 'sufocado'.",
+      "description": "Para quando ele se sente sufocado. Focado em dar espaço e retirar a tensão.",
       "acoes_24h": [
-        { "title": "Sumiço Total", "desc": "Não mande nenhuma mensagem, nem curta stories dele." }
+        { "title": "Vácuo de Alívio", "desc": "Não inicie nenhuma conversa por 24 horas." },
+        { "title": "Zero Cobrança", "desc": "Se ele não fizer algo, não reclame." }
       ],
       "scripts": [
-        { "id": "dp1", "categoria": "Espaço", "texto": "(Silêncio total)", "instrucao": "A melhor mensagem agora é nenhuma mensagem." }
+        { "id": "s6", "categoria": "Espaço", "texto": "Vou tirar esses dias para focar nuns projetos meus que estão acumulados. Aproveita seu tempo também!", "instrucao": "Retira a pressão dele." }
       ],
       "plano_3dias": [
-        { "dia": 1, "titulo": "Liberdade", "acao": "Dar espaço", "detalhes": ["Zero cobrança", "Focar no seu brilho"] }
+        { "dia": 1, "titulo": "Fuga", "acao": "Desapareça", "detalhes": ["Dê o espaço que ele quer"] },
+        { "dia": 2, "titulo": "Leveza", "acao": "Poste diversão", "detalhes": ["Mostre que está bem sozinha"] },
+        { "dia": 3, "titulo": "Retorno", "acao": "Espere ele vir", "detalhes": ["Não quebre o silêncio você"] }
       ],
-      "mentalidade": "A saudade só nasce no espaço deixado pela ausência."
+      "mentalidade": "O desejo precisa de espaço para respirar. Se você aperta demais, ele foge."
     },
     "retomada_autonomia": {
       "title": "Retomada de Autonomia",
-      "description": "Para recuperar seu valor quando ele te vê como garantida.",
+      "description": "Focado em reconstruir sua identidade fora da relação. Retomada de valor absoluto.",
       "acoes_24h": [
-        { "title": "Mistério Social", "desc": "Poste algo legal fazendo sozinha, sem explicar onde ou com quem." }
+        { "title": "Investimento em Si", "desc": "Gaste tempo e dinheiro com algo só para você hoje." },
+        { "title": "Mudança de Rotina", "desc": "Faça algo fora do padrão que ele conhece." }
       ],
       "scripts": [
-        { "id": "ra1", "categoria": "Curiosidade", "texto": "Acabei de ver uma coisa que me lembrou de você... mas depois te conto kkk.", "instrucao": "Gere curiosidade e saia de cena." }
+        { "id": "s7", "categoria": "Autonomia", "texto": "Decidi retomar aquele meu antigo projeto. Estou super animada e com pouco tempo para o resto kkk.", "instrucao": "Mostra novos horizontes." }
       ],
       "plano_3dias": [
-        { "dia": 1, "titulo": "Poder", "acao": "Xeque-mate", "detalhes": ["Seja o prêmio", "Não explique tudo"] }
+        { "dia": 1, "titulo": "Eu", "acao": "Dia de SPA/Treino", "detalhes": ["Foco total no corpo/mente"] },
+        { "dia": 2, "titulo": "Novidade", "acao": "Novo hobby", "detalhes": ["Aprenda algo novo"] },
+        { "dia": 3, "titulo": "Impacto", "acao": "Nova postura", "detalhes": ["Fale menos, faça mais"] }
       ],
-      "mentalidade": "Quem não tem medo de te perder, nunca vai te valorizar."
+      "mentalidade": "Uma mulher autônoma é magnética porque ela não precisa de ninguém, ela escolhe estar com alguém."
     },
     "consolidacao": {
-      "title": "Consolidação",
-      "description": "Para manter a relação saudável e evitar o tédio emocional.",
+      "title": "Protocolo de Consolidação",
+      "description": "Para relações saudáveis. Focado em blindagem e crescimento contínuo.",
       "acoes_24h": [
-        { "title": "Admiração", "desc": "Faça um elogio sincero sobre algo que admira nele." }
+        { "title": "Elogio Específico", "desc": "Elogie uma característica de caráter dele, não física." },
+        { "title": "Plano de Futuro", "desc": "Sugira uma viagem ou projeto para daqui a 3 meses." }
       ],
       "scripts": [
-        { "id": "co1", "categoria": "Manutenção", "texto": "Adoro como você resolve as coisas. Orgulho de ter você perto!", "instrucao": "Reforce os laços positivos." }
+        { "id": "s8", "categoria": "Blindagem", "texto": "Adoro como a gente consegue resolver tudo na conversa. Sinto que somos um time imbatível.", "instrucao": "Reforça a parceria." }
       ],
       "plano_3dias": [
-        { "dia": 1, "titulo": "Planos", "acao": "Futuro", "detalhes": ["Viagem curta", "Jantar surpresa"] }
+        { "dia": 1, "titulo": "Gratidão", "acao": "Agradecimento", "detalhes": ["Reconheça o esforço dele"] },
+        { "dia": 2, "titulo": "Surpresa", "acao": "Presente/Jantar", "detalhes": ["Quebre a rotina positivamente"] },
+        { "dia": 3, "titulo": "Visão", "acao": "Metas de casal", "detalhes": ["Onde queremos estar no próximo ano?"] }
       ],
-      "mentalidade": "Amor é um jardim que precisa ser regado todos os dias."
+      "mentalidade": "O amor é um jardim. Se você para de regar quando ele está bonito, ele morre."
     }
   },
   "messageTemplates": {
     "Curiosidade": [
-      "Acabei de ver uma coisa aqui que me fez lembrar muito daquela nossa conversa sobre... mas esquece, depois te conto kkk.",
-      "Você não vai acreditar no que acabou de acontecer aqui. Depois se a gente se falar eu te conto.",
-      "Sabe aquela coisa que você me disse uma vez? Faz todo sentido agora...",
-      "Acho que descobri seu segredo sobre [Assunto leve] kkk. Depois te mostro.",
-      "Vi algo hoje que é a sua cara, mas não vou te dar esse gostinho agora."
+      "Acabei de ver algo que me lembrou muito de você... mas deixa pra lá, depois te conto.",
+      "Você não vai acreditar no que aconteceu hoje. Quando a gente se falar eu te conto.",
+      "Sabe aquela história que você me contou? Acabei de ver uma coisa que faz todo sentido agora."
     ],
     "Distância": [
-      "Senti que o clima mudou e não curto dinâmica morna. Vou focar nas minhas coisas e nos falamos quando você estiver disponível.",
-      "Tô bem focada nos meus projetos hoje, depois a gente se fala!",
-      "Achei melhor dar um tempo pra gente processar as coisas. Te chamo depois.",
-      "Hoje meu dia tá uma correria total, mal consegui ver o celular. A gente se fala amanhã?",
-      "Vou tirar esse final de semana pra me desligar de tudo. Boa semana pra você!"
+      "Ando bem correria por aqui com uns projetos novos. Assim que der eu te respondo com calma!",
+      "Vou ficar um pouco off esses dias para focar em mim. A gente se fala depois!",
+      "Hoje meu dia está bem cheio. Espero que o seu esteja sendo ótimo!"
     ],
-    "Limite": [
-      "Hoje já tenho compromisso. Quem sabe outro dia com antecedência?",
-      "Eu valorizo muito meu tempo e sinto que não estamos na mesma sintonia sobre isso agora.",
-      "Prefiro não falar sobre esse assunto por mensagem. Se quiser, a gente conversa pessoalmente.",
-      "Não aceito menos do que eu entrego. Acho que precisamos rever algumas regras.",
-      "Minha prioridade agora é meu bem-estar. Se você não puder somar, prefiro seguir sozinha."
+    "Limites": [
+      "Não curto muito esse tipo de brincadeira/atitude. Vamos manter o respeito.",
+      "Preciso de um pouco de espaço agora para organizar minhas ideias.",
+      "Minha prioridade agora é meu bem-estar. Espero que entenda."
     ],
     "Reengajamento": [
-      "Vi que vai rolar aquele evento que você gosta e lembrei de você. Espero que esteja tudo bem!",
-      "Achei essa foto nossa aqui e bateu uma nostalgia boa. Como você está?",
-      "Sabe, andei pensando e percebi que o que vivemos foi um aprendizado necessário. 😉",
-      "Ei! Vi isso e lembrei da gente. Como anda a vida por aí?",
-      "Tava ouvindo aquela música e lembrei de você. Que saudade desse papo!"
+      "Vi esse meme e lembrei de você kkk. Como estão as coisas?",
+      "Lembrei daquele lugar que a gente foi. Deu saudade daquela comida!",
+      "Espero que sua semana esteja sendo incrível. Passando só pra desejar um bom dia!"
     ]
   },
   "audioScripts": [

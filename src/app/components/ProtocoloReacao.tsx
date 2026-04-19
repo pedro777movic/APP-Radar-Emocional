@@ -4,13 +4,13 @@
 import { useLocalData } from '@/lib/store';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ArrowLeft, Copy, Check, Flame, Zap, Clock, Info, ShieldCheck, Target } from 'lucide-react';
+import { ArrowLeft, Copy, Check, Flame, Zap, Clock, Info, ShieldCheck, CheckCircle2, Circle } from 'lucide-react';
 import contentData from '../../../public/assets/content.json';
 import { useState, useEffect, useMemo } from 'react';
 import { useToast } from '@/hooks/use-toast';
 
 export default function ProtocoloReacao({ onBack }: { onBack: () => void }) {
-  const { data } = useLocalData();
+  const { data, updateData } = useLocalData();
   const { toast } = useToast();
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [timeLeft, setTimeLeft] = useState<string>('');
@@ -54,6 +54,16 @@ export default function ProtocoloReacao({ onBack }: { onBack: () => void }) {
       description: "Script tático copiado com sucesso!",
     });
     setTimeout(() => setCopiedId(null), 2000);
+  };
+
+  const toggleAction = (actionTitle: string) => {
+    const currentActions = data.completedPlanSteps || [];
+    const stepId = `${lastSession?.activeProtocolId}_${actionTitle}`;
+    if (currentActions.includes(stepId)) {
+      updateData({ completedPlanSteps: currentActions.filter(id => id !== stepId) });
+    } else {
+      updateData({ completedPlanSteps: [...currentActions, stepId] });
+    }
   };
 
   if (!lastSession || !activeProtocol) return (
@@ -108,25 +118,32 @@ export default function ProtocoloReacao({ onBack }: { onBack: () => void }) {
         <TabsContent value="24h" className="space-y-5 animate-fade-in">
           <div className="mb-8 px-2">
             <h3 className="font-headline font-black text-xl mb-2 tracking-tight uppercase">Choque Tático</h3>
-            <p className="text-xs text-muted-foreground leading-relaxed">Ações personalizadas para sua situação de {lastSession.weakestCategory}.</p>
+            <p className="text-xs text-muted-foreground leading-relaxed">Ações personalizadas baseadas no seu ponto crítico: <strong>{(contentData.categoryInsights as any)[lastSession.weakestCategory || 'alertas']?.name}</strong>.</p>
           </div>
-          {activeProtocol.acoes_24h.map((step: any, idx: number) => (
-            <div key={idx} className="p-6 glass-card rounded-[32px] border-white/5 flex gap-5 transition-all hover:border-accent/20">
-              <div className="w-10 h-10 rounded-2xl bg-accent/10 flex items-center justify-center text-accent font-black text-sm shrink-0 border border-accent/20">
-                {idx + 1}
+          {activeProtocol.acoes_24h.map((step: any, idx: number) => {
+            const isDone = (data.completedPlanSteps || []).includes(`${lastSession.activeProtocolId}_${step.title}`);
+            return (
+              <div 
+                key={idx} 
+                onClick={() => toggleAction(step.title)}
+                className={`p-6 glass-card rounded-[32px] border-white/5 flex gap-5 transition-all cursor-pointer ${isDone ? 'border-success/40 bg-success/5' : 'hover:border-accent/20'}`}
+              >
+                <div className={`w-10 h-10 rounded-2xl flex items-center justify-center font-black text-sm shrink-0 border transition-all ${isDone ? 'bg-success/20 text-success border-success/40' : 'bg-accent/10 text-accent border-accent/20'}`}>
+                  {isDone ? <CheckCircle2 className="w-5 h-5" /> : idx + 1}
+                </div>
+                <div>
+                  <h4 className={`text-md font-bold mb-2 leading-tight transition-all ${isDone ? 'text-success line-through opacity-70' : 'text-foreground'}`}>{step.title}</h4>
+                  <p className="text-xs text-muted-foreground leading-relaxed">{step.desc}</p>
+                </div>
               </div>
-              <div>
-                <h4 className="text-md font-bold text-foreground mb-2 leading-tight">{step.title}</h4>
-                <p className="text-xs text-muted-foreground leading-relaxed">{step.desc}</p>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </TabsContent>
 
         <TabsContent value="scripts" className="space-y-5 animate-fade-in">
           <div className="mb-8 px-2">
             <h3 className="font-headline font-black text-xl mb-2 tracking-tight uppercase">Adaptados</h3>
-            <p className="text-xs text-muted-foreground leading-relaxed">Mensagens específicas para o padrão detectado no seu Radar.</p>
+            <p className="text-xs text-muted-foreground leading-relaxed">Mensagens específicas para a dinâmica detectada.</p>
           </div>
           {activeProtocol.scripts.map((script: any) => (
             <div 
@@ -152,7 +169,7 @@ export default function ProtocoloReacao({ onBack }: { onBack: () => void }) {
         <TabsContent value="3dias" className="space-y-8 animate-fade-in">
           <div className="mb-8 px-2">
             <h3 className="font-headline font-black text-xl mb-2 tracking-tight uppercase">Cronograma</h3>
-            <p className="text-xs text-muted-foreground leading-relaxed">Roteiro tático de 72 horas para reposicionamento de valor.</p>
+            <p className="text-xs text-muted-foreground leading-relaxed">Roteiro tático para os próximos dias.</p>
           </div>
           <div className="relative pl-10 space-y-12 before:absolute before:left-[19px] before:top-2 before:bottom-2 before:w-[2px] before:bg-gradient-to-b before:from-primary before:to-accent before:opacity-30">
             {activeProtocol.plano_3dias.map((dia: any) => (
