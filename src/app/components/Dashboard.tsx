@@ -75,7 +75,7 @@ export default function Dashboard({ onStartQuiz, onOpenProtocol }: { onStartQuiz
   if (lastSession && showPlan) {
     const plan = contentData.expandedResults[lastSession.label as 'low' | 'medium' | 'high']?.plan || [];
     return (
-      <div className="p-6 animate-slide-up pb-24">
+      <div className="p-6 animate-slide-up pb-32">
         <div className="flex items-center justify-between mb-10">
           <h2 className="text-3xl font-headline font-extrabold tracking-tight">Estratégia Detalhada</h2>
           <button 
@@ -122,7 +122,7 @@ export default function Dashboard({ onStartQuiz, onOpenProtocol }: { onStartQuiz
   }
 
   return (
-    <div className="p-6 animate-fade-in h-full flex flex-col pb-24">
+    <div className="p-6 animate-fade-in min-h-full pb-32 flex flex-col">
       <div className="flex items-center justify-between mb-12">
         <div>
           <h2 className="text-3xl font-headline font-black tracking-tighter">MEU RADAR</h2>
@@ -135,8 +135,8 @@ export default function Dashboard({ onStartQuiz, onOpenProtocol }: { onStartQuiz
         </div>
       </div>
 
-      <div className="flex-1 flex flex-col items-center justify-center py-4">
-        <div className="relative w-72 h-72 mb-12 flex items-center justify-center">
+      <div className="flex-1 flex flex-col items-center py-4">
+        <div className="relative w-64 h-64 mb-12 flex items-center justify-center shrink-0">
           <div className="absolute inset-0 bg-primary/10 rounded-full blur-3xl animate-pulse"></div>
           <svg className="w-full h-full transform -rotate-90 relative z-10">
             <defs>
@@ -145,23 +145,23 @@ export default function Dashboard({ onStartQuiz, onOpenProtocol }: { onStartQuiz
                 <stop offset="100%" stopColor="hsl(var(--accent))" />
               </linearGradient>
             </defs>
-            <circle cx="144" cy="144" r="130" stroke="rgba(255,255,255,0.05)" strokeWidth="8" fill="transparent" />
+            <circle cx="128" cy="128" r="115" stroke="rgba(255,255,255,0.05)" strokeWidth="8" fill="transparent" />
             <circle 
-              cx="144" 
-              cy="144" 
-              r="130" 
+              cx="128" 
+              cy="128" 
+              r="115" 
               stroke="url(#scoreGradient)" 
               strokeWidth="10" 
               fill="transparent" 
-              strokeDasharray={816.8} 
-              strokeDashoffset={816.8 - (816.8 * (lastSession?.score || 0)) / 100} 
+              strokeDasharray={722.5} 
+              strokeDashoffset={722.5 - (722.5 * (lastSession?.score || 0)) / 100} 
               className="transition-all duration-1000 ease-out" 
               strokeLinecap="round" 
             />
           </svg>
           <div className="absolute inset-0 flex flex-col items-center justify-center z-20">
-            <span className="text-7xl font-headline font-black tracking-tighter text-foreground drop-shadow-2xl">
-              {lastSession?.score || 0}<span className="text-3xl text-primary opacity-50">%</span>
+            <span className="text-6xl font-headline font-black tracking-tighter text-foreground drop-shadow-2xl">
+              {lastSession?.score || 0}<span className="text-2xl text-primary opacity-50">%</span>
             </span>
             <span className={`text-[10px] font-black uppercase tracking-[0.3em] mt-2 px-3 py-1 glass-card rounded-full border-none ${getLabelColor(lastSession?.label || '')}`}>
               {getLabelText(lastSession?.label || '')}
@@ -198,7 +198,7 @@ export default function Dashboard({ onStartQuiz, onOpenProtocol }: { onStartQuiz
 
         {lastSession && lastSession.weakestCategory && (
           <div className="w-full mb-6 p-5 glass-card rounded-3xl border-white/5 flex items-center gap-5">
-            <div className="w-12 h-12 rounded-2xl bg-accent/10 flex items-center justify-center border border-accent/20">
+            <div className="w-12 h-12 rounded-2xl bg-accent/10 flex items-center justify-center border border-accent/20 shrink-0">
               <Target className="w-6 h-6 text-accent" />
             </div>
             <div>
@@ -217,7 +217,7 @@ export default function Dashboard({ onStartQuiz, onOpenProtocol }: { onStartQuiz
           </p>
         </div>
 
-        <div className="w-full space-y-4">
+        <div className="w-full space-y-4 mt-auto">
           <Button onClick={onStartQuiz} className="w-full h-16 rounded-3xl font-black text-sm glow-primary transition-all active:scale-[0.98] uppercase tracking-widest bg-primary hover:bg-primary/90">
             {lastSession ? 'Refazer Análise' : 'Iniciar Escaneamento'}
           </Button>
